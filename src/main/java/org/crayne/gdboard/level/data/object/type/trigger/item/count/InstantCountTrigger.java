@@ -1,8 +1,12 @@
-package org.crayne.gdboard.level.data.object.type.trigger.item;
+package org.crayne.gdboard.level.data.object.type.trigger.item.count;
 
+import org.crayne.gdboard.level.data.object.type.LevelObject;
 import org.crayne.gdboard.level.data.object.type.trigger.toggle.ToggleTrigger;
+import org.crayne.gdboard.savefile.property.Properties;
+import org.crayne.gdboard.savefile.property.PropertyDataType;
+import org.crayne.gdboard.savefile.property.data.LevelObjectData;
 import org.jetbrains.annotations.NotNull;
-
+@SuppressWarnings("unused")
 public class InstantCountTrigger extends ToggleTrigger {
 
     private int itemID; // 80
@@ -10,6 +14,40 @@ public class InstantCountTrigger extends ToggleTrigger {
 
     @NotNull
     private Comparison instantCountComparison; // 88
+
+    public InstantCountTrigger(final int objectID, final float positionX, final float positionY,
+                               final int targetGroupID, final boolean activateGroup, final int itemID,
+                               final int count, @NotNull final Comparison instantCountComparison) {
+        super(objectID, positionX, positionY, targetGroupID, activateGroup);
+        this.itemID = itemID;
+        this.count = count;
+        this.instantCountComparison = instantCountComparison;
+    }
+
+    public InstantCountTrigger(@NotNull final LevelObject levelObject, final int targetGroupID, final boolean activateGroup,
+                               final int itemID, final int count, @NotNull final Comparison instantCountComparison) {
+        super(levelObject, targetGroupID, activateGroup);
+        this.itemID = itemID;
+        this.count = count;
+        this.instantCountComparison = instantCountComparison;
+    }
+
+    public InstantCountTrigger(final int objectID, final float positionX, final float positionY) {
+        super(objectID, positionX, positionY);
+        this.instantCountComparison = Comparison.EQUALS;
+    }
+
+    public InstantCountTrigger(@NotNull final LevelObject levelObject) {
+        super(levelObject);
+        this.instantCountComparison = Comparison.EQUALS;
+    }
+
+    public InstantCountTrigger(@NotNull final Properties objectProperties) {
+        super(objectProperties);
+        this.itemID = objectProperties.integerProperty(LevelObjectData.ITEM_OR_BLOCK_ID);
+        this.count = objectProperties.integerProperty(LevelObjectData.COUNT);
+        this.instantCountComparison = objectProperties.instantCountComparisonProperty(LevelObjectData.INSTANT_COUNT_COMPARISON);
+    }
 
     public enum Comparison {
         EQUALS(0),
@@ -27,6 +65,11 @@ public class InstantCountTrigger extends ToggleTrigger {
         }
 
         @NotNull
+        public static PropertyDataType datatype() {
+            return PropertyDataType.INSTANT_COUNT_COMPARISON;
+        }
+
+        @NotNull
         public static Comparison of(final int id) {
             return switch (id) {
                 case 1 -> LARGER;
@@ -35,31 +78,6 @@ public class InstantCountTrigger extends ToggleTrigger {
             };
         }
 
-    }
-
-    public InstantCountTrigger(final boolean spawnTriggered, final boolean multiTriggered, final int targetGroupID,
-                               final boolean activateGroup, final int itemBlockID, final int count,
-                               @NotNull final Comparison instantCountComparison) {
-        super(spawnTriggered, multiTriggered, targetGroupID, activateGroup);
-        this.itemID = itemBlockID;
-        this.count = count;
-        this.instantCountComparison = instantCountComparison;
-    }
-
-    public InstantCountTrigger(final boolean touchTriggered, final int targetGroupID, final boolean activateGroup,
-                               final int itemBlockID, final int count, @NotNull final Comparison instantCountComparison) {
-        super(touchTriggered, targetGroupID, activateGroup);
-        this.itemID = itemBlockID;
-        this.count = count;
-        this.instantCountComparison = instantCountComparison;
-    }
-
-    public InstantCountTrigger(final int targetGroupID, final boolean activateGroup, final int itemBlockID,
-                               final int count, @NotNull final Comparison instantCountComparison) {
-        super(targetGroupID, activateGroup);
-        this.itemID = itemBlockID;
-        this.count = count;
-        this.instantCountComparison = instantCountComparison;
     }
 
     public int itemID() {
@@ -85,5 +103,14 @@ public class InstantCountTrigger extends ToggleTrigger {
 
     public void instantCountComparison(@NotNull final Comparison instantCountComparison) {
         this.instantCountComparison = instantCountComparison;
+    }
+
+    @NotNull
+    public String toString() {
+        return "InstantCountTrigger{" +
+                "itemID=" + itemID +
+                ", count=" + count +
+                ", instantCountComparison=" + instantCountComparison +
+                "} " + super.toString();
     }
 }

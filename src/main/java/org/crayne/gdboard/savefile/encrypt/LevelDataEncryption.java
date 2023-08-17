@@ -1,4 +1,4 @@
-package org.crayne.gdboard.encrypt;
+package org.crayne.gdboard.savefile.encrypt;
 
 import org.apache.commons.codec.binary.Base64;
 import org.jetbrains.annotations.NotNull;

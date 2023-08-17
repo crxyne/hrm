@@ -1,7 +1,8 @@
-package org.crayne.gdboard.level;
+package org.crayne.gdboard.level.data;
 
 import org.jetbrains.annotations.NotNull;
 
+@SuppressWarnings("unused")
 public class LevelEditorCamera {
 
     private float positionX, positionY, zoom;

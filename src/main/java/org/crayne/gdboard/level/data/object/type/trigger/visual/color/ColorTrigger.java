@@ -1,154 +1,51 @@
-package org.crayne.gdboard.level.data.object.type.trigger.color;
+package org.crayne.gdboard.level.data.object.type.trigger.visual.color;
 
-import org.crayne.gdboard.level.data.color.ColorHSBModifier;
+import org.crayne.gdboard.level.data.color.ColorProperty;
+import org.crayne.gdboard.level.data.object.type.LevelObject;
 import org.crayne.gdboard.level.data.object.type.trigger.Trigger;
+import org.crayne.gdboard.savefile.property.Properties;
+import org.crayne.gdboard.savefile.property.data.LevelObjectData;
 import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
-
-import java.util.Optional;
 
 @SuppressWarnings("unused")
 public class ColorTrigger extends Trigger {
 
-    private int redComponent, greenComponent, blueComponent; // 7, 8, 9
+    // TODO after finishing up parsing from savefile, convert all of these properties into one single ColorProperty object, same for pulse
     private boolean playerColor1, playerColor2; // 15, 16
-    private boolean blending; // 17
-    private int targetColorChannelIndex; // 23
-    private float opacity; // 35
-
-    @Nullable
-    private ColorHSBModifier copiedColorHSBModifier; // 49
-    private int copiedColorChannelIndex; // 50
-    private boolean copyOpacity; // 60
 
     private float triggerDuration; // 10
 
-    public ColorTrigger(final boolean spawnTriggered, final boolean multiTriggered, final int redComponent, final int greenComponent, final int blueComponent,
-                        final boolean blending, final int targetColorChannelIndex, final float opacity, final float triggerDuration) {
-        super(spawnTriggered, multiTriggered);
-        this.redComponent = redComponent;
-        this.greenComponent = greenComponent;
-        this.blueComponent = blueComponent;
-        this.blending = blending;
-        this.targetColorChannelIndex = targetColorChannelIndex;
-        this.opacity = opacity;
-        this.triggerDuration = triggerDuration;
+    @NotNull
+    private ColorProperty colorProperty;
+
+
+    public ColorTrigger(final int objectID, final float positionX, final float positionY) {
+        super(objectID, positionX, positionY);
+        this.triggerDuration = 0.5f;
+        this.colorProperty = ColorProperty.none();
     }
 
-    public ColorTrigger(final boolean touchTriggered, final int redComponent, final int greenComponent, final int blueComponent, final boolean blending,
-                        final int targetColorChannelIndex, final float opacity, final float triggerDuration) {
-        super(touchTriggered);
-        this.redComponent = redComponent;
-        this.greenComponent = greenComponent;
-        this.blueComponent = blueComponent;
-        this.blending = blending;
-        this.targetColorChannelIndex = targetColorChannelIndex;
-        this.opacity = opacity;
-        this.triggerDuration = triggerDuration;
+    public ColorTrigger(@NotNull final LevelObject levelObject) {
+        super(levelObject);
+        this.triggerDuration = 0.5f;
+        this.colorProperty = ColorProperty.none();
     }
 
-    public ColorTrigger(final int redComponent, final int greenComponent, final int blueComponent, final boolean blending, final int targetColorChannelIndex,
-                        final float opacity, final float triggerDuration) {
-        this.redComponent = redComponent;
-        this.greenComponent = greenComponent;
-        this.blueComponent = blueComponent;
-        this.blending = blending;
-        this.targetColorChannelIndex = targetColorChannelIndex;
-        this.opacity = opacity;
-        this.triggerDuration = triggerDuration;
+    public ColorTrigger(@NotNull final Properties objectProperties) {
+        super(objectProperties);
+        this.colorProperty   = new ColorProperty(objectProperties, false);
+        this.playerColor1    = objectProperties.booleanProperty(LevelObjectData.PLAYER_COLOR_1);
+        this.playerColor2    = objectProperties.booleanProperty(LevelObjectData.PLAYER_COLOR_2);
+        this.triggerDuration = objectProperties.floatProperty(LevelObjectData.DURATION);
     }
 
-    public ColorTrigger(final boolean spawnTriggered, final boolean multiTriggered, final boolean playerColor1, final boolean playerColor2,
-                        final boolean blending, final int targetColorChannelIndex, final float opacity, final float triggerDuration) {
-        super(spawnTriggered, multiTriggered);
-        this.playerColor1 = playerColor1;
-        this.playerColor2 = !playerColor1 && playerColor2;
-        this.blending = blending;
-        this.targetColorChannelIndex = targetColorChannelIndex;
-        this.opacity = opacity;
-        this.triggerDuration = triggerDuration;
+    @NotNull
+    public ColorProperty colorProperty() {
+        return colorProperty;
     }
 
-    public ColorTrigger(final boolean touchTriggered, final boolean playerColor1, final boolean playerColor2, final boolean blending,
-                        final int targetColorChannelIndex, final float opacity, final float triggerDuration) {
-        super(touchTriggered);
-        this.playerColor1 = playerColor1;
-        this.playerColor2 = !playerColor1 && playerColor2;
-        this.blending = blending;
-        this.targetColorChannelIndex = targetColorChannelIndex;
-        this.opacity = opacity;
-        this.triggerDuration = triggerDuration;
-    }
-
-    public ColorTrigger(final boolean playerColor1, final boolean playerColor2, final boolean blending, final int targetColorChannelIndex,
-                        final float opacity, final float triggerDuration) {
-        this.playerColor1 = playerColor1;
-        this.playerColor2 = !playerColor1 && playerColor2;
-        this.blending = blending;
-        this.targetColorChannelIndex = targetColorChannelIndex;
-        this.opacity = opacity;
-        this.triggerDuration = triggerDuration;
-    }
-
-    public ColorTrigger(final boolean spawnTriggered, final boolean multiTriggered, final boolean blending, final int targetColorChannelIndex,
-                        final float opacity, @Nullable final ColorHSBModifier copiedColorHSBModifier, final int copiedColorChannelIndex,
-                        final boolean copyOpacity, final float triggerDuration) {
-        super(spawnTriggered, multiTriggered);
-        this.blending = blending;
-        this.targetColorChannelIndex = targetColorChannelIndex;
-        this.opacity = opacity;
-        this.copiedColorHSBModifier = copiedColorHSBModifier;
-        this.copiedColorChannelIndex = copiedColorChannelIndex;
-        this.copyOpacity = copyOpacity;
-        this.triggerDuration = triggerDuration;
-    }
-
-    public ColorTrigger(final boolean touchTriggered, final boolean blending, final int targetColorChannelIndex, final float opacity,
-                        @Nullable final ColorHSBModifier copiedColorHSBModifier, final int copiedColorChannelIndex, final boolean copyOpacity,
-                        final float triggerDuration) {
-        super(touchTriggered);
-        this.blending = blending;
-        this.targetColorChannelIndex = targetColorChannelIndex;
-        this.opacity = opacity;
-        this.copiedColorHSBModifier = copiedColorHSBModifier;
-        this.copiedColorChannelIndex = copiedColorChannelIndex;
-        this.copyOpacity = copyOpacity;
-        this.triggerDuration = triggerDuration;
-    }
-
-    public ColorTrigger(final boolean blending, final int targetColorChannelIndex, final float opacity, @Nullable final ColorHSBModifier copiedColorHSBModifier,
-                        final int copiedColorChannelIndex, final boolean copyOpacity, final float triggerDuration) {
-        this.blending = blending;
-        this.targetColorChannelIndex = targetColorChannelIndex;
-        this.opacity = opacity;
-        this.copiedColorHSBModifier = copiedColorHSBModifier;
-        this.copiedColorChannelIndex = copiedColorChannelIndex;
-        this.copyOpacity = copyOpacity;
-        this.triggerDuration = triggerDuration;
-    }
-
-    public int redComponent() {
-        return redComponent;
-    }
-
-    public void redComponent(final int redComponent) {
-        this.redComponent = redComponent;
-    }
-
-    public int greenComponent() {
-        return greenComponent;
-    }
-
-    public void greenComponent(final int greenComponent) {
-        this.greenComponent = greenComponent;
-    }
-
-    public int blueComponent() {
-        return blueComponent;
-    }
-
-    public void blueComponent(final int blueComponent) {
-        this.blueComponent = blueComponent;
+    public void colorProperty(@NotNull final ColorProperty colorProperty) {
+        this.colorProperty = colorProperty;
     }
 
     public boolean playerColor1() {
@@ -169,55 +66,6 @@ public class ColorTrigger extends Trigger {
         this.playerColor1 = !playerColor2;
     }
 
-    public boolean blending() {
-        return blending;
-    }
-
-    public void blending(final boolean blending) {
-        this.blending = blending;
-    }
-
-    public int targetColorChannelIndex() {
-        return targetColorChannelIndex;
-    }
-
-    public void targetColorChannelIndex(final int targetColorChannelIndex) {
-        this.targetColorChannelIndex = targetColorChannelIndex;
-    }
-
-    public float opacity() {
-        return opacity;
-    }
-
-    public void opacity(final float opacity) {
-        this.opacity = opacity;
-    }
-
-    @NotNull
-    public Optional<ColorHSBModifier> copiedColorHSBModifier() {
-        return Optional.ofNullable(copiedColorHSBModifier);
-    }
-
-    public void copiedColorHSBModifier(@Nullable final ColorHSBModifier copiedColorHSBModifier) {
-        this.copiedColorHSBModifier = copiedColorHSBModifier;
-    }
-
-    public int copiedColorChannelIndex() {
-        return copiedColorChannelIndex;
-    }
-
-    public void copiedColorChannelIndex(final int copiedColorChannelIndex) {
-        this.copiedColorChannelIndex = copiedColorChannelIndex;
-    }
-
-    public boolean copyOpacity() {
-        return copyOpacity;
-    }
-
-    public void copyOpacity(final boolean copyOpacity) {
-        this.copyOpacity = copyOpacity;
-    }
-
     public float triggerDuration() {
         return triggerDuration;
     }
@@ -226,4 +74,13 @@ public class ColorTrigger extends Trigger {
         this.triggerDuration = triggerDuration;
     }
 
+    @NotNull
+    public String toString() {
+        return "ColorTrigger{" +
+                "playerColor1=" + playerColor1 +
+                ", playerColor2=" + playerColor2 +
+                ", triggerDuration=" + triggerDuration +
+                ", colorProperty=" + colorProperty +
+                "} " + super.toString();
+    }
 }

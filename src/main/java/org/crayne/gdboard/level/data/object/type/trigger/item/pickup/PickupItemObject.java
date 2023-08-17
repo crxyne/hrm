@@ -8,7 +8,7 @@ import org.crayne.gdboard.savefile.property.data.LevelObjectData;
 import org.jetbrains.annotations.NotNull;
 
 @SuppressWarnings("unused")
-public class PickupItem extends ColorableObject {
+public class PickupItemObject extends ColorableObject {
 
     private int targetGroupID;
     private boolean activateGroup;
@@ -19,8 +19,8 @@ public class PickupItem extends ColorableObject {
     private Mode pickupMode;
     private int itemID;
 
-    public PickupItem(final int objectID, final float positionX, final float positionY, final int targetGroupID,
-                      final boolean activateGroup) {
+    public PickupItemObject(final int objectID, final float positionX, final float positionY, final int targetGroupID,
+                            final boolean activateGroup) {
         super(objectID, positionX, positionY);
         this.targetGroupID = targetGroupID;
         this.activateGroup = activateGroup;
@@ -29,7 +29,7 @@ public class PickupItem extends ColorableObject {
         this.itemID = 0;
     }
 
-    public PickupItem(@NotNull final LevelObject levelObject, final int targetGroupID, final boolean activateGroup) {
+    public PickupItemObject(@NotNull final LevelObject levelObject, final int targetGroupID, final boolean activateGroup) {
         super(levelObject);
         this.targetGroupID = targetGroupID;
         this.activateGroup = activateGroup;
@@ -38,35 +38,35 @@ public class PickupItem extends ColorableObject {
         this.itemID = 0;
     }
 
-    public PickupItem(final int objectID, final float positionX, final float positionY, final boolean subtractCount, final int itemID) {
+    public PickupItemObject(final int objectID, final float positionX, final float positionY, final boolean subtractCount, final int itemID) {
         super(objectID, positionX, positionY);
         this.subtractCount = subtractCount;
         this.itemID = itemID;
         this.pickupMode = Mode.PICKUP;
     }
 
-    public PickupItem(@NotNull final LevelObject levelObject, final boolean subtractCount, final int itemID) {
+    public PickupItemObject(@NotNull final LevelObject levelObject, final boolean subtractCount, final int itemID) {
         super(levelObject);
         this.subtractCount = subtractCount;
         this.itemID = itemID;
         this.pickupMode = Mode.PICKUP;
     }
 
-    public PickupItem(final int objectID, final float positionX, final float positionY) {
+    public PickupItemObject(final int objectID, final float positionX, final float positionY) {
         super(objectID, positionX, positionY);
         this.subtractCount = false;
         this.itemID = 0;
         this.pickupMode = Mode.PICKUP;
     }
 
-    public PickupItem(@NotNull final LevelObject levelObject) {
+    public PickupItemObject(@NotNull final LevelObject levelObject) {
         super(levelObject);
         this.subtractCount = false;
         this.itemID = 0;
         this.pickupMode = Mode.PICKUP;
     }
 
-    public PickupItem(@NotNull final Properties objectProperties) {
+    public PickupItemObject(@NotNull final Properties objectProperties) {
         super(objectProperties);
         this.subtractCount = objectProperties.booleanProperty(LevelObjectData.SUBTRACT_COUNT);
         this.pickupMode = objectProperties.pickupItemModeProperty(LevelObjectData.PICKUP_MODE);
@@ -147,4 +147,14 @@ public class PickupItem extends ColorableObject {
         this.itemID = itemBlockID;
     }
 
+    @NotNull
+    public String toString() {
+        return "PickupItemObject{" +
+                "targetGroupID=" + targetGroupID +
+                ", activateGroup=" + activateGroup +
+                ", subtractCount=" + subtractCount +
+                ", pickupMode=" + pickupMode +
+                ", itemID=" + itemID +
+                "} " + super.toString();
+    }
 }

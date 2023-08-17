@@ -1,5 +1,6 @@
-package org.crayne.gdboard.level.data.settings.startobject;
+package org.crayne.gdboard.level.data.settings.start;
 
+import org.crayne.gdboard.savefile.property.PropertyDataType;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.Arrays;
@@ -16,19 +17,24 @@ public enum GameMode {
 
     UNKNOWN(-1);
 
-    private final int gamemodeID;
+    private final int id;
 
-    GameMode(final int gamemodeID) {
-        this.gamemodeID = gamemodeID;
+    GameMode(final int id) {
+        this.id = id;
     }
 
-    public int gamemodeID() {
-        return gamemodeID;
+    public int id() {
+        return id;
     }
 
     @NotNull
-    public static GameMode ofID(final int gamemodeID) {
-        return Arrays.stream(values()).filter(gamemode -> gamemode.gamemodeID == gamemodeID).findAny().orElse(UNKNOWN);
+    public static PropertyDataType datatype() {
+        return PropertyDataType.GAME_MODE;
+    }
+
+    @NotNull
+    public static GameMode of(final int id) {
+        return Arrays.stream(values()).filter(gamemode -> gamemode.id == id).findAny().orElse(UNKNOWN);
     }
 
 }

@@ -6,34 +6,34 @@ import org.crayne.gdboard.savefile.property.data.LevelObjectData;
 import org.jetbrains.annotations.NotNull;
 
 @SuppressWarnings("unused")
-public class CollisionBlock extends LevelObject {
+public class CollisionBlockObject extends LevelObject {
 
     private boolean dynamicBlock;
     private int blockID;
 
-    public CollisionBlock(final int objectID, final float positionX, final float positionY, final boolean dynamicBlock, final int blockID) {
+    public CollisionBlockObject(final int objectID, final float positionX, final float positionY, final boolean dynamicBlock, final int blockID) {
         super(objectID, positionX, positionY);
         this.dynamicBlock = dynamicBlock;
         this.blockID = blockID;
     }
 
-    public CollisionBlock(@NotNull final LevelObject levelObject, final boolean dynamicBlock, final int blockID) {
+    public CollisionBlockObject(@NotNull final LevelObject levelObject, final boolean dynamicBlock, final int blockID) {
         super(levelObject);
         this.dynamicBlock = dynamicBlock;
         this.blockID = blockID;
     }
 
-    public CollisionBlock(@NotNull final Properties objectProperties) {
+    public CollisionBlockObject(@NotNull final Properties objectProperties) {
         super(objectProperties);
         this.dynamicBlock = objectProperties.booleanProperty(LevelObjectData.COLLISION_DYNAMIC_BLOCK);
         this.blockID = objectProperties.integerProperty(LevelObjectData.ITEM_OR_BLOCK_ID);
     }
 
-    public CollisionBlock(final int objectID, final float positionX, final float positionY) {
+    public CollisionBlockObject(final int objectID, final float positionX, final float positionY) {
         super(objectID, positionX, positionY);
     }
 
-    public CollisionBlock(@NotNull final LevelObject levelObject) {
+    public CollisionBlockObject(@NotNull final LevelObject levelObject) {
         super(levelObject);
     }
 
@@ -53,4 +53,11 @@ public class CollisionBlock extends LevelObject {
         this.blockID = blockID;
     }
 
+    @NotNull
+    public String toString() {
+        return "CollisionBlockObject{" +
+                "dynamicBlock=" + dynamicBlock +
+                ", blockID=" + blockID +
+                "} " + super.toString();
+    }
 }

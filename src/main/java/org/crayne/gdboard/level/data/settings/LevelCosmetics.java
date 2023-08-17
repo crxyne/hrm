@@ -1,14 +1,27 @@
 package org.crayne.gdboard.level.data.settings;
 
-public class LevelCosmeticSettings {
+import org.crayne.gdboard.savefile.property.PropertyUtil;
+import org.jetbrains.annotations.NotNull;
+
+import java.util.Map;
+
+@SuppressWarnings("unused")
+public class LevelCosmetics {
 
     private int backgroundID, groundID, groundLineID, fontID;
 
-    public LevelCosmeticSettings(final int backgroundID, final int groundID, final int groundLineID, final int fontID) {
+    public LevelCosmetics(final int backgroundID, final int groundID, final int groundLineID, final int fontID) {
         this.backgroundID = backgroundID;
         this.groundID = groundID;
         this.groundLineID = groundLineID;
         this.fontID = fontID;
+    }
+
+    public LevelCosmetics(@NotNull final Map<String, String> levelSettings) {
+        this.backgroundID = PropertyUtil.parseIntValue(levelSettings.get("kA6"), 0);
+        this.groundID     = PropertyUtil.parseIntValue(levelSettings.get("kA7"), 0);
+        this.groundLineID = PropertyUtil.parseIntValue(levelSettings.get("kA17"), 0);
+        this.fontID       = PropertyUtil.parseIntValue(levelSettings.get("kA18"), 0);
     }
 
     public int backgroundID() {
@@ -42,4 +55,15 @@ public class LevelCosmeticSettings {
     public void fontID(final int fontID) {
         this.fontID = fontID;
     }
+
+    @NotNull
+    public String toString() {
+        return "LevelCosmetics{" +
+                "backgroundID=" + backgroundID +
+                ", groundID=" + groundID +
+                ", groundLineID=" + groundLineID +
+                ", fontID=" + fontID +
+                '}';
+    }
+
 }

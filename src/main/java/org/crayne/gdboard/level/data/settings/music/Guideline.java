@@ -1,12 +1,13 @@
-package org.crayne.gdboard.level.data.settings;
+package org.crayne.gdboard.level.data.settings.music;
 
-import org.crayne.gdboard.decrypt.PropertyDecodeUtil;
+import org.crayne.gdboard.savefile.property.PropertyUtil;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
+@SuppressWarnings("unused")
 public class Guideline {
 
     private float timestamp;
@@ -21,14 +22,14 @@ public class Guideline {
 
     @NotNull
     public static Set<Guideline> ofGuidelineString(@NotNull final String guidelineString) {
-        final Map<String, String> timestampWithTypeMap = PropertyDecodeUtil.decodeProperties(guidelineString, "~");
+        final Map<String, String> timestampWithTypeMap = PropertyUtil.decodeProperties(guidelineString, "~");
         final Set<Guideline> guidelines = new HashSet<>();
 
         for (final String timestampString : timestampWithTypeMap.keySet()) {
-            final float timestamp = PropertyDecodeUtil.parseFloatValue(timestampString, -1);
+            final float timestamp = PropertyUtil.parseFloatValue(timestampString, -1);
             if (timestamp == -1) continue;
 
-            final Type type = Type.ofID(PropertyDecodeUtil.parseFloatValue(timestampWithTypeMap.get(timestampString), 0));
+            final Type type = Type.of(PropertyUtil.parseFloatValue(timestampWithTypeMap.get(timestampString), 0));
             guidelines.add(new Guideline(type, timestamp));
         }
         return guidelines;
@@ -59,7 +60,7 @@ public class Guideline {
         TRANSPARENT;
 
         @NotNull
-        public static Type ofID(final float type) {
+        public static Type of(final float type) {
             if (type == 0.8 || type == 0) return ORANGE;
             if (type == 0.9) return YELLOW;
             if (type == 1.0) return GREEN;
@@ -70,4 +71,11 @@ public class Guideline {
 
     }
 
+    @NotNull
+    public String toString() {
+        return "Guideline{" +
+                "timestamp=" + timestamp +
+                ", type=" + type +
+                '}';
+    }
 }

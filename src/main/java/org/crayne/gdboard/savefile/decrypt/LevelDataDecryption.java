@@ -1,9 +1,13 @@
-package org.crayne.gdboard.decrypt;
+package org.crayne.gdboard.savefile.decrypt;
 
 import org.apache.commons.codec.binary.Base64;
 import org.crayne.gdboard.level.LocalLevel;
 import org.crayne.gdboard.level.LocalLevelProperties;
+import org.crayne.gdboard.level.data.LevelData;
+import org.crayne.gdboard.level.data.object.type.LevelObject;
 import org.crayne.gdboard.level.data.settings.LevelSettings;
+import org.crayne.gdboard.savefile.property.Properties;
+import org.crayne.gdboard.savefile.property.PropertyUtil;
 import org.dom4j.Document;
 import org.dom4j.DocumentException;
 import org.dom4j.DocumentHelper;
@@ -19,10 +23,12 @@ import java.io.StringWriter;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.util.*;
+import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 import java.util.zip.DataFormatException;
 import java.util.zip.Inflater;
 
+@SuppressWarnings("unused")
 public class LevelDataDecryption {
 
     private LevelDataDecryption() {}
@@ -99,21 +105,30 @@ public class LevelDataDecryption {
         final LocalLevelProperties properties = new LocalLevelProperties();
 
         for (int i = 1; i < levelPropertiesNodes.size(); i += 2) {
-            final Node keyNode = levelPropertiesNodes.get(i), valueNode = levelPropertiesNodes.get(i + 1);
-            if (keyNode.getName().equals("d") || valueNode.getName().equals("d")) break;
+            final Node keyNode = levelPropertiesNodes.get(i);
+            final Node valueNode;
+            if (keyNode.getName().equals("d") || i + 1 >= levelPropertiesNodes.size()
+                    || (valueNode = levelPropertiesNodes.get(i + 1)).getName().equals("d")) break;
 
             final String key = keyNode.getText();
             final String value = valueNode.getText();
             properties.putProperty(key, value);
         }
-        final String[] objects = Objects.requireNonNull(properties.innerLevelString()).split(";");
-        Arrays.stream(objects).forEach(System.out::println);
+        final String[] objectPropertyStrings = Objects.requireNonNull(properties.innerLevelString()).split(";");
+        final String levelSettingsString = objectPropertyStrings[0];
 
-        final String levelSettingsString = objects[0];
+        final Set<LevelObject> levelObjects = Arrays.stream(objectPropertyStrings)
+                .map(s -> PropertyUtil.decodeProperties(s, ","))
+                .map(Properties::new)
+                .map(LevelObject::parse)
+                .filter(obj -> obj.objectID() != 0)
+                .collect(Collectors.toSet());
+
         final LevelSettings settings = new LevelSettings(levelSettingsString);
-        System.out.println(settings);
+        final LevelData levelData = new LevelData(settings, levelObjects);
+        final LocalLevel level = new LocalLevel(properties, levelData);
 
-        return Optional.empty();
+        return Optional.of(level);
     }
 
 }

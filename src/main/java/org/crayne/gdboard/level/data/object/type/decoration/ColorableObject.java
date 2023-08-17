@@ -1,38 +1,79 @@
-package org.crayne.gdboard.level.data.object.type.general;
+package org.crayne.gdboard.level.data.object.type.decoration;
 
 import org.crayne.gdboard.level.data.color.ColorHSBModifier;
+import org.crayne.gdboard.level.data.object.ObjectID;
 import org.crayne.gdboard.level.data.object.type.LevelObject;
+import org.crayne.gdboard.savefile.property.Properties;
+import org.crayne.gdboard.savefile.property.data.LevelObjectData;
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
+import java.util.Optional;
+
+@SuppressWarnings("unused")
 public class ColorableObject extends LevelObject {
 
-    private int mainColorChannelIndex, secondColorChannelIndex; // 21, 22
-    private boolean mainColorHSBEnabled, secondColorHSBEnabled; // 41, 42
+    private int mainColorChannelIndex, secondColorChannelIndex;
+    private boolean mainColorHSBEnabled, secondColorHSBEnabled;
 
     @Nullable
-    private ColorHSBModifier mainColorHSB, secondColorHSB; // 43, 44
+    private ColorHSBModifier mainColorHSB, secondColorHSB;
+    private final boolean mainColorMutable, secondColorMutable;
 
-    public ColorableObject(final int mainColorChannelIndex, final int secondColorChannelIndex, final boolean mainColorHSBEnabled, final boolean secondColorHSBEnabled, @Nullable final ColorHSBModifier mainColorHSB, @Nullable final ColorHSBModifier secondColorHSB) {
-        this.mainColorChannelIndex = mainColorChannelIndex;
-        this.secondColorChannelIndex = secondColorChannelIndex;
-        this.mainColorHSBEnabled = mainColorHSBEnabled;
-        this.secondColorHSBEnabled = secondColorHSBEnabled;
-        this.mainColorHSB = mainColorHSB;
-        this.secondColorHSB = secondColorHSB;
+    public ColorableObject(final int objectID, final float positionX, final float positionY, final int mainColorChannelIndex,
+                           final int secondColorChannelIndex, @Nullable final ColorHSBModifier mainColorHSB,
+                           @Nullable final ColorHSBModifier secondColorHSB) {
+        super(objectID, positionX, positionY);
+        final boolean bothMutable = ObjectID.isBaseAndDetailColorObject(objectID);
+        this.mainColorMutable = ObjectID.isBaseColorObject(objectID) || bothMutable;
+        this.secondColorMutable = ObjectID.isDetailColorObject(objectID) || bothMutable;
+
+        this.mainColorChannelIndex   = mainColorMutable   ? mainColorChannelIndex   : 0;
+        this.secondColorChannelIndex = secondColorMutable ? secondColorChannelIndex : 0;
+        this.mainColorHSBEnabled     = mainColorMutable   && mainColorHSB   != null;
+        this.secondColorHSBEnabled   = secondColorMutable && secondColorHSB != null;
+        this.mainColorHSB            = mainColorMutable   ? mainColorHSB   : ColorHSBModifier.none();
+        this.secondColorHSB          = secondColorMutable ? secondColorHSB : ColorHSBModifier.none();
     }
 
-    public ColorableObject(final int mainColorChannelIndex, final int secondColorChannelIndex, @Nullable final ColorHSBModifier mainColorHSB, @Nullable final ColorHSBModifier secondColorHSB) {
-        this.mainColorChannelIndex = mainColorChannelIndex;
-        this.secondColorChannelIndex = secondColorChannelIndex;
-        this.mainColorHSBEnabled = mainColorHSB != null;
-        this.secondColorHSBEnabled = secondColorHSB != null;
-        this.mainColorHSB = mainColorHSB;
-        this.secondColorHSB = secondColorHSB;
+    public ColorableObject(@NotNull final LevelObject levelObject, final int mainColorChannelIndex, final int secondColorChannelIndex) {
+        super(levelObject);
+        final boolean bothMutable = ObjectID.isBaseAndDetailColorObject(objectID());
+        this.mainColorMutable = ObjectID.isBaseColorObject(objectID()) || bothMutable;
+        this.secondColorMutable = ObjectID.isDetailColorObject(objectID()) || bothMutable;
+
+        this.mainColorChannelIndex   = mainColorMutable   ? mainColorChannelIndex   : 0;
+        this.secondColorChannelIndex = secondColorMutable ? secondColorChannelIndex : 0;
     }
 
-    public ColorableObject(final int mainColorChannelIndex, final int secondColorChannelIndex) {
-        this.mainColorChannelIndex = mainColorChannelIndex;
-        this.secondColorChannelIndex = secondColorChannelIndex;
+
+    public ColorableObject(final int objectID, final float positionX, final float positionY) {
+        super(objectID, positionX, positionY);
+        final boolean bothMutable = ObjectID.isBaseAndDetailColorObject(objectID);
+        this.mainColorMutable = ObjectID.isBaseColorObject(objectID) || bothMutable;
+        this.secondColorMutable = ObjectID.isDetailColorObject(objectID) || bothMutable;
+    }
+
+    public ColorableObject(@NotNull final LevelObject levelObject) {
+        super(levelObject);
+        final boolean bothMutable = ObjectID.isBaseAndDetailColorObject(objectID());
+        this.mainColorMutable = ObjectID.isBaseColorObject(objectID()) || bothMutable;
+        this.secondColorMutable = ObjectID.isDetailColorObject(objectID()) || bothMutable;
+    }
+
+    public ColorableObject(@NotNull final Properties objectProperties) {
+        super(objectProperties);
+        final boolean bothMutable = ObjectID.isBaseAndDetailColorObject(objectID());
+        this.mainColorMutable = ObjectID.isBaseColorObject(objectID()) || bothMutable;
+        this.secondColorMutable = ObjectID.isDetailColorObject(objectID()) || bothMutable;
+
+        this.mainColorChannelIndex   = mainColorMutable   ? objectProperties.integerProperty(LevelObjectData.MAIN_COLOR_ID)   : 0;
+        this.secondColorChannelIndex = secondColorMutable ? objectProperties.integerProperty(LevelObjectData.SECOND_COLOR_ID) : 0;
+
+        this.mainColorHSBEnabled     = mainColorMutable   && objectProperties.booleanProperty(LevelObjectData.MAIN_COLOR_HSB_CHECKED);
+        this.secondColorHSBEnabled   = secondColorMutable && objectProperties.booleanProperty(LevelObjectData.SECOND_COLOR_HSB_CHECKED);
+        this.mainColorHSB            = mainColorMutable   ? objectProperties.hsbModifierProperty(LevelObjectData.MAIN_COLOR_HSB)   : ColorHSBModifier.none();
+        this.secondColorHSB          = secondColorMutable ? objectProperties.hsbModifierProperty(LevelObjectData.SECOND_COLOR_HSB) : ColorHSBModifier.none();
     }
 
     public int mainColorChannelIndex() {
@@ -40,6 +81,7 @@ public class ColorableObject extends LevelObject {
     }
 
     public void mainColorChannelIndex(final int mainColorChannelIndex) {
+        if (!mainColorMutable) throw new UnsupportedOperationException();
         this.mainColorChannelIndex = mainColorChannelIndex;
     }
 
@@ -48,6 +90,7 @@ public class ColorableObject extends LevelObject {
     }
 
     public void secondColorChannelIndex(final int secondColorChannelIndex) {
+        if (!secondColorMutable) throw new UnsupportedOperationException();
         this.secondColorChannelIndex = secondColorChannelIndex;
     }
 
@@ -56,6 +99,7 @@ public class ColorableObject extends LevelObject {
     }
 
     public void mainColorHSBEnabled(final boolean mainColorHSBEnabled) {
+        if (!mainColorMutable) throw new UnsupportedOperationException();
         this.mainColorHSBEnabled = mainColorHSBEnabled;
     }
 
@@ -64,22 +108,27 @@ public class ColorableObject extends LevelObject {
     }
 
     public void secondColorHSBEnabled(final boolean secondColorHSBEnabled) {
+        if (!secondColorMutable) throw new UnsupportedOperationException();
         this.secondColorHSBEnabled = secondColorHSBEnabled;
     }
 
-    public ColorHSBModifier mainColorHSB() {
-        return mainColorHSB;
+    @NotNull
+    public Optional<ColorHSBModifier> mainColorHSB() {
+        return Optional.ofNullable(mainColorHSB);
     }
 
-    public void mainColorHSB(final ColorHSBModifier mainColorHSB) {
+    public void mainColorHSB(@Nullable final ColorHSBModifier mainColorHSB) {
+        if (!mainColorMutable) throw new UnsupportedOperationException();
         this.mainColorHSB = mainColorHSB;
     }
 
-    public ColorHSBModifier secondColorHSB() {
-        return secondColorHSB;
+    @NotNull
+    public Optional<ColorHSBModifier> secondColorHSB() {
+        return Optional.ofNullable(secondColorHSB);
     }
 
-    public void secondColorHSB(final ColorHSBModifier secondColorHSB) {
+    public void secondColorHSB(@Nullable final ColorHSBModifier secondColorHSB) {
+        if (!secondColorMutable) throw new UnsupportedOperationException();
         this.secondColorHSB = secondColorHSB;
     }
 

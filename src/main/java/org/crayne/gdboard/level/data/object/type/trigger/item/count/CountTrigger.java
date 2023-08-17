@@ -1,35 +1,47 @@
-package org.crayne.gdboard.level.data.object.type.trigger.item;
+package org.crayne.gdboard.level.data.object.type.trigger.item.count;
 
+import org.crayne.gdboard.level.data.object.type.LevelObject;
 import org.crayne.gdboard.level.data.object.type.trigger.toggle.ToggleTrigger;
-
+import org.crayne.gdboard.savefile.property.Properties;
+import org.crayne.gdboard.savefile.property.data.LevelObjectData;
+import org.jetbrains.annotations.NotNull;
+@SuppressWarnings("unused")
 public class CountTrigger extends ToggleTrigger {
 
     private int itemID; // 80
     private int count; // 77
     private boolean multiActivate; // 104
 
-    public CountTrigger(final boolean spawnTriggered, final boolean multiTriggered, final int targetGroupID,
-                        final boolean activateGroup, final int itemID, final int count, final boolean multiActivate) {
-        super(spawnTriggered, multiTriggered, targetGroupID, activateGroup);
-        this.itemID = itemID;
-        this.count = count;
-        this.multiActivate = multiActivate;
-    }
-
-    public CountTrigger(final boolean touchTriggered, final int targetGroupID, final boolean activateGroup,
-                        final int itemID, final int count, final boolean multiActivate) {
-        super(touchTriggered, targetGroupID, activateGroup);
-        this.itemID = itemID;
-        this.count = count;
-        this.multiActivate = multiActivate;
-    }
-
-    public CountTrigger(final int targetGroupID, final boolean activateGroup, final int itemID,
+    public CountTrigger(final int objectID, final float positionX, final float positionY,
+                        final int targetGroupID, final boolean activateGroup, final int itemID,
                         final int count, final boolean multiActivate) {
-        super(targetGroupID, activateGroup);
+        super(objectID, positionX, positionY, targetGroupID, activateGroup);
         this.itemID = itemID;
         this.count = count;
         this.multiActivate = multiActivate;
+    }
+
+    public CountTrigger(@NotNull final LevelObject levelObject, final int targetGroupID, final boolean activateGroup,
+                        final int itemID, final int count, final boolean multiActivate) {
+        super(levelObject, targetGroupID, activateGroup);
+        this.itemID = itemID;
+        this.count = count;
+        this.multiActivate = multiActivate;
+    }
+
+    public CountTrigger(final int objectID, final float positionX, final float positionY) {
+        super(objectID, positionX, positionY);
+    }
+
+    public CountTrigger(@NotNull final LevelObject levelObject) {
+        super(levelObject);
+    }
+
+    public CountTrigger(@NotNull final Properties objectProperties) {
+        super(objectProperties);
+        this.itemID = objectProperties.integerProperty(LevelObjectData.ITEM_OR_BLOCK_ID);
+        this.count = objectProperties.integerProperty(LevelObjectData.COUNT);
+        this.multiActivate = objectProperties.booleanProperty(LevelObjectData.COUNT_MULTI_ACTIVATE);
     }
 
     public int itemID() {
@@ -54,6 +66,15 @@ public class CountTrigger extends ToggleTrigger {
 
     public void multiActivate(final boolean multiActivate) {
         this.multiActivate = multiActivate;
+    }
+
+    @NotNull
+    public String toString() {
+        return "CountTrigger{" +
+                "itemID=" + itemID +
+                ", count=" + count +
+                ", multiActivate=" + multiActivate +
+                "} " + super.toString();
     }
 
 }

@@ -1,18 +1,15 @@
 package org.crayne.gdboard.level;
 
+import org.crayne.gdboard.level.data.LevelData;
 import org.jetbrains.annotations.NotNull;
 
-public class LocalLevelData {
-
-    private final LocalLevelProperties properties;
-
-    public LocalLevelData(@NotNull final LocalLevelProperties properties) {
-        this.properties = properties;
-    }
-
+public record LocalLevel(@NotNull LocalLevelProperties properties, @NotNull LevelData data) {
     @NotNull
-    public LocalLevelProperties properties() {
-        return properties;
+    public String toString() {
+        return "LocalLevel{" +
+                "properties=" + properties +
+                ", data=" + data +
+                '}';
     }
 
 }

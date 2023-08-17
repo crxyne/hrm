@@ -1,6 +1,9 @@
-package org.crayne.gdboard.level.data;
+package org.crayne.gdboard.level.data.color;
 
-import org.crayne.gdboard.decrypt.PropertyDecodeUtil;
+import org.crayne.gdboard.savefile.property.Properties;
+import org.crayne.gdboard.savefile.property.PropertyUtil;
+import org.crayne.gdboard.level.data.object.type.trigger.visual.color.PulseTrigger;
+import org.crayne.gdboard.savefile.property.data.LevelObjectData;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -26,6 +29,7 @@ public class ColorProperty {
         this.green = green;
         this.blue = blue;
         this.channelIndex = channelIndex;
+        this.opacity = 1;
     }
 
     public ColorProperty(final int channelIndex, final int red, final int green, final int blue, final boolean blending, final float opacity) {
@@ -45,17 +49,34 @@ public class ColorProperty {
     }
 
     public ColorProperty(@NotNull final String colorString) {
-        final Map<String, String> colorProperties = PropertyDecodeUtil.decodeProperties(colorString, "_");
+        final Map<String, String> colorProperties = PropertyUtil.decodeProperties(colorString, "_");
 
-        this.red                     = PropertyDecodeUtil.parseIntValue(colorProperties.get("1"), 255);
-        this.green                   = PropertyDecodeUtil.parseIntValue(colorProperties.get("2"), 255);
-        this.blue                    = PropertyDecodeUtil.parseIntValue(colorProperties.get("3"), 255);
-        this.blending                = PropertyDecodeUtil.parseBooleanValue(colorProperties.get("5"));
-        this.channelIndex            = PropertyDecodeUtil.parseIntValue(colorProperties.get("6"), CHANNEL_ID_NOT_FOUND);
-        this.opacity                 = PropertyDecodeUtil.parseFloatValue(colorProperties.get("7"), 0);
-        this.copiedColorChannelIndex = PropertyDecodeUtil.parseIntValue(colorProperties.get("9"), CHANNEL_ID_NOT_FOUND);
-        this.copiedColorHSBModifier  = PropertyDecodeUtil.parseHSBValue(colorProperties.get("10"));
-        this.copyOpacity             = PropertyDecodeUtil.parseBooleanValue(colorProperties.get("17"));
+        this.red                     = PropertyUtil.parseIntValue(colorProperties.get("1"), 255);
+        this.green                   = PropertyUtil.parseIntValue(colorProperties.get("2"), 255);
+        this.blue                    = PropertyUtil.parseIntValue(colorProperties.get("3"), 255);
+        this.blending                = PropertyUtil.parseBooleanValue(colorProperties.get("5"));
+        this.channelIndex            = PropertyUtil.parseIntValue(colorProperties.get("6"), CHANNEL_ID_NOT_FOUND);
+        this.opacity                 = PropertyUtil.parseFloatValue(colorProperties.get("7"), 1);
+        this.copiedColorChannelIndex = PropertyUtil.parseIntValue(colorProperties.get("9"), CHANNEL_ID_NOT_FOUND);
+        this.copiedColorHSBModifier  = PropertyUtil.parseHSBValue(colorProperties.get("10"));
+        this.copyOpacity             = PropertyUtil.parseBooleanValue(colorProperties.get("17"));
+    }
+
+    public ColorProperty(@NotNull final Properties triggerProperties, final boolean pulseTrigger) {
+        final PulseTrigger.Target targetType = triggerProperties.pulseTargetProperty(LevelObjectData.PULSE_TARGET_TYPE);
+
+        this.red                     = triggerProperties.integerProperty(LevelObjectData.RED_COMP);
+        this.green                   = triggerProperties.integerProperty(LevelObjectData.GREEN_COMP);
+        this.blue                    = triggerProperties.integerProperty(LevelObjectData.BLUE_COMP);
+        this.blending                = triggerProperties.booleanProperty(LevelObjectData.BLENDING);
+        this.opacity                 = triggerProperties.floatProperty(LevelObjectData.OPACITY);
+        this.channelIndex            = pulseTrigger && targetType == PulseTrigger.Target.CHANNEL
+                                        ? triggerProperties.integerProperty(LevelObjectData.TARGET_GROUP_ID)
+                                        : triggerProperties.integerProperty(LevelObjectData.TARGET_COLOR_ID);
+
+        this.copiedColorHSBModifier  = triggerProperties.hsbModifierProperty(LevelObjectData.COPIED_COLOR_HSB);
+        this.copiedColorChannelIndex = triggerProperties.integerProperty(LevelObjectData.COPIED_COLOR_ID);
+        this.copyOpacity             = triggerProperties.booleanProperty(LevelObjectData.COPY_OPACITY);
     }
 
     @NotNull

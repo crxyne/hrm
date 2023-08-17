@@ -1,27 +1,34 @@
-package org.crayne.gdboard.level.data.object.type.trigger.item;
+package org.crayne.gdboard.level.data.object.type.trigger.item.pickup;
 
+import org.crayne.gdboard.level.data.object.type.LevelObject;
 import org.crayne.gdboard.level.data.object.type.trigger.Trigger;
+import org.crayne.gdboard.savefile.property.Properties;
+import org.crayne.gdboard.savefile.property.data.LevelObjectData;
+import org.jetbrains.annotations.NotNull;
 
+@SuppressWarnings("unused")
 public class PickupTrigger extends Trigger {
 
-    private int count; // 77
-    private int itemBlockID; // 80
+    private int count;
+    private int itemID;
 
-    public PickupTrigger(final boolean spawnTriggered, final boolean multiTriggered, final int count, final int itemBlockID) {
-        super(spawnTriggered, multiTriggered);
+    public PickupTrigger(final int objectID, final float positionX, final float positionY,
+                         final int count, final int itemID) {
+        super(objectID, positionX, positionY);
         this.count = count;
-        this.itemBlockID = itemBlockID;
+        this.itemID = itemID;
     }
 
-    public PickupTrigger(final boolean touchTriggered, final int count, final int itemBlockID) {
-        super(touchTriggered);
+    public PickupTrigger(@NotNull final LevelObject levelObject, final int count, final int itemID) {
+        super(levelObject);
         this.count = count;
-        this.itemBlockID = itemBlockID;
+        this.itemID = itemID;
     }
 
-    public PickupTrigger(final int count, final int itemBlockID) {
-        this.count = count;
-        this.itemBlockID = itemBlockID;
+    public PickupTrigger(@NotNull final Properties objectProperties) {
+        super(objectProperties);
+        this.count = objectProperties.integerProperty(LevelObjectData.COUNT);
+        this.itemID = objectProperties.integerProperty(LevelObjectData.ITEM_OR_BLOCK_ID);
     }
 
     public int count() {
@@ -32,11 +39,19 @@ public class PickupTrigger extends Trigger {
         this.count = count;
     }
 
-    public int itemBlockID() {
-        return itemBlockID;
+    public int itemID() {
+        return itemID;
     }
 
-    public void itemBlockID(final int itemBlockID) {
-        this.itemBlockID = itemBlockID;
+    public void itemID(final int itemID) {
+        this.itemID = itemID;
+    }
+
+    @NotNull
+    public String toString() {
+        return "PickupTrigger{" +
+                "count=" + count +
+                ", itemID=" + itemID +
+                "} " + super.toString();
     }
 }

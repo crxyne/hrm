@@ -1,23 +1,15 @@
-package org.crayne.gdboard.level.data.object.type.trigger.color;
+package org.crayne.gdboard.level.data.object.type.trigger.visual.color;
 
-import org.crayne.gdboard.level.data.color.ColorHSBModifier;
+import org.crayne.gdboard.level.data.color.ColorProperty;
+import org.crayne.gdboard.level.data.object.type.LevelObject;
 import org.crayne.gdboard.level.data.object.type.trigger.Trigger;
+import org.crayne.gdboard.savefile.property.Properties;
+import org.crayne.gdboard.savefile.property.PropertyDataType;
+import org.crayne.gdboard.savefile.property.data.LevelObjectData;
 import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
-
-import java.util.Optional;
 
 @SuppressWarnings("unused")
 public class PulseTrigger extends Trigger {
-
-    private int redComponent, greenComponent, blueComponent; // 7, 8, 9
-    private boolean blending; // 17
-    private float opacity; // 35
-
-    @Nullable
-    private ColorHSBModifier copiedColorHSBModifier; // 49
-    private int copiedColorChannelIndex; // 50
-    private boolean copyOpacity; // 60
 
     private float pulseFadeIn, pulseHold, pulseFadeOut; // 45, 46, 47
 
@@ -32,8 +24,43 @@ public class PulseTrigger extends Trigger {
 
     private int targetID; // 51
 
+    @NotNull
+    private ColorProperty colorProperty;
+
+    public PulseTrigger(final int objectID, final float positionX, final float positionY, @NotNull final ColorProperty colorProperty,
+                        @NotNull final Target pulseTargetType, final int targetID) {
+        super(objectID, positionX, positionY);
+        this.pulseTargetType = pulseTargetType;
+        this.targetID = targetID;
+        this.pulseMode = Mode.COLOR;
+        this.colorProperty = ColorProperty.none();
+    }
+
+    public PulseTrigger(@NotNull final LevelObject levelObject, @NotNull final ColorProperty colorProperty,
+                        @NotNull final Target pulseTargetType, final int targetID) {
+        super(levelObject);
+        this.colorProperty = colorProperty;
+        this.pulseTargetType = pulseTargetType;
+        this.targetID = targetID;
+        this.pulseMode = Mode.COLOR;
+    }
+
+    public PulseTrigger(@NotNull final Properties objectProperties) {
+        super(objectProperties);
+        this.colorProperty   = new ColorProperty(objectProperties, true);
+        this.pulseFadeIn     = objectProperties.floatProperty(LevelObjectData.PULSE_FADE_IN);
+        this.pulseHold       = objectProperties.floatProperty(LevelObjectData.PULSE_HOLD);
+        this.pulseFadeOut    = objectProperties.floatProperty(LevelObjectData.PULSE_FADE_OUT);
+        this.pulseMode       = objectProperties.pulseModeProperty(LevelObjectData.PULSE_MODE);
+        this.pulseTargetType = objectProperties.pulseTargetProperty(LevelObjectData.PULSE_TARGET_TYPE);
+        this.mainOnly        = objectProperties.booleanProperty(LevelObjectData.PULSE_MAIN_ONLY);
+        this.detailOnly      = objectProperties.booleanProperty(LevelObjectData.PULSE_DETAIL_ONLY);
+        this.exclusive       = objectProperties.booleanProperty(LevelObjectData.PULSE_EXCLUSIVE);
+        this.targetID        = objectProperties.integerProperty(LevelObjectData.TARGET_GROUP_ID);
+    }
+
     public enum Mode {
-        COLOR(0), HSB(1);
+        COLOR(0), HSB_COPY_COLOR(1);
 
         private final int id;
 
@@ -42,8 +69,13 @@ public class PulseTrigger extends Trigger {
         }
 
         @NotNull
+        public static PropertyDataType datatype() {
+            return PropertyDataType.PULSE_MODE;
+        }
+
+        @NotNull
         public static Mode of(final int id) {
-            return id == 1 ? HSB : COLOR;
+            return id == 1 ? HSB_COPY_COLOR : COLOR;
         }
 
         public int id() {
@@ -62,6 +94,11 @@ public class PulseTrigger extends Trigger {
         }
 
         @NotNull
+        public static PropertyDataType datatype() {
+            return PropertyDataType.PULSE_TARGET;
+        }
+
+        @NotNull
         public static Target of(final int id) {
             return id == 1 ? CHANNEL : GROUP;
         }
@@ -72,191 +109,13 @@ public class PulseTrigger extends Trigger {
 
     }
 
-    public PulseTrigger(final boolean spawnTriggered, final boolean multiTriggered, final int redComponent, final int greenComponent, final int blueComponent,
-                        final boolean blending, final float opacity, final float pulseFadeIn, final float pulseHold,
-                        final float pulseFadeOut, @NotNull final Target pulseTargetType, final boolean mainOnly, final boolean detailOnly,
-                        final boolean exclusive, final int targetID) {
-        super(spawnTriggered, multiTriggered);
-        this.redComponent = redComponent;
-        this.greenComponent = greenComponent;
-        this.blueComponent = blueComponent;
-        this.blending = blending;
-        this.opacity = opacity;
-        this.pulseFadeIn = pulseFadeIn;
-        this.pulseHold = pulseHold;
-        this.pulseFadeOut = pulseFadeOut;
-        this.pulseMode = Mode.COLOR;
-        this.pulseTargetType = pulseTargetType;
-        this.mainOnly = mainOnly;
-        this.detailOnly = !mainOnly && detailOnly;
-        this.exclusive = exclusive;
-        this.targetID = targetID;
-    }
-
-    public PulseTrigger(final boolean touchTriggered, final int redComponent, final int greenComponent, final int blueComponent,
-                        final boolean blending, final float opacity, final float pulseFadeIn,
-                        final float pulseHold, final float pulseFadeOut, @NotNull final Target pulseTargetType, final boolean mainOnly,
-                        final boolean detailOnly, final boolean exclusive, final int targetID) {
-        super(touchTriggered);
-        this.redComponent = redComponent;
-        this.greenComponent = greenComponent;
-        this.blueComponent = blueComponent;
-        this.blending = blending;
-        this.opacity = opacity;
-        this.pulseFadeIn = pulseFadeIn;
-        this.pulseHold = pulseHold;
-        this.pulseFadeOut = pulseFadeOut;
-        this.pulseMode = Mode.COLOR;
-        this.pulseTargetType = pulseTargetType;
-        this.mainOnly = mainOnly;
-        this.detailOnly = !mainOnly && detailOnly;
-        this.exclusive = exclusive;
-        this.targetID = targetID;
-    }
-
-    public PulseTrigger(final int redComponent, final int greenComponent, final int blueComponent, final boolean blending,
-                        final float opacity, final float pulseFadeIn, final float pulseHold, final float pulseFadeOut,
-                        @NotNull final Target pulseTargetType, final boolean mainOnly, final boolean detailOnly, final boolean exclusive, final int targetID) {
-        this.redComponent = redComponent;
-        this.greenComponent = greenComponent;
-        this.blueComponent = blueComponent;
-        this.blending = blending;
-        this.opacity = opacity;
-        this.pulseFadeIn = pulseFadeIn;
-        this.pulseHold = pulseHold;
-        this.pulseFadeOut = pulseFadeOut;
-        this.pulseMode = Mode.COLOR;
-        this.pulseTargetType = pulseTargetType;
-        this.mainOnly = mainOnly;
-        this.detailOnly = !mainOnly && detailOnly;
-        this.exclusive = exclusive;
-        this.targetID = targetID;
-    }
-
-    public PulseTrigger(final boolean spawnTriggered, final boolean multiTriggered, final boolean blending, final float opacity,
-                        @Nullable final ColorHSBModifier copiedColorHSBModifier, final int copiedColorChannelIndex, final boolean copyOpacity,
-                        final float pulseFadeIn, final float pulseHold, final float pulseFadeOut, @NotNull final Target pulseTargetType,
-                        final boolean mainOnly, final boolean detailOnly, final boolean exclusive, final int targetID) {
-        super(spawnTriggered, multiTriggered);
-        this.blending = blending;
-        this.opacity = opacity;
-        this.copiedColorHSBModifier = copiedColorHSBModifier;
-        this.copiedColorChannelIndex = copiedColorChannelIndex;
-        this.copyOpacity = copyOpacity;
-        this.pulseFadeIn = pulseFadeIn;
-        this.pulseHold = pulseHold;
-        this.pulseFadeOut = pulseFadeOut;
-        this.pulseMode = Mode.HSB;
-        this.pulseTargetType = pulseTargetType;
-        this.mainOnly = mainOnly;
-        this.detailOnly = !mainOnly && detailOnly;
-        this.exclusive = exclusive;
-        this.targetID = targetID;
-    }
-
-    public PulseTrigger(final boolean touchTriggered, final boolean blending, final float opacity,
-                        @Nullable final ColorHSBModifier copiedColorHSBModifier, final int copiedColorChannelIndex, final boolean copyOpacity,
-                        final float pulseFadeIn, final float pulseHold, final float pulseFadeOut, @NotNull final Target pulseTargetType,
-                        final boolean mainOnly, final boolean detailOnly, final boolean exclusive, final int targetID) {
-        super(touchTriggered);
-        this.blending = blending;
-        this.opacity = opacity;
-        this.copiedColorHSBModifier = copiedColorHSBModifier;
-        this.copiedColorChannelIndex = copiedColorChannelIndex;
-        this.copyOpacity = copyOpacity;
-        this.pulseFadeIn = pulseFadeIn;
-        this.pulseHold = pulseHold;
-        this.pulseFadeOut = pulseFadeOut;
-        this.pulseMode = Mode.HSB;
-        this.pulseTargetType = pulseTargetType;
-        this.mainOnly = mainOnly;
-        this.detailOnly = !mainOnly && detailOnly;
-        this.exclusive = exclusive;
-        this.targetID = targetID;
-    }
-
-    public PulseTrigger(final boolean blending, final float opacity, @Nullable final ColorHSBModifier copiedColorHSBModifier,
-                        final int copiedColorChannelIndex, final boolean copyOpacity, final float pulseFadeIn, final float pulseHold, final float pulseFadeOut,
-                        @NotNull final Target pulseTargetType, final boolean mainOnly, final boolean detailOnly, final boolean exclusive, final int targetID) {
-        this.blending = blending;
-        this.opacity = opacity;
-        this.copiedColorHSBModifier = copiedColorHSBModifier;
-        this.copiedColorChannelIndex = copiedColorChannelIndex;
-        this.copyOpacity = copyOpacity;
-        this.pulseFadeIn = pulseFadeIn;
-        this.pulseHold = pulseHold;
-        this.pulseFadeOut = pulseFadeOut;
-        this.pulseMode = Mode.HSB;
-        this.pulseTargetType = pulseTargetType;
-        this.mainOnly = mainOnly;
-        this.detailOnly = !mainOnly && detailOnly;
-        this.exclusive = exclusive;
-        this.targetID = targetID;
-    }
-
-    public int redComponent() {
-        return redComponent;
-    }
-
-    public void redComponent(final int redComponent) {
-        this.redComponent = redComponent;
-    }
-
-    public int greenComponent() {
-        return greenComponent;
-    }
-
-    public void greenComponent(final int greenComponent) {
-        this.greenComponent = greenComponent;
-    }
-
-    public int blueComponent() {
-        return blueComponent;
-    }
-
-    public void blueComponent(final int blueComponent) {
-        this.blueComponent = blueComponent;
-    }
-
-    public boolean blending() {
-        return blending;
-    }
-
-    public void blending(final boolean blending) {
-        this.blending = blending;
-    }
-
-    public float opacity() {
-        return opacity;
-    }
-
-    public void opacity(final float opacity) {
-        this.opacity = opacity;
-    }
-
     @NotNull
-    public Optional<ColorHSBModifier> copiedColorHSBModifier() {
-        return Optional.ofNullable(copiedColorHSBModifier);
+    public ColorProperty colorProperty() {
+        return colorProperty;
     }
 
-    public void copiedColorHSBModifier(@Nullable final ColorHSBModifier copiedColorHSBModifier) {
-        this.copiedColorHSBModifier = copiedColorHSBModifier;
-    }
-
-    public int copiedColorChannelIndex() {
-        return copiedColorChannelIndex;
-    }
-
-    public void copiedColorChannelIndex(final int copiedColorChannelIndex) {
-        this.copiedColorChannelIndex = copiedColorChannelIndex;
-    }
-
-    public boolean copyOpacity() {
-        return copyOpacity;
-    }
-
-    public void copyOpacity(final boolean copyOpacity) {
-        this.copyOpacity = copyOpacity;
+    public void colorProperty(@NotNull final ColorProperty colorProperty) {
+        this.colorProperty = colorProperty;
     }
 
     public float pulseFadeIn() {
@@ -333,4 +192,19 @@ public class PulseTrigger extends Trigger {
         this.targetID = targetGroupID;
     }
 
+    @NotNull
+    public String toString() {
+        return "PulseTrigger{" +
+                "pulseFadeIn=" + pulseFadeIn +
+                ", pulseHold=" + pulseHold +
+                ", pulseFadeOut=" + pulseFadeOut +
+                ", pulseMode=" + pulseMode +
+                ", pulseTargetType=" + pulseTargetType +
+                ", mainOnly=" + mainOnly +
+                ", detailOnly=" + detailOnly +
+                ", exclusive=" + exclusive +
+                ", targetID=" + targetID +
+                ", colorProperty=" + colorProperty +
+                "} " + super.toString();
+    }
 }

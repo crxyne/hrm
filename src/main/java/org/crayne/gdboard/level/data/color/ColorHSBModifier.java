@@ -1,8 +1,9 @@
-package org.crayne.gdboard.level.data;
+package org.crayne.gdboard.level.data.color;
 
-import org.crayne.gdboard.decrypt.PropertyDecodeUtil;
+import org.crayne.gdboard.savefile.property.PropertyUtil;
 import org.jetbrains.annotations.NotNull;
 
+@SuppressWarnings("unused")
 public class ColorHSBModifier {
 
     private float hueModifier, saturationModifier, brightnessModifier;
@@ -25,11 +26,11 @@ public class ColorHSBModifier {
         final String[] split = hsbString.split("a");
         if (split.length != 5) throw new IllegalArgumentException("Invalid hsb string: " + hsbString);
 
-        this.hueModifier            = PropertyDecodeUtil.tryParseFloat(split[0], 0);
-        this.saturationModifier     = PropertyDecodeUtil.tryParseFloat(split[1], 0);
-        this.brightnessModifier     = PropertyDecodeUtil.tryParseFloat(split[2], 0);
-        this.saturationAdditionMode = PropertyDecodeUtil.parseBooleanValue(split[3]);
-        this.brightnessAdditionMode = PropertyDecodeUtil.parseBooleanValue(split[4]);
+        this.hueModifier            = PropertyUtil.tryParseFloat(split[0], 0);
+        this.saturationModifier     = PropertyUtil.tryParseFloat(split[1], 0);
+        this.brightnessModifier     = PropertyUtil.tryParseFloat(split[2], 0);
+        this.saturationAdditionMode = PropertyUtil.parseBooleanValue(split[3]);
+        this.brightnessAdditionMode = PropertyUtil.parseBooleanValue(split[4]);
     }
 
     public float hue() {

@@ -4,16 +4,93 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="512d0192-0645-48b4-9477-7606c9a8de05" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
+    <list default="true" id="512d0192-0645-48b4-9477-7606c9a8de05" name="Changes" comment="forgot to commit :sob: heres the actual progress">
+      <change beforePath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/CCLocalLevels.dat" beforeDir="false" afterPath="$PROJECT_DIR$/CCLocalLevels.dat" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/crayne/gdboard/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/crayne/gdboard/Main.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/crayne/gdboard/level/LocalLevel.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/crayne/gdboard/level/LocalLevel.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/crayne/gdboard/level/LocalLevelProperties.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/crayne/gdboard/level/LocalLevelProperties.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/crayne/gdboard/level/data/LevelData.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/crayne/gdboard/level/data/LevelData.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/crayne/gdboard/level/data/LevelEditorCamera.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/crayne/gdboard/level/data/LevelEditorCamera.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/crayne/gdboard/level/data/color/ColorHSBModifier.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/crayne/gdboard/level/data/color/ColorHSBModifier.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/crayne/gdboard/level/data/color/ColorProperty.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/crayne/gdboard/level/data/color/ColorProperty.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/crayne/gdboard/level/data/object/ObjectID.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/crayne/gdboard/level/data/object/ObjectID.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/crayne/gdboard/level/data/object/ZLayer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/crayne/gdboard/level/data/object/ZLayer.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/crayne/gdboard/level/data/object/type/LevelObject.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/crayne/gdboard/level/data/object/type/LevelObject.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/crayne/gdboard/level/data/object/type/decoration/ColorableObject.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/crayne/gdboard/level/data/object/type/decoration/ColorableObject.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/crayne/gdboard/level/data/object/type/decoration/PulsatingObject.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/crayne/gdboard/level/data/object/type/decoration/PulsatingObject.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/crayne/gdboard/level/data/object/type/decoration/RotatingObject.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/crayne/gdboard/level/data/object/type/decoration/RotatingObject.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/crayne/gdboard/level/data/object/type/decoration/TextObject.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/crayne/gdboard/level/data/object/type/decoration/TextObject.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/crayne/gdboard/level/data/object/type/general/OrbObject.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/crayne/gdboard/level/data/object/type/general/OrbObject.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/crayne/gdboard/level/data/object/type/general/ToggleOrbObject.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/crayne/gdboard/level/data/object/type/general/ToggleOrbObject.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/crayne/gdboard/level/data/object/type/portal/SpecialPortalObject.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/crayne/gdboard/level/data/object/type/portal/SpecialPortalObject.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/crayne/gdboard/level/data/object/type/portal/TeleportPortalObject.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/crayne/gdboard/level/data/object/type/portal/TeleportPortalObject.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/crayne/gdboard/level/data/object/type/trigger/Trigger.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/crayne/gdboard/level/data/object/type/trigger/Trigger.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/crayne/gdboard/level/data/object/type/trigger/collision/CollisionBlockObject.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/crayne/gdboard/level/data/object/type/trigger/collision/CollisionBlockObject.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/crayne/gdboard/level/data/object/type/trigger/collision/CollisionTrigger.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/crayne/gdboard/level/data/object/type/trigger/collision/CollisionTrigger.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/crayne/gdboard/level/data/object/type/trigger/general/SpawnTrigger.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/crayne/gdboard/level/data/object/type/trigger/general/SpawnTrigger.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/crayne/gdboard/level/data/object/type/trigger/general/StartPositionTrigger.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/crayne/gdboard/level/data/object/type/trigger/general/StartPositionTrigger.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/crayne/gdboard/level/data/object/type/trigger/general/StopTrigger.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/crayne/gdboard/level/data/object/type/trigger/general/StopTrigger.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/crayne/gdboard/level/data/object/type/trigger/general/TouchTrigger.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/crayne/gdboard/level/data/object/type/trigger/general/TouchTrigger.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/crayne/gdboard/level/data/object/type/trigger/item/count/CountTrigger.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/crayne/gdboard/level/data/object/type/trigger/item/count/CountTrigger.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/crayne/gdboard/level/data/object/type/trigger/item/count/InstantCountTrigger.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/crayne/gdboard/level/data/object/type/trigger/item/count/InstantCountTrigger.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/crayne/gdboard/level/data/object/type/trigger/item/count/ItemCounter.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/crayne/gdboard/level/data/object/type/trigger/item/count/ItemCounter.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/crayne/gdboard/level/data/object/type/trigger/item/pickup/PickupItemObject.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/crayne/gdboard/level/data/object/type/trigger/item/pickup/PickupItemObject.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/crayne/gdboard/level/data/object/type/trigger/item/pickup/PickupTrigger.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/crayne/gdboard/level/data/object/type/trigger/item/pickup/PickupTrigger.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/crayne/gdboard/level/data/object/type/trigger/movement/EasingType.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/crayne/gdboard/level/data/object/type/trigger/movement/EasingType.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/crayne/gdboard/level/data/object/type/trigger/movement/FollowPlayerYTrigger.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/crayne/gdboard/level/data/object/type/trigger/movement/FollowPlayerYTrigger.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/crayne/gdboard/level/data/object/type/trigger/movement/FollowTrigger.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/crayne/gdboard/level/data/object/type/trigger/movement/FollowTrigger.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/crayne/gdboard/level/data/object/type/trigger/movement/MoveTrigger.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/crayne/gdboard/level/data/object/type/trigger/movement/MoveTrigger.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/crayne/gdboard/level/data/object/type/trigger/movement/RotateTrigger.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/crayne/gdboard/level/data/object/type/trigger/movement/RotateTrigger.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/crayne/gdboard/level/data/object/type/trigger/toggle/ToggleTrigger.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/crayne/gdboard/level/data/object/type/trigger/toggle/ToggleTrigger.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/crayne/gdboard/level/data/object/type/trigger/visual/AlphaTrigger.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/crayne/gdboard/level/data/object/type/trigger/visual/AlphaTrigger.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/crayne/gdboard/level/data/object/type/trigger/visual/AnimateTrigger.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/crayne/gdboard/level/data/object/type/trigger/visual/AnimateTrigger.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/crayne/gdboard/level/data/object/type/trigger/visual/ShakeTrigger.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/crayne/gdboard/level/data/object/type/trigger/visual/ShakeTrigger.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/crayne/gdboard/level/data/object/type/trigger/visual/color/ColorTrigger.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/crayne/gdboard/level/data/object/type/trigger/visual/color/ColorTrigger.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/crayne/gdboard/level/data/object/type/trigger/visual/color/PulseTrigger.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/crayne/gdboard/level/data/object/type/trigger/visual/color/PulseTrigger.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/crayne/gdboard/level/data/settings/LevelCosmetics.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/crayne/gdboard/level/data/settings/LevelCosmetics.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/crayne/gdboard/level/data/settings/LevelSettings.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/crayne/gdboard/level/data/settings/LevelSettings.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/crayne/gdboard/level/data/settings/music/Guideline.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/crayne/gdboard/level/data/settings/music/Guideline.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/crayne/gdboard/level/data/settings/music/LevelMusicSettings.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/crayne/gdboard/level/data/settings/music/LevelMusicSettings.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/crayne/gdboard/level/data/settings/start/GameMode.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/crayne/gdboard/level/data/settings/start/GameMode.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/crayne/gdboard/level/data/settings/start/GameSpeed.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/crayne/gdboard/level/data/settings/start/GameSpeed.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/crayne/gdboard/level/data/settings/start/LevelStartSettings.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/crayne/gdboard/level/data/settings/start/LevelStartSettings.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/crayne/gdboard/savefile/decrypt/LevelDataDecryption.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/crayne/gdboard/savefile/decrypt/LevelDataDecryption.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/crayne/gdboard/savefile/encrypt/LevelDataEncryption.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/crayne/gdboard/savefile/encrypt/LevelDataEncryption.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/crayne/gdboard/savefile/property/Properties.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/crayne/gdboard/savefile/property/Properties.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/crayne/gdboard/savefile/property/PropertyDataType.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/crayne/gdboard/savefile/property/PropertyDataType.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/crayne/gdboard/savefile/property/PropertyUtil.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/crayne/gdboard/savefile/property/PropertyUtil.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/crayne/gdboard/savefile/property/data/LevelObjectData.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/crayne/gdboard/savefile/property/data/LevelObjectData.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/crayne/gdboard/savefile/property/data/PropertyData.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/crayne/gdboard/savefile/property/data/PropertyData.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
+  <component name="CodeInsightWorkspaceSettings">
+    <option name="optimizeImportsOnTheFly" value="true" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Record" />
+        <option value="Enum" />
+        <option value="Interface" />
+        <option value="Class" />
+      </list>
+    </option>
+  </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="MacroExpansionManager">
+    <option name="directoryName" value="vin3rnde" />
+  </component>
+  <component name="MarkdownSettingsMigration">
+    <option name="stateVersion" value="1" />
   </component>
   <component name="ProjectId" id="2U1U76Of45uUuGEs8pXJBYdsC3T" />
   <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
@@ -21,12 +98,47 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "RunOnceActivity.OpenProjectViewOnStart": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
+    &quot;last_opened_file_path&quot;: &quot;/home/crayne/gdboard&quot;
   }
-}]]></component>
+}</component>
+  <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$" />
+    </key>
+  </component>
+  <component name="RunManager" selected="Application.Main">
+    <configuration name="Main" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="org.crayne.gdboard.Main" />
+      <module name="gdboard" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="org.crayne.gdboard.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="ObjectIDS" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="ObjectIDS" />
+      <module name="gdboard" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <recent_temporary>
+      <list>
+        <item itemvalue="Application.Main" />
+        <item itemvalue="Application.ObjectIDS" />
+      </list>
+    </recent_temporary>
+  </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
@@ -48,5 +160,9 @@
         </entry>
       </map>
     </option>
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="forgot to commit :sob: heres the actual progress" />
+    <option name="LAST_COMMIT_MESSAGE" value="forgot to commit :sob: heres the actual progress" />
   </component>
 </project>

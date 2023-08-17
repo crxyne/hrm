@@ -1,16 +1,36 @@
-package org.crayne.gdboard.level.data.object.type.general;
+package org.crayne.gdboard.level.data.object.type.portal;
 
-public class SpecialPortalObject extends PortalObject {
+import org.crayne.gdboard.level.data.object.type.LevelObject;
+import org.crayne.gdboard.savefile.property.Properties;
+import org.crayne.gdboard.savefile.property.data.LevelObjectData;
+import org.jetbrains.annotations.NotNull;
 
-    private boolean specialPropertyChecked; // 13, special property of gamemode portals that have bounds (ball, ship, wave, spider, ufo)
-                                            // to preview floor and ceiling, and speed portals to disable the music preview line from changing its speed
+@SuppressWarnings("unused")
+public class SpecialPortalObject extends LevelObject {
 
-    public SpecialPortalObject(final boolean specialPropertyChecked) {
+    private boolean specialPropertyChecked;
+
+    public SpecialPortalObject(final int objectID, final float positionX, final float positionY, final boolean specialPropertyChecked) {
+        super(objectID, positionX, positionY);
         this.specialPropertyChecked = specialPropertyChecked;
     }
 
-    public SpecialPortalObject() {
-        this.specialPropertyChecked = false;
+    public SpecialPortalObject(@NotNull final LevelObject levelObject, final boolean specialPropertyChecked) {
+        super(levelObject);
+        this.specialPropertyChecked = specialPropertyChecked;
+    }
+
+    public SpecialPortalObject(final int objectID, final float positionX, final float positionY) {
+        this(objectID, positionX, positionY, false);
+    }
+
+    public SpecialPortalObject(@NotNull final LevelObject levelObject) {
+        this(levelObject, false);
+    }
+
+    public SpecialPortalObject(@NotNull final Properties objectProperties) {
+        super(objectProperties);
+        this.specialPropertyChecked = objectProperties.booleanProperty(LevelObjectData.SPECIAL_PROPERTY);
     }
 
     public boolean specialPropertyChecked() {
