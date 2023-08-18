@@ -3,7 +3,7 @@ package org.crayne.gdboard.level.data.object.type.trigger.general;
 import org.crayne.gdboard.level.data.object.type.LevelObject;
 import org.crayne.gdboard.level.data.object.type.trigger.Trigger;
 import org.crayne.gdboard.savefile.property.Properties;
-import org.crayne.gdboard.savefile.property.data.LevelObjectData;
+import org.crayne.gdboard.savefile.property.data.LevelObjectProperty;
 import org.jetbrains.annotations.NotNull;
 @SuppressWarnings("unused")
 public class StopTrigger extends Trigger {
@@ -30,7 +30,7 @@ public class StopTrigger extends Trigger {
 
     public StopTrigger(@NotNull final Properties objectProperties) {
         super(objectProperties);
-        this.targetGroupID = objectProperties.integerProperty(LevelObjectData.TARGET_GROUP_ID);
+        this.targetGroupID = objectProperties.integerProperty(LevelObjectProperty.TARGET_GROUP_ID);
     }
 
     @NotNull

@@ -4,7 +4,7 @@ import org.crayne.gdboard.level.data.object.type.LevelObject;
 import org.crayne.gdboard.level.data.object.type.trigger.Trigger;
 import org.crayne.gdboard.savefile.property.Properties;
 import org.crayne.gdboard.savefile.property.PropertyDataType;
-import org.crayne.gdboard.savefile.property.data.LevelObjectData;
+import org.crayne.gdboard.savefile.property.data.LevelObjectProperty;
 import org.jetbrains.annotations.NotNull;
 @SuppressWarnings("unused")
 public class TouchTrigger extends Trigger {
@@ -47,10 +47,10 @@ public class TouchTrigger extends Trigger {
 
     public TouchTrigger(@NotNull final Properties objectProperties) {
         super(objectProperties);
-        this.touchHoldMode   = objectProperties.booleanProperty(LevelObjectData.TOUCH_HOLD_MODE);
-        this.touchToggleMode = objectProperties.touchToggleModeProperty(LevelObjectData.TOUCH_TOGGLE_MODE);
-        this.touchDualMode   = objectProperties.booleanProperty(LevelObjectData.TOUCH_DUAL_MODE);
-        this.targetGroupID   = objectProperties.integerProperty(LevelObjectData.TARGET_GROUP_ID);
+        this.touchHoldMode   = objectProperties.booleanProperty(LevelObjectProperty.TOUCH_HOLD_MODE);
+        this.touchToggleMode = objectProperties.touchToggleModeProperty(LevelObjectProperty.TOUCH_TOGGLE_MODE);
+        this.touchDualMode   = objectProperties.booleanProperty(LevelObjectProperty.TOUCH_DUAL_MODE);
+        this.targetGroupID   = objectProperties.integerProperty(LevelObjectProperty.TARGET_GROUP_ID);
     }
 
     public enum ToggleMode {

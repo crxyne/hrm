@@ -51,4 +51,21 @@ public class LevelEditorCamera {
                 '}';
     }
 
+    public boolean equals(final Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        final LevelEditorCamera that = (LevelEditorCamera) o;
+
+        if (Float.compare(that.positionX, positionX) != 0) return false;
+        if (Float.compare(that.positionY, positionY) != 0) return false;
+        return Float.compare(that.zoom, zoom) == 0;
+    }
+
+    public int hashCode() {
+        int result = (positionX != +0.0f ? Float.floatToIntBits(positionX) : 0);
+        result = 31 * result + (positionY != +0.0f ? Float.floatToIntBits(positionY) : 0);
+        result = 31 * result + (zoom != +0.0f ? Float.floatToIntBits(zoom) : 0);
+        return result;
+    }
 }

@@ -17,6 +17,7 @@ public enum PropertyDataType {
     MOVE_TARGET_POS_EXCLUSION,
     GAME_MODE,
     GAME_SPEED,
-    Z_LAYER
+    Z_LAYER,
+    UNKNOWN
 
 }

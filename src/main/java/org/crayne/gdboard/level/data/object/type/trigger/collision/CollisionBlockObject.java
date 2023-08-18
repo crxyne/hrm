@@ -2,7 +2,7 @@ package org.crayne.gdboard.level.data.object.type.trigger.collision;
 
 import org.crayne.gdboard.level.data.object.type.LevelObject;
 import org.crayne.gdboard.savefile.property.Properties;
-import org.crayne.gdboard.savefile.property.data.LevelObjectData;
+import org.crayne.gdboard.savefile.property.data.LevelObjectProperty;
 import org.jetbrains.annotations.NotNull;
 
 @SuppressWarnings("unused")
@@ -25,8 +25,8 @@ public class CollisionBlockObject extends LevelObject {
 
     public CollisionBlockObject(@NotNull final Properties objectProperties) {
         super(objectProperties);
-        this.dynamicBlock = objectProperties.booleanProperty(LevelObjectData.COLLISION_DYNAMIC_BLOCK);
-        this.blockID = objectProperties.integerProperty(LevelObjectData.ITEM_OR_BLOCK_ID);
+        this.dynamicBlock = objectProperties.booleanProperty(LevelObjectProperty.COLLISION_DYNAMIC_BLOCK);
+        this.blockID = objectProperties.integerProperty(LevelObjectProperty.ITEM_OR_BLOCK_ID);
     }
 
     public CollisionBlockObject(final int objectID, final float positionX, final float positionY) {

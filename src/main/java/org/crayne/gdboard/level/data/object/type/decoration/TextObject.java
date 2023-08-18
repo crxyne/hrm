@@ -4,7 +4,7 @@ import org.crayne.gdboard.level.data.object.type.LevelObject;
 import org.crayne.gdboard.savefile.decrypt.LevelDataDecryption;
 import org.crayne.gdboard.savefile.encrypt.LevelDataEncryption;
 import org.crayne.gdboard.savefile.property.Properties;
-import org.crayne.gdboard.savefile.property.data.LevelObjectData;
+import org.crayne.gdboard.savefile.property.data.LevelObjectProperty;
 import org.jetbrains.annotations.NotNull;
 
 import java.nio.charset.StandardCharsets;
@@ -63,7 +63,7 @@ public class TextObject extends ColorableObject {
 
     public TextObject(@NotNull final Properties objectProperties) {
         super(objectProperties);
-        this.base64EncodedText = objectProperties.stringBase64Property(LevelObjectData.TEXT_BASE64);
+        this.base64EncodedText = objectProperties.stringBase64Property(LevelObjectProperty.TEXT_BASE64);
         this.clearText = new String(LevelDataDecryption.decodeBase64(base64EncodedText), StandardCharsets.UTF_8);
     }
 
@@ -82,4 +82,28 @@ public class TextObject extends ColorableObject {
         return clearText;
     }
 
+    @NotNull
+    public String toString() {
+        return "TextObject{" +
+                "clearText='" + clearText + '\'' +
+                "} " + super.toString();
+    }
+
+    public boolean equals(final Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        if (!super.equals(o)) return false;
+
+        final TextObject that = (TextObject) o;
+
+        if (!base64EncodedText.equals(that.base64EncodedText)) return false;
+        return clearText.equals(that.clearText);
+    }
+
+    public int hashCode() {
+        int result = super.hashCode();
+        result = 31 * result + base64EncodedText.hashCode();
+        result = 31 * result + clearText.hashCode();
+        return result;
+    }
 }

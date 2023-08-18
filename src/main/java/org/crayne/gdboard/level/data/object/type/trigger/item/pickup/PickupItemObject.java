@@ -4,7 +4,7 @@ import org.crayne.gdboard.level.data.object.type.LevelObject;
 import org.crayne.gdboard.level.data.object.type.decoration.ColorableObject;
 import org.crayne.gdboard.savefile.property.Properties;
 import org.crayne.gdboard.savefile.property.PropertyDataType;
-import org.crayne.gdboard.savefile.property.data.LevelObjectData;
+import org.crayne.gdboard.savefile.property.data.LevelObjectProperty;
 import org.jetbrains.annotations.NotNull;
 
 @SuppressWarnings("unused")
@@ -68,11 +68,11 @@ public class PickupItemObject extends ColorableObject {
 
     public PickupItemObject(@NotNull final Properties objectProperties) {
         super(objectProperties);
-        this.subtractCount = objectProperties.booleanProperty(LevelObjectData.SUBTRACT_COUNT);
-        this.pickupMode = objectProperties.pickupItemModeProperty(LevelObjectData.PICKUP_MODE);
-        this.itemID = objectProperties.integerProperty(LevelObjectData.ITEM_OR_BLOCK_ID);
-        this.targetGroupID = objectProperties.integerProperty(LevelObjectData.TARGET_GROUP_ID);
-        this.activateGroup = objectProperties.booleanProperty(LevelObjectData.ACTIVATE_GROUP);
+        this.subtractCount = objectProperties.booleanProperty(LevelObjectProperty.SUBTRACT_COUNT);
+        this.pickupMode = objectProperties.pickupItemModeProperty(LevelObjectProperty.PICKUP_MODE);
+        this.itemID = objectProperties.integerProperty(LevelObjectProperty.ITEM_OR_BLOCK_ID);
+        this.targetGroupID = objectProperties.integerProperty(LevelObjectProperty.TARGET_GROUP_ID);
+        this.activateGroup = objectProperties.booleanProperty(LevelObjectProperty.ACTIVATE_GROUP);
     }
 
     public enum Mode {

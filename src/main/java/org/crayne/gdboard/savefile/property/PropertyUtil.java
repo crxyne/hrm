@@ -5,7 +5,6 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.*;
-import java.util.stream.Collectors;
 
 @SuppressWarnings("unused")
 public class PropertyUtil {
@@ -37,23 +36,31 @@ public class PropertyUtil {
         }
     }
 
-    @NotNull
-    public static List<Integer> parseIntegerArray(@Nullable final String s) {
-        return s == null ? new ArrayList<>() : Arrays.stream(s.split("\\."))
-                .map(PropertyUtil::tryParseNullableInteger)
-                .filter(Objects::nonNull)
-                .collect(Collectors.toList());
+    public static List<String> tokenizeFast(@NotNull final String s, final char delimiter) {
+        final List<String> stringSplit = new ArrayList<>();
+        if (s.isEmpty()) return stringSplit;
+
+        int pos = 0, end;
+        while ((end = s.indexOf(delimiter, pos)) >= 0) {
+            stringSplit.add(s.substring(pos, end));
+            pos = end + 1;
+        }
+        stringSplit.add(s.substring(pos));
+        return stringSplit;
     }
 
     @NotNull
     public static List<Integer> parseIntegerArray(@Nullable final String s, final int[] defaultValue) {
-        return s == null
-                ? Arrays.stream(defaultValue).boxed().toList()
-                : Arrays.stream(s.split("\\."))
+        final List<Integer> intSplit = new ArrayList<>();
+        if (s == null || s.isEmpty()) return Arrays.stream(defaultValue).boxed().toList();
 
-                .map(PropertyUtil::tryParseNullableInteger)
-                .filter(Objects::nonNull)
-                .collect(Collectors.toList());
+        int pos = 0, end;
+        while ((end = s.indexOf('.', pos)) >= 0) {
+            intSplit.add(Integer.parseInt(s.substring(pos, end)));
+            pos = end + 1;
+        }
+        intSplit.add(Integer.parseInt(s.substring(pos)));
+        return intSplit;
     }
 
     public static int parseIntValue(@Nullable final String s, final int defaultValue) {
@@ -89,7 +96,7 @@ public class PropertyUtil {
 
         for (int i = 0; i < propertySplit.length; i += 2) {
             final String key = propertySplit[i];
-            if (i + 1 >= propertySplit.length) break;
+            if (i + 1 >= propertySplit.length) return new HashMap<>();
 
             final String value = propertySplit[i + 1];
             properties.put(key, value);

@@ -4,7 +4,7 @@ import org.crayne.gdboard.level.data.object.type.LevelObject;
 import org.crayne.gdboard.level.data.settings.start.GameMode;
 import org.crayne.gdboard.level.data.settings.start.GameSpeed;
 import org.crayne.gdboard.savefile.property.Properties;
-import org.crayne.gdboard.savefile.property.data.LevelObjectData;
+import org.crayne.gdboard.savefile.property.data.LevelObjectProperty;
 import org.jetbrains.annotations.NotNull;
 @SuppressWarnings("unused")
 public class StartPositionTrigger extends LevelObject {
@@ -45,12 +45,12 @@ public class StartPositionTrigger extends LevelObject {
 
     public StartPositionTrigger(@NotNull final Properties objectProperties) {
         super(objectProperties);
-        this.gameMode     = objectProperties.gameModeProperty(LevelObjectData.START_POS_GAME_MODE);
-        this.gameSpeed    = objectProperties.gameSpeedProperty(LevelObjectData.START_POS_GAME_SPEED);
-        this.miniGameMode = objectProperties.booleanProperty(LevelObjectData.START_POS_MINI_MODE);
-        this.dualGameMode = objectProperties.booleanProperty(LevelObjectData.START_POS_DUAL_MODE);
-        this.startObject  = objectProperties.booleanProperty(LevelObjectData.START_POS_IS_OBJECT);
-        this.flipGravity  = objectProperties.booleanProperty(LevelObjectData.START_POS_FLIP_GRAVITY);
+        this.gameMode     = objectProperties.gameModeProperty(LevelObjectProperty.START_POS_GAME_MODE);
+        this.gameSpeed    = objectProperties.gameSpeedProperty(LevelObjectProperty.START_POS_GAME_SPEED);
+        this.miniGameMode = objectProperties.booleanProperty(LevelObjectProperty.START_POS_MINI_MODE);
+        this.dualGameMode = objectProperties.booleanProperty(LevelObjectProperty.START_POS_DUAL_MODE);
+        this.startObject  = objectProperties.booleanProperty(LevelObjectProperty.START_POS_IS_OBJECT);
+        this.flipGravity  = objectProperties.booleanProperty(LevelObjectProperty.START_POS_FLIP_GRAVITY);
     }
 
     public boolean startObject() {

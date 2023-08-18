@@ -84,4 +84,25 @@ public class ColorHSBModifier {
                 '}';
     }
 
+    public boolean equals(final Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        final ColorHSBModifier that = (ColorHSBModifier) o;
+
+        if (Float.compare(that.hueModifier, hueModifier) != 0) return false;
+        if (Float.compare(that.saturationModifier, saturationModifier) != 0) return false;
+        if (Float.compare(that.brightnessModifier, brightnessModifier) != 0) return false;
+        if (saturationAdditionMode != that.saturationAdditionMode) return false;
+        return brightnessAdditionMode == that.brightnessAdditionMode;
+    }
+
+    public int hashCode() {
+        int result = (hueModifier != +0.0f ? Float.floatToIntBits(hueModifier) : 0);
+        result = 31 * result + (saturationModifier != +0.0f ? Float.floatToIntBits(saturationModifier) : 0);
+        result = 31 * result + (brightnessModifier != +0.0f ? Float.floatToIntBits(brightnessModifier) : 0);
+        result = 31 * result + (saturationAdditionMode ? 1 : 0);
+        result = 31 * result + (brightnessAdditionMode ? 1 : 0);
+        return result;
+    }
 }

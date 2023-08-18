@@ -3,7 +3,7 @@ package org.crayne.gdboard.level.data.object.type.trigger.item.count;
 import org.crayne.gdboard.level.data.object.type.LevelObject;
 import org.crayne.gdboard.level.data.object.type.decoration.ColorableObject;
 import org.crayne.gdboard.savefile.property.Properties;
-import org.crayne.gdboard.savefile.property.data.LevelObjectData;
+import org.crayne.gdboard.savefile.property.data.LevelObjectProperty;
 import org.jetbrains.annotations.NotNull;
 
 @SuppressWarnings("unused")
@@ -23,7 +23,7 @@ public class ItemCounter extends ColorableObject {
 
     public ItemCounter(@NotNull final Properties objectProperties) {
         super(objectProperties);
-        this.itemID = objectProperties.integerProperty(LevelObjectData.ITEM_OR_BLOCK_ID);
+        this.itemID = objectProperties.integerProperty(LevelObjectProperty.ITEM_OR_BLOCK_ID);
     }
 
     public int itemID() {

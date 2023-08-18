@@ -3,7 +3,7 @@ package org.crayne.gdboard.level.data.object.type.trigger.item.pickup;
 import org.crayne.gdboard.level.data.object.type.LevelObject;
 import org.crayne.gdboard.level.data.object.type.trigger.Trigger;
 import org.crayne.gdboard.savefile.property.Properties;
-import org.crayne.gdboard.savefile.property.data.LevelObjectData;
+import org.crayne.gdboard.savefile.property.data.LevelObjectProperty;
 import org.jetbrains.annotations.NotNull;
 
 @SuppressWarnings("unused")
@@ -27,8 +27,8 @@ public class PickupTrigger extends Trigger {
 
     public PickupTrigger(@NotNull final Properties objectProperties) {
         super(objectProperties);
-        this.count = objectProperties.integerProperty(LevelObjectData.COUNT);
-        this.itemID = objectProperties.integerProperty(LevelObjectData.ITEM_OR_BLOCK_ID);
+        this.count = objectProperties.integerProperty(LevelObjectProperty.COUNT);
+        this.itemID = objectProperties.integerProperty(LevelObjectProperty.ITEM_OR_BLOCK_ID);
     }
 
     public int count() {

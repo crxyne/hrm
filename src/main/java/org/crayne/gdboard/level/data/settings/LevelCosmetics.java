@@ -66,4 +66,23 @@ public class LevelCosmetics {
                 '}';
     }
 
+    public boolean equals(final Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        final LevelCosmetics that = (LevelCosmetics) o;
+
+        if (backgroundID != that.backgroundID) return false;
+        if (groundID != that.groundID) return false;
+        if (groundLineID != that.groundLineID) return false;
+        return fontID == that.fontID;
+    }
+
+    public int hashCode() {
+        int result = backgroundID;
+        result = 31 * result + groundID;
+        result = 31 * result + groundLineID;
+        result = 31 * result + fontID;
+        return result;
+    }
 }

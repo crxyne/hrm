@@ -4,7 +4,7 @@ import org.crayne.gdboard.level.data.color.ColorProperty;
 import org.crayne.gdboard.level.data.object.type.LevelObject;
 import org.crayne.gdboard.level.data.object.type.trigger.Trigger;
 import org.crayne.gdboard.savefile.property.Properties;
-import org.crayne.gdboard.savefile.property.data.LevelObjectData;
+import org.crayne.gdboard.savefile.property.data.LevelObjectProperty;
 import org.jetbrains.annotations.NotNull;
 
 @SuppressWarnings("unused")
@@ -34,9 +34,9 @@ public class ColorTrigger extends Trigger {
     public ColorTrigger(@NotNull final Properties objectProperties) {
         super(objectProperties);
         this.colorProperty   = new ColorProperty(objectProperties, false);
-        this.playerColor1    = objectProperties.booleanProperty(LevelObjectData.PLAYER_COLOR_1);
-        this.playerColor2    = objectProperties.booleanProperty(LevelObjectData.PLAYER_COLOR_2);
-        this.triggerDuration = objectProperties.floatProperty(LevelObjectData.DURATION);
+        this.playerColor1    = objectProperties.booleanProperty(LevelObjectProperty.PLAYER_COLOR_1);
+        this.playerColor2    = objectProperties.booleanProperty(LevelObjectProperty.PLAYER_COLOR_2);
+        this.triggerDuration = objectProperties.floatProperty(LevelObjectProperty.DURATION);
     }
 
     @NotNull
@@ -82,5 +82,27 @@ public class ColorTrigger extends Trigger {
                 ", triggerDuration=" + triggerDuration +
                 ", colorProperty=" + colorProperty +
                 "} " + super.toString();
+    }
+
+    public boolean equals(final Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        if (!super.equals(o)) return false;
+
+        final ColorTrigger that = (ColorTrigger) o;
+
+        if (playerColor1 != that.playerColor1) return false;
+        if (playerColor2 != that.playerColor2) return false;
+        if (Float.compare(that.triggerDuration, triggerDuration) != 0) return false;
+        return colorProperty.equals(that.colorProperty);
+    }
+
+    public int hashCode() {
+        int result = super.hashCode();
+        result = 31 * result + (playerColor1 ? 1 : 0);
+        result = 31 * result + (playerColor2 ? 1 : 0);
+        result = 31 * result + (triggerDuration != +0.0f ? Float.floatToIntBits(triggerDuration) : 0);
+        result = 31 * result + colorProperty.hashCode();
+        return result;
     }
 }

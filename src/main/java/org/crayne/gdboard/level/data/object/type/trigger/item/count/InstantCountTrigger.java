@@ -4,7 +4,7 @@ import org.crayne.gdboard.level.data.object.type.LevelObject;
 import org.crayne.gdboard.level.data.object.type.trigger.toggle.ToggleTrigger;
 import org.crayne.gdboard.savefile.property.Properties;
 import org.crayne.gdboard.savefile.property.PropertyDataType;
-import org.crayne.gdboard.savefile.property.data.LevelObjectData;
+import org.crayne.gdboard.savefile.property.data.LevelObjectProperty;
 import org.jetbrains.annotations.NotNull;
 @SuppressWarnings("unused")
 public class InstantCountTrigger extends ToggleTrigger {
@@ -44,9 +44,9 @@ public class InstantCountTrigger extends ToggleTrigger {
 
     public InstantCountTrigger(@NotNull final Properties objectProperties) {
         super(objectProperties);
-        this.itemID = objectProperties.integerProperty(LevelObjectData.ITEM_OR_BLOCK_ID);
-        this.count = objectProperties.integerProperty(LevelObjectData.COUNT);
-        this.instantCountComparison = objectProperties.instantCountComparisonProperty(LevelObjectData.INSTANT_COUNT_COMPARISON);
+        this.itemID = objectProperties.integerProperty(LevelObjectProperty.ITEM_OR_BLOCK_ID);
+        this.count = objectProperties.integerProperty(LevelObjectProperty.COUNT);
+        this.instantCountComparison = objectProperties.instantCountComparisonProperty(LevelObjectProperty.INSTANT_COUNT_COMPARISON);
     }
 
     public enum Comparison {

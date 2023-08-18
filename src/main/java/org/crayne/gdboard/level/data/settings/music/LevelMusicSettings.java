@@ -70,4 +70,23 @@ public class LevelMusicSettings {
                 '}';
     }
 
+    public boolean equals(final Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        final LevelMusicSettings that = (LevelMusicSettings) o;
+
+        if (musicFadeIn != that.musicFadeIn) return false;
+        if (musicFadeOut != that.musicFadeOut) return false;
+        if (Float.compare(that.songOffset, songOffset) != 0) return false;
+        return guidelines.equals(that.guidelines);
+    }
+
+    public int hashCode() {
+        int result = guidelines.hashCode();
+        result = 31 * result + (musicFadeIn ? 1 : 0);
+        result = 31 * result + (musicFadeOut ? 1 : 0);
+        result = 31 * result + (songOffset != +0.0f ? Float.floatToIntBits(songOffset) : 0);
+        return result;
+    }
 }

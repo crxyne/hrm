@@ -5,7 +5,7 @@ import org.crayne.gdboard.level.data.object.type.LevelObject;
 import org.crayne.gdboard.level.data.object.type.trigger.Trigger;
 import org.crayne.gdboard.savefile.property.Properties;
 import org.crayne.gdboard.savefile.property.PropertyDataType;
-import org.crayne.gdboard.savefile.property.data.LevelObjectData;
+import org.crayne.gdboard.savefile.property.data.LevelObjectProperty;
 import org.jetbrains.annotations.NotNull;
 
 @SuppressWarnings("unused")
@@ -48,15 +48,15 @@ public class PulseTrigger extends Trigger {
     public PulseTrigger(@NotNull final Properties objectProperties) {
         super(objectProperties);
         this.colorProperty   = new ColorProperty(objectProperties, true);
-        this.pulseFadeIn     = objectProperties.floatProperty(LevelObjectData.PULSE_FADE_IN);
-        this.pulseHold       = objectProperties.floatProperty(LevelObjectData.PULSE_HOLD);
-        this.pulseFadeOut    = objectProperties.floatProperty(LevelObjectData.PULSE_FADE_OUT);
-        this.pulseMode       = objectProperties.pulseModeProperty(LevelObjectData.PULSE_MODE);
-        this.pulseTargetType = objectProperties.pulseTargetProperty(LevelObjectData.PULSE_TARGET_TYPE);
-        this.mainOnly        = objectProperties.booleanProperty(LevelObjectData.PULSE_MAIN_ONLY);
-        this.detailOnly      = objectProperties.booleanProperty(LevelObjectData.PULSE_DETAIL_ONLY);
-        this.exclusive       = objectProperties.booleanProperty(LevelObjectData.PULSE_EXCLUSIVE);
-        this.targetID        = objectProperties.integerProperty(LevelObjectData.TARGET_GROUP_ID);
+        this.pulseFadeIn     = objectProperties.floatProperty(LevelObjectProperty.PULSE_FADE_IN);
+        this.pulseHold       = objectProperties.floatProperty(LevelObjectProperty.PULSE_HOLD);
+        this.pulseFadeOut    = objectProperties.floatProperty(LevelObjectProperty.PULSE_FADE_OUT);
+        this.pulseMode       = objectProperties.pulseModeProperty(LevelObjectProperty.PULSE_MODE);
+        this.pulseTargetType = objectProperties.pulseTargetProperty(LevelObjectProperty.PULSE_TARGET_TYPE);
+        this.mainOnly        = objectProperties.booleanProperty(LevelObjectProperty.PULSE_MAIN_ONLY);
+        this.detailOnly      = objectProperties.booleanProperty(LevelObjectProperty.PULSE_DETAIL_ONLY);
+        this.exclusive       = objectProperties.booleanProperty(LevelObjectProperty.PULSE_EXCLUSIVE);
+        this.targetID        = objectProperties.integerProperty(LevelObjectProperty.TARGET_GROUP_ID);
     }
 
     public enum Mode {
@@ -206,5 +206,39 @@ public class PulseTrigger extends Trigger {
                 ", targetID=" + targetID +
                 ", colorProperty=" + colorProperty +
                 "} " + super.toString();
+    }
+
+    public boolean equals(final Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        if (!super.equals(o)) return false;
+
+        final PulseTrigger that = (PulseTrigger) o;
+
+        if (Float.compare(that.pulseFadeIn, pulseFadeIn) != 0) return false;
+        if (Float.compare(that.pulseHold, pulseHold) != 0) return false;
+        if (Float.compare(that.pulseFadeOut, pulseFadeOut) != 0) return false;
+        if (mainOnly != that.mainOnly) return false;
+        if (detailOnly != that.detailOnly) return false;
+        if (exclusive != that.exclusive) return false;
+        if (targetID != that.targetID) return false;
+        if (pulseMode != that.pulseMode) return false;
+        if (pulseTargetType != that.pulseTargetType) return false;
+        return colorProperty.equals(that.colorProperty);
+    }
+
+    public int hashCode() {
+        int result = super.hashCode();
+        result = 31 * result + (pulseFadeIn != +0.0f ? Float.floatToIntBits(pulseFadeIn) : 0);
+        result = 31 * result + (pulseHold != +0.0f ? Float.floatToIntBits(pulseHold) : 0);
+        result = 31 * result + (pulseFadeOut != +0.0f ? Float.floatToIntBits(pulseFadeOut) : 0);
+        result = 31 * result + pulseMode.hashCode();
+        result = 31 * result + pulseTargetType.hashCode();
+        result = 31 * result + (mainOnly ? 1 : 0);
+        result = 31 * result + (detailOnly ? 1 : 0);
+        result = 31 * result + (exclusive ? 1 : 0);
+        result = 31 * result + targetID;
+        result = 31 * result + colorProperty.hashCode();
+        return result;
     }
 }

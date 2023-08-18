@@ -93,4 +93,25 @@ public class LevelSettings {
                 '}';
     }
 
+    public boolean equals(final Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        final LevelSettings settings = (LevelSettings) o;
+
+        if (twoPlayerMode != settings.twoPlayerMode) return false;
+        if (!levelColorProperties.equals(settings.levelColorProperties)) return false;
+        if (!startObject.equals(settings.startObject)) return false;
+        if (!musicSettings.equals(settings.musicSettings)) return false;
+        return levelCosmetics.equals(settings.levelCosmetics);
+    }
+
+    public int hashCode() {
+        int result = (twoPlayerMode ? 1 : 0);
+        result = 31 * result + levelColorProperties.hashCode();
+        result = 31 * result + startObject.hashCode();
+        result = 31 * result + musicSettings.hashCode();
+        result = 31 * result + levelCosmetics.hashCode();
+        return result;
+    }
 }

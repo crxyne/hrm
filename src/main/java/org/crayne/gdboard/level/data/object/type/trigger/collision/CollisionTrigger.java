@@ -3,7 +3,7 @@ package org.crayne.gdboard.level.data.object.type.trigger.collision;
 import org.crayne.gdboard.level.data.object.type.LevelObject;
 import org.crayne.gdboard.level.data.object.type.trigger.toggle.ToggleTrigger;
 import org.crayne.gdboard.savefile.property.Properties;
-import org.crayne.gdboard.savefile.property.data.LevelObjectData;
+import org.crayne.gdboard.savefile.property.data.LevelObjectProperty;
 import org.jetbrains.annotations.NotNull;
 @SuppressWarnings("unused")
 public class CollisionTrigger extends ToggleTrigger {
@@ -49,9 +49,9 @@ public class CollisionTrigger extends ToggleTrigger {
 
     public CollisionTrigger(@NotNull final Properties objectProperties) {
         super(objectProperties);
-        this.triggerOnExit = objectProperties.booleanProperty(LevelObjectData.COLLISION_TRIGGER_ON_EXIT);
-        this.firstBlockID = objectProperties.integerProperty(LevelObjectData.ITEM_OR_BLOCK_ID);
-        this.secondBlockID = objectProperties.integerProperty(LevelObjectData.COLLISION_SECOND_BLOCK_ID);
+        this.triggerOnExit = objectProperties.booleanProperty(LevelObjectProperty.COLLISION_TRIGGER_ON_EXIT);
+        this.firstBlockID = objectProperties.integerProperty(LevelObjectProperty.ITEM_OR_BLOCK_ID);
+        this.secondBlockID = objectProperties.integerProperty(LevelObjectProperty.COLLISION_SECOND_BLOCK_ID);
     }
 
     public boolean triggerOnExit() {

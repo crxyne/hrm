@@ -3,7 +3,7 @@ package org.crayne.gdboard.level.data.object.type.trigger.visual;
 import org.crayne.gdboard.level.data.object.type.LevelObject;
 import org.crayne.gdboard.level.data.object.type.trigger.Trigger;
 import org.crayne.gdboard.savefile.property.Properties;
-import org.crayne.gdboard.savefile.property.data.LevelObjectData;
+import org.crayne.gdboard.savefile.property.data.LevelObjectProperty;
 import org.jetbrains.annotations.NotNull;
 @SuppressWarnings("unused")
 public class AlphaTrigger extends Trigger {
@@ -74,9 +74,9 @@ public class AlphaTrigger extends Trigger {
 
     public AlphaTrigger(@NotNull final Properties objectProperties) {
         super(objectProperties);
-        this.opacity = objectProperties.floatProperty(LevelObjectData.OPACITY);
-        this.targetGroupID = objectProperties.integerProperty(LevelObjectData.TARGET_GROUP_ID);
-        this.triggerDuration = objectProperties.floatProperty(LevelObjectData.DURATION);
+        this.opacity = objectProperties.floatProperty(LevelObjectProperty.OPACITY);
+        this.targetGroupID = objectProperties.integerProperty(LevelObjectProperty.TARGET_GROUP_ID);
+        this.triggerDuration = objectProperties.floatProperty(LevelObjectProperty.DURATION);
     }
 
     public float opacity() {
@@ -110,5 +110,25 @@ public class AlphaTrigger extends Trigger {
                 ", targetGroupID=" + targetGroupID +
                 ", triggerDuration=" + triggerDuration +
                 "} " + super.toString();
+    }
+
+    public boolean equals(final Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        if (!super.equals(o)) return false;
+
+        final AlphaTrigger that = (AlphaTrigger) o;
+
+        if (Float.compare(that.opacity, opacity) != 0) return false;
+        if (targetGroupID != that.targetGroupID) return false;
+        return Float.compare(that.triggerDuration, triggerDuration) == 0;
+    }
+
+    public int hashCode() {
+        int result = super.hashCode();
+        result = 31 * result + (opacity != +0.0f ? Float.floatToIntBits(opacity) : 0);
+        result = 31 * result + targetGroupID;
+        result = 31 * result + (triggerDuration != +0.0f ? Float.floatToIntBits(triggerDuration) : 0);
+        return result;
     }
 }

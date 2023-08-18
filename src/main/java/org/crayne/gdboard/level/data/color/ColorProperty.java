@@ -3,11 +3,12 @@ package org.crayne.gdboard.level.data.color;
 import org.crayne.gdboard.savefile.property.Properties;
 import org.crayne.gdboard.savefile.property.PropertyUtil;
 import org.crayne.gdboard.level.data.object.type.trigger.visual.color.PulseTrigger;
-import org.crayne.gdboard.savefile.property.data.LevelObjectData;
+import org.crayne.gdboard.savefile.property.data.LevelObjectProperty;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.Map;
+import java.util.Objects;
 
 @SuppressWarnings("unused")
 public class ColorProperty {
@@ -22,7 +23,7 @@ public class ColorProperty {
     @Nullable
     private ColorHSBModifier copiedColorHSBModifier;
 
-    public static final int CHANNEL_ID_NOT_FOUND = -1;
+    public static final int CHANNEL_ID_NOT_FOUND = 0;
 
     public ColorProperty(final int channelIndex, final int red, final int green, final int blue) {
         this.red = red;
@@ -63,20 +64,20 @@ public class ColorProperty {
     }
 
     public ColorProperty(@NotNull final Properties triggerProperties, final boolean pulseTrigger) {
-        final PulseTrigger.Target targetType = triggerProperties.pulseTargetProperty(LevelObjectData.PULSE_TARGET_TYPE);
+        final PulseTrigger.Target targetType = triggerProperties.pulseTargetProperty(LevelObjectProperty.PULSE_TARGET_TYPE);
 
-        this.red                     = triggerProperties.integerProperty(LevelObjectData.RED_COMP);
-        this.green                   = triggerProperties.integerProperty(LevelObjectData.GREEN_COMP);
-        this.blue                    = triggerProperties.integerProperty(LevelObjectData.BLUE_COMP);
-        this.blending                = triggerProperties.booleanProperty(LevelObjectData.BLENDING);
-        this.opacity                 = triggerProperties.floatProperty(LevelObjectData.OPACITY);
+        this.red                     = triggerProperties.integerProperty(LevelObjectProperty.RED_COMP);
+        this.green                   = triggerProperties.integerProperty(LevelObjectProperty.GREEN_COMP);
+        this.blue                    = triggerProperties.integerProperty(LevelObjectProperty.BLUE_COMP);
+        this.blending                = triggerProperties.booleanProperty(LevelObjectProperty.BLENDING);
+        this.opacity                 = triggerProperties.floatProperty(LevelObjectProperty.OPACITY);
         this.channelIndex            = pulseTrigger && targetType == PulseTrigger.Target.CHANNEL
-                                        ? triggerProperties.integerProperty(LevelObjectData.TARGET_GROUP_ID)
-                                        : triggerProperties.integerProperty(LevelObjectData.TARGET_COLOR_ID);
+                                        ? triggerProperties.integerProperty(LevelObjectProperty.TARGET_GROUP_ID)
+                                        : triggerProperties.integerProperty(LevelObjectProperty.TARGET_COLOR_ID);
 
-        this.copiedColorHSBModifier  = triggerProperties.hsbModifierProperty(LevelObjectData.COPIED_COLOR_HSB);
-        this.copiedColorChannelIndex = triggerProperties.integerProperty(LevelObjectData.COPIED_COLOR_ID);
-        this.copyOpacity             = triggerProperties.booleanProperty(LevelObjectData.COPY_OPACITY);
+        this.copiedColorHSBModifier  = triggerProperties.hsbModifierProperty(LevelObjectProperty.COPIED_COLOR_HSB);
+        this.copiedColorChannelIndex = triggerProperties.integerProperty(LevelObjectProperty.COPIED_COLOR_ID);
+        this.copyOpacity             = triggerProperties.booleanProperty(LevelObjectProperty.COPY_OPACITY);
     }
 
     @NotNull
@@ -187,4 +188,33 @@ public class ColorProperty {
                 '}';
     }
 
+    public boolean equals(final Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        final ColorProperty that = (ColorProperty) o;
+
+        if (red != that.red) return false;
+        if (green != that.green) return false;
+        if (blue != that.blue) return false;
+        if (blending != that.blending) return false;
+        if (channelIndex != that.channelIndex) return false;
+        if (Float.compare(that.opacity, opacity) != 0) return false;
+        if (copiedColorChannelIndex != that.copiedColorChannelIndex) return false;
+        if (copyOpacity != that.copyOpacity) return false;
+        return Objects.equals(copiedColorHSBModifier, that.copiedColorHSBModifier);
+    }
+
+    public int hashCode() {
+        int result = red;
+        result = 31 * result + green;
+        result = 31 * result + blue;
+        result = 31 * result + (blending ? 1 : 0);
+        result = 31 * result + channelIndex;
+        result = 31 * result + (opacity != +0.0f ? Float.floatToIntBits(opacity) : 0);
+        result = 31 * result + copiedColorChannelIndex;
+        result = 31 * result + (copyOpacity ? 1 : 0);
+        result = 31 * result + (copiedColorHSBModifier != null ? copiedColorHSBModifier.hashCode() : 0);
+        return result;
+    }
 }

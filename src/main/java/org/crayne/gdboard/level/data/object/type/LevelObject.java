@@ -2,36 +2,8 @@ package org.crayne.gdboard.level.data.object.type;
 
 import org.crayne.gdboard.level.data.object.ObjectID;
 import org.crayne.gdboard.level.data.object.ZLayer;
-import org.crayne.gdboard.level.data.object.type.decoration.PulsatingObject;
-import org.crayne.gdboard.level.data.object.type.decoration.RotatingObject;
-import org.crayne.gdboard.level.data.object.type.decoration.TextObject;
-import org.crayne.gdboard.level.data.object.type.general.OrbObject;
-import org.crayne.gdboard.level.data.object.type.general.ToggleOrbObject;
-import org.crayne.gdboard.level.data.object.type.portal.SpecialPortalObject;
-import org.crayne.gdboard.level.data.object.type.portal.TeleportPortalObject;
-import org.crayne.gdboard.level.data.object.type.trigger.collision.CollisionBlockObject;
-import org.crayne.gdboard.level.data.object.type.trigger.collision.CollisionTrigger;
-import org.crayne.gdboard.level.data.object.type.trigger.general.SpawnTrigger;
-import org.crayne.gdboard.level.data.object.type.trigger.general.StartPositionTrigger;
-import org.crayne.gdboard.level.data.object.type.trigger.general.StopTrigger;
-import org.crayne.gdboard.level.data.object.type.trigger.general.TouchTrigger;
-import org.crayne.gdboard.level.data.object.type.trigger.item.count.CountTrigger;
-import org.crayne.gdboard.level.data.object.type.trigger.item.count.InstantCountTrigger;
-import org.crayne.gdboard.level.data.object.type.trigger.item.count.ItemCounter;
-import org.crayne.gdboard.level.data.object.type.trigger.item.pickup.PickupItemObject;
-import org.crayne.gdboard.level.data.object.type.trigger.item.pickup.PickupTrigger;
-import org.crayne.gdboard.level.data.object.type.trigger.movement.FollowPlayerYTrigger;
-import org.crayne.gdboard.level.data.object.type.trigger.movement.FollowTrigger;
-import org.crayne.gdboard.level.data.object.type.trigger.movement.MoveTrigger;
-import org.crayne.gdboard.level.data.object.type.trigger.movement.RotateTrigger;
-import org.crayne.gdboard.level.data.object.type.trigger.toggle.ToggleTrigger;
-import org.crayne.gdboard.level.data.object.type.trigger.visual.AlphaTrigger;
-import org.crayne.gdboard.level.data.object.type.trigger.visual.AnimateTrigger;
-import org.crayne.gdboard.level.data.object.type.trigger.visual.ShakeTrigger;
-import org.crayne.gdboard.level.data.object.type.trigger.visual.color.ColorTrigger;
-import org.crayne.gdboard.level.data.object.type.trigger.visual.color.PulseTrigger;
 import org.crayne.gdboard.savefile.property.Properties;
-import org.crayne.gdboard.savefile.property.data.LevelObjectData;
+import org.crayne.gdboard.savefile.property.data.LevelObjectProperty;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -44,7 +16,7 @@ import java.util.Optional;
 public class LevelObject {
 
     @Nullable
-    private final String sprite;
+    private final transient String sprite;
 
     private int objectID;
     private float positionX, positionY;
@@ -66,26 +38,25 @@ public class LevelObject {
     private int linkedGroupID;
 
     public LevelObject(@NotNull final Properties objectProperties) {
-        this.objectID            = objectProperties.integerProperty(LevelObjectData.OBJECT_ID);
-        this.positionX           = objectProperties.floatProperty(LevelObjectData.X_POSITION);
-        this.positionY           = objectProperties.floatProperty(LevelObjectData.Y_POSITION);
-        this.flippedHorizontally = objectProperties.booleanProperty(LevelObjectData.FLIPPED_HORIZ);
-        this.flippedVertically   = objectProperties.booleanProperty(LevelObjectData.FLIPPED_VERT);
-        this.rotation            = objectProperties.floatProperty(LevelObjectData.ROTATION);
-        this.editorLayer1        = objectProperties.integerProperty(LevelObjectData.EDITOR_L1);
-        this.editorLayer2        = objectProperties.integerProperty(LevelObjectData.EDITOR_L2);
+        this.objectID            = objectProperties.integerProperty(LevelObjectProperty.OBJECT_ID);
+        this.positionX           = objectProperties.floatProperty(LevelObjectProperty.X_POSITION);
+        this.positionY           = objectProperties.floatProperty(LevelObjectProperty.Y_POSITION);
+        this.flippedHorizontally = objectProperties.booleanProperty(LevelObjectProperty.FLIPPED_HORIZ);
+        this.flippedVertically   = objectProperties.booleanProperty(LevelObjectProperty.FLIPPED_VERT);
+        this.rotation            = objectProperties.floatProperty(LevelObjectProperty.ROTATION);
+        this.editorLayer1        = objectProperties.integerProperty(LevelObjectProperty.EDITOR_L1);
+        this.editorLayer2        = objectProperties.integerProperty(LevelObjectProperty.EDITOR_L2);
         this.zLayer              = objectProperties.zLayerProperty(objectID);
         this.zOrder              = objectProperties.zOrderProperty(objectID);
-        this.scaling             = objectProperties.floatProperty(LevelObjectData.SCALING);
-        this.groupIDs            = objectProperties.integerArrayProperty(LevelObjectData.GROUP_IDS);
-        this.groupParent         = objectProperties.booleanProperty(LevelObjectData.GROUP_PARENT);
-        this.dontFade            = objectProperties.booleanProperty(LevelObjectData.DONT_FADE);
-        this.dontEnter           = objectProperties.booleanProperty(LevelObjectData.DONT_ENTER);
-        this.disableGlow         = objectProperties.booleanProperty(LevelObjectData.DISABLE_GLOW);
-        this.highDetailObject    = objectProperties.booleanProperty(LevelObjectData.HIGH_DETAIL);
-        this.linkedGroupID       = objectProperties.integerProperty(LevelObjectData.LINKED_GROUP_ID);
-
-        this.sprite = ObjectID.spriteForObjectID(objectID).orElse(null);
+        this.scaling             = objectProperties.floatProperty(LevelObjectProperty.SCALING);
+        this.groupIDs            = objectProperties.integerArrayProperty(LevelObjectProperty.GROUP_IDS);
+        this.groupParent         = objectProperties.booleanProperty(LevelObjectProperty.GROUP_PARENT);
+        this.dontFade            = objectProperties.booleanProperty(LevelObjectProperty.DONT_FADE);
+        this.dontEnter           = objectProperties.booleanProperty(LevelObjectProperty.DONT_ENTER);
+        this.disableGlow         = objectProperties.booleanProperty(LevelObjectProperty.DISABLE_GLOW);
+        this.highDetailObject    = objectProperties.booleanProperty(LevelObjectProperty.HIGH_DETAIL);
+        this.linkedGroupID       = objectProperties.integerProperty(LevelObjectProperty.LINKED_GROUP_ID);
+        this.sprite = ObjectID.spriteForObjectID(objectID);
     }
 
     public LevelObject(final int objectID, final float positionX, final float positionY) {
@@ -95,7 +66,7 @@ public class LevelObject {
         this.positionY = positionY;
         this.groupIDs = new ArrayList<>();
 
-        this.sprite = ObjectID.spriteForObjectID(objectID).orElse(null);
+        this.sprite = ObjectID.spriteForObjectID(objectID);
     }
 
     public LevelObject(@NotNull final LevelObject levelObject) {
@@ -118,46 +89,7 @@ public class LevelObject {
         this.highDetailObject = levelObject.highDetailObject;
         this.linkedGroupID = levelObject.linkedGroupID;
 
-        this.sprite = ObjectID.spriteForObjectID(objectID).orElse(null);
-    }
-
-    @NotNull
-    public static LevelObject parse(@NotNull final Properties properties) {
-        final int objectID = properties.integerProperty(LevelObjectData.OBJECT_ID);
-
-        if (ObjectID.isPulsatingObject(objectID)) return new PulsatingObject(properties);
-        if (ObjectID.isRotatingObject(objectID)) return new RotatingObject(properties);
-        if (ObjectID.isTextObject(objectID)) return new TextObject(properties);
-        if (ObjectID.isItemCounter(objectID)) return new ItemCounter(properties);
-        if (ObjectID.isToggleOrbObject(objectID)) return new ToggleOrbObject(properties);
-        if (ObjectID.isOrbObject(objectID)) return new OrbObject(properties);
-        if (ObjectID.isSpecialPropertyPortal(objectID)) return new SpecialPortalObject(properties);
-        if (ObjectID.isTeleportPortal(objectID)) return new TeleportPortalObject(properties);
-        if (ObjectID.isCollisionBlockObject(objectID)) return new CollisionBlockObject(properties);
-        if (ObjectID.isPickupItemObject(objectID)) return new PickupItemObject(properties);
-
-        return switch (ObjectID.of(objectID)) {
-            case START_POSITION_TRIGGER  -> new StartPositionTrigger(properties);
-            case COLOR_TRIGGER           -> new ColorTrigger(properties);
-            case MOVE_TRIGGER            -> new MoveTrigger(properties);
-            case PULSE_TRIGGER           -> new PulseTrigger(properties);
-            case ALPHA_TRIGGER           -> new AlphaTrigger(properties);
-            case TOGGLE_TRIGGER,
-                    ON_DEATH_TRIGGER     -> new ToggleTrigger(properties);
-            case SPAWN_TRIGGER           -> new SpawnTrigger(properties);
-            case ROTATE_TRIGGER          -> new RotateTrigger(properties);
-            case FOLLOW_TRIGGER          -> new FollowTrigger(properties);
-            case SHAKE_TRIGGER           -> new ShakeTrigger(properties);
-            case ANIMATE_TRIGGER         -> new AnimateTrigger(properties);
-            case TOUCH_TRIGGER           -> new TouchTrigger(properties);
-            case COUNT_TRIGGER           -> new CountTrigger(properties);
-            case STOP_TRIGGER            -> new StopTrigger(properties);
-            case INSTANT_COUNT_TRIGGER   -> new InstantCountTrigger(properties);
-            case FOLLOW_PLAYER_Y_TRIGGER -> new FollowPlayerYTrigger(properties);
-            case COLLISION_TRIGGER       -> new CollisionTrigger(properties);
-            case PICKUP_TRIGGER          -> new PickupTrigger(properties);
-            case UNKNOWN                 -> new LevelObject(properties);
-        };
+        this.sprite = ObjectID.spriteForObjectID(objectID);
     }
 
     @NotNull
@@ -336,4 +268,51 @@ public class LevelObject {
                 '}';
     }
 
+    public boolean equals(final Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        final LevelObject that = (LevelObject) o;
+
+        if (objectID != that.objectID) return false;
+        if (Float.compare(that.positionX, positionX) != 0) return false;
+        if (Float.compare(that.positionY, positionY) != 0) return false;
+        if (flippedHorizontally != that.flippedHorizontally) return false;
+        if (flippedVertically != that.flippedVertically) return false;
+        if (Float.compare(that.rotation, rotation) != 0) return false;
+        if (editorLayer1 != that.editorLayer1) return false;
+        if (editorLayer2 != that.editorLayer2) return false;
+        if (zOrder != that.zOrder) return false;
+        if (Float.compare(that.scaling, scaling) != 0) return false;
+        if (groupParent != that.groupParent) return false;
+        if (dontFade != that.dontFade) return false;
+        if (dontEnter != that.dontEnter) return false;
+        if (disableGlow != that.disableGlow) return false;
+        if (highDetailObject != that.highDetailObject) return false;
+        if (linkedGroupID != that.linkedGroupID) return false;
+        if (zLayer != that.zLayer) return false;
+        return groupIDs.equals(that.groupIDs);
+    }
+
+    public int hashCode() {
+        int result = objectID;
+        result = 31 * result + (positionX != 0.0f ? Float.floatToIntBits(positionX) : 0);
+        result = 31 * result + (positionY != 0.0f ? Float.floatToIntBits(positionY) : 0);
+        result = 31 * result + (flippedHorizontally ? 1 : 0);
+        result = 31 * result + (flippedVertically ? 1 : 0);
+        result = 31 * result + (rotation != 0.0f ? Float.floatToIntBits(rotation) : 0);
+        result = 31 * result + editorLayer1;
+        result = 31 * result + editorLayer2;
+        result = 31 * result + zLayer.hashCode();
+        result = 31 * result + zOrder;
+        result = 31 * result + (scaling != 0.0f ? Float.floatToIntBits(scaling) : 0);
+        result = 31 * result + groupIDs.hashCode();
+        result = 31 * result + (groupParent ? 1 : 0);
+        result = 31 * result + (dontFade ? 1 : 0);
+        result = 31 * result + (dontEnter ? 1 : 0);
+        result = 31 * result + (disableGlow ? 1 : 0);
+        result = 31 * result + (highDetailObject ? 1 : 0);
+        result = 31 * result + linkedGroupID;
+        return result;
+    }
 }

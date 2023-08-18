@@ -2,8 +2,9 @@ package org.crayne.gdboard.level.data.object.type.trigger;
 
 import org.crayne.gdboard.level.data.object.type.LevelObject;
 import org.crayne.gdboard.savefile.property.Properties;
-import org.crayne.gdboard.savefile.property.data.LevelObjectData;
+import org.crayne.gdboard.savefile.property.data.LevelObjectProperty;
 import org.jetbrains.annotations.NotNull;
+
 @SuppressWarnings("unused")
 public class Trigger extends LevelObject { // transition triggers are not counted as trigger objects, since they do not have any of the below parameters and are only treated like normal level objects
 
@@ -43,9 +44,9 @@ public class Trigger extends LevelObject { // transition triggers are not counte
 
     public Trigger(@NotNull final Properties objectProperties) {
         super(objectProperties);
-        this.touchTriggered = objectProperties.booleanProperty(LevelObjectData.TOUCH_TRIGGERED);
-        this.spawnTriggered = objectProperties.booleanProperty(LevelObjectData.SPAWN_TRIGGERED);
-        this.multiTriggered = objectProperties.booleanProperty(LevelObjectData.MULTI_TRIGGERED);
+        this.touchTriggered = objectProperties.booleanProperty(LevelObjectProperty.TOUCH_TRIGGERED);
+        this.spawnTriggered = objectProperties.booleanProperty(LevelObjectProperty.SPAWN_TRIGGERED);
+        this.multiTriggered = objectProperties.booleanProperty(LevelObjectProperty.MULTI_TRIGGERED);
     }
 
     public boolean touchTriggered() {
@@ -82,4 +83,25 @@ public class Trigger extends LevelObject { // transition triggers are not counte
                 ", multiTriggered=" + multiTriggered +
                 "} " + super.toString();
     }
+
+    public boolean equals(final Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        if (!super.equals(o)) return false;
+
+        final Trigger trigger = (Trigger) o;
+
+        if (touchTriggered != trigger.touchTriggered) return false;
+        if (spawnTriggered != trigger.spawnTriggered) return false;
+        return multiTriggered == trigger.multiTriggered;
+    }
+
+    public int hashCode() {
+        int result = super.hashCode();
+        result = 31 * result + (touchTriggered ? 1 : 0);
+        result = 31 * result + (spawnTriggered ? 1 : 0);
+        result = 31 * result + (multiTriggered ? 1 : 0);
+        return result;
+    }
+
 }

@@ -2,7 +2,7 @@ package org.crayne.gdboard.level.data.object.type.decoration;
 
 import org.crayne.gdboard.level.data.object.type.LevelObject;
 import org.crayne.gdboard.savefile.property.Properties;
-import org.crayne.gdboard.savefile.property.data.LevelObjectData;
+import org.crayne.gdboard.savefile.property.data.LevelObjectProperty;
 import org.jetbrains.annotations.NotNull;
 
 @SuppressWarnings("unused")
@@ -41,8 +41,8 @@ public class RotatingObject extends ColorableObject {
 
     public RotatingObject(@NotNull final Properties objectProperties) {
         super(objectProperties);
-        this.customRotationSpeed = objectProperties.floatProperty(LevelObjectData.ROTATABLE_SPEED);
-        this.disableRotation = objectProperties.booleanProperty(LevelObjectData.ROTATABLE_DISABLE);
+        this.customRotationSpeed = objectProperties.floatProperty(LevelObjectProperty.ROTATABLE_SPEED);
+        this.disableRotation = objectProperties.booleanProperty(LevelObjectProperty.ROTATABLE_DISABLE);
     }
 
     public float customRotationSpeed() {
@@ -63,4 +63,29 @@ public class RotatingObject extends ColorableObject {
         if (disableRotation) this.customRotationSpeed = 0;
     }
 
+    @NotNull
+    public String toString() {
+        return "RotatingObject{" +
+                "customRotationSpeed=" + customRotationSpeed +
+                ", disableRotation=" + disableRotation +
+                "} " + super.toString();
+    }
+
+    public boolean equals(final Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        if (!super.equals(o)) return false;
+
+        final RotatingObject that = (RotatingObject) o;
+
+        if (Float.compare(that.customRotationSpeed, customRotationSpeed) != 0) return false;
+        return disableRotation == that.disableRotation;
+    }
+
+    public int hashCode() {
+        int result = super.hashCode();
+        result = 31 * result + (customRotationSpeed != 0.0f ? Float.floatToIntBits(customRotationSpeed) : 0);
+        result = 31 * result + (disableRotation ? 1 : 0);
+        return result;
+    }
 }

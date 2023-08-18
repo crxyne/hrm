@@ -78,4 +78,20 @@ public class Guideline {
                 ", type=" + type +
                 '}';
     }
+
+    public boolean equals(final Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        final Guideline guideline = (Guideline) o;
+
+        if (Float.compare(guideline.timestamp, timestamp) != 0) return false;
+        return type == guideline.type;
+    }
+
+    public int hashCode() {
+        int result = (timestamp != +0.0f ? Float.floatToIntBits(timestamp) : 0);
+        result = 31 * result + type.hashCode();
+        return result;
+    }
 }

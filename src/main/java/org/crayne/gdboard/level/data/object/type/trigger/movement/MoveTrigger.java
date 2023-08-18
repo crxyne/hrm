@@ -4,7 +4,7 @@ import org.crayne.gdboard.level.data.object.type.LevelObject;
 import org.crayne.gdboard.level.data.object.type.trigger.Trigger;
 import org.crayne.gdboard.savefile.property.Properties;
 import org.crayne.gdboard.savefile.property.PropertyDataType;
-import org.crayne.gdboard.savefile.property.data.LevelObjectData;
+import org.crayne.gdboard.savefile.property.data.LevelObjectProperty;
 import org.jetbrains.annotations.NotNull;
 @SuppressWarnings("unused")
 public class MoveTrigger extends Trigger {
@@ -98,17 +98,17 @@ public class MoveTrigger extends Trigger {
 
     public MoveTrigger(@NotNull final Properties objectProperties) {
         super(objectProperties);
-        this.moveOffsetX               = objectProperties.integerProperty(LevelObjectData.MOVE_OFFSET_X);
-        this.moveOffsetY               = objectProperties.integerProperty(LevelObjectData.MOVE_OFFSET_Y);
-        this.easingType                = objectProperties.easingTypeProperty(LevelObjectData.EASING_TYPE);
-        this.easingRate                = objectProperties.floatProperty(LevelObjectData.EASING_RATE);
-        this.lockToPlayerX             = objectProperties.booleanProperty(LevelObjectData.LOCK_TO_PLAYER_X);
-        this.lockToPlayerY             = objectProperties.booleanProperty(LevelObjectData.LOCK_TO_PLAYER_Y);
-        this.useMoveTarget             = objectProperties.booleanProperty(LevelObjectData.MOVE_USE_TARGET);
-        this.targetCoordinateExclusion = objectProperties.moveTargetCoordinateExclusionProperty(LevelObjectData.MOVE_TARGET_EXCLUSION);
-        this.targetGroupID             = objectProperties.integerProperty(LevelObjectData.TARGET_GROUP_ID);
-        this.targetPositionGroupID     = objectProperties.integerProperty(LevelObjectData.SECOND_TARGET_GROUP_ID);
-        this.triggerDuration           = objectProperties.floatProperty(LevelObjectData.DURATION);
+        this.moveOffsetX               = objectProperties.integerProperty(LevelObjectProperty.MOVE_OFFSET_X);
+        this.moveOffsetY               = objectProperties.integerProperty(LevelObjectProperty.MOVE_OFFSET_Y);
+        this.easingType                = objectProperties.easingTypeProperty(LevelObjectProperty.EASING_TYPE);
+        this.easingRate                = objectProperties.floatProperty(LevelObjectProperty.EASING_RATE);
+        this.lockToPlayerX             = objectProperties.booleanProperty(LevelObjectProperty.LOCK_TO_PLAYER_X);
+        this.lockToPlayerY             = objectProperties.booleanProperty(LevelObjectProperty.LOCK_TO_PLAYER_Y);
+        this.useMoveTarget             = objectProperties.booleanProperty(LevelObjectProperty.MOVE_USE_TARGET);
+        this.targetCoordinateExclusion = objectProperties.moveTargetCoordinateExclusionProperty(LevelObjectProperty.MOVE_TARGET_EXCLUSION);
+        this.targetGroupID             = objectProperties.integerProperty(LevelObjectProperty.TARGET_GROUP_ID);
+        this.targetPositionGroupID     = objectProperties.integerProperty(LevelObjectProperty.SECOND_TARGET_GROUP_ID);
+        this.triggerDuration           = objectProperties.floatProperty(LevelObjectProperty.DURATION);
     }
 
     public enum TargetCoordinateExclusion {
@@ -246,5 +246,41 @@ public class MoveTrigger extends Trigger {
                 ", targetPositionGroupID=" + targetPositionGroupID +
                 ", triggerDuration=" + triggerDuration +
                 "} " + super.toString();
+    }
+
+    public boolean equals(final Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        if (!super.equals(o)) return false;
+
+        final MoveTrigger that = (MoveTrigger) o;
+
+        if (moveOffsetX != that.moveOffsetX) return false;
+        if (moveOffsetY != that.moveOffsetY) return false;
+        if (Float.compare(that.easingRate, easingRate) != 0) return false;
+        if (lockToPlayerX != that.lockToPlayerX) return false;
+        if (lockToPlayerY != that.lockToPlayerY) return false;
+        if (useMoveTarget != that.useMoveTarget) return false;
+        if (targetGroupID != that.targetGroupID) return false;
+        if (targetPositionGroupID != that.targetPositionGroupID) return false;
+        if (Float.compare(that.triggerDuration, triggerDuration) != 0) return false;
+        if (easingType != that.easingType) return false;
+        return targetCoordinateExclusion == that.targetCoordinateExclusion;
+    }
+
+    public int hashCode() {
+        int result = super.hashCode();
+        result = 31 * result + moveOffsetX;
+        result = 31 * result + moveOffsetY;
+        result = 31 * result + easingType.hashCode();
+        result = 31 * result + (easingRate != +0.0f ? Float.floatToIntBits(easingRate) : 0);
+        result = 31 * result + (lockToPlayerX ? 1 : 0);
+        result = 31 * result + (lockToPlayerY ? 1 : 0);
+        result = 31 * result + (useMoveTarget ? 1 : 0);
+        result = 31 * result + targetCoordinateExclusion.hashCode();
+        result = 31 * result + targetGroupID;
+        result = 31 * result + targetPositionGroupID;
+        result = 31 * result + (triggerDuration != +0.0f ? Float.floatToIntBits(triggerDuration) : 0);
+        return result;
     }
 }

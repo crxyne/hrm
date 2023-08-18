@@ -3,7 +3,7 @@ package org.crayne.gdboard.level.data.object.type.trigger.general;
 import org.crayne.gdboard.level.data.object.type.LevelObject;
 import org.crayne.gdboard.level.data.object.type.trigger.Trigger;
 import org.crayne.gdboard.savefile.property.Properties;
-import org.crayne.gdboard.savefile.property.data.LevelObjectData;
+import org.crayne.gdboard.savefile.property.data.LevelObjectProperty;
 import org.jetbrains.annotations.NotNull;
 @SuppressWarnings("unused")
 public class SpawnTrigger extends Trigger {
@@ -62,9 +62,9 @@ public class SpawnTrigger extends Trigger {
 
     public SpawnTrigger(@NotNull final Properties objectProperties) {
         super(objectProperties);
-        this.targetGroupID = objectProperties.integerProperty(LevelObjectData.TARGET_GROUP_ID);
-        this.spawnDelay = objectProperties.floatProperty(LevelObjectData.SPAWN_DELAY);
-        this.editorDisable = objectProperties.booleanProperty(LevelObjectData.SPAWN_EDITOR_DISABLE);
+        this.targetGroupID = objectProperties.integerProperty(LevelObjectProperty.TARGET_GROUP_ID);
+        this.spawnDelay = objectProperties.floatProperty(LevelObjectProperty.SPAWN_DELAY);
+        this.editorDisable = objectProperties.booleanProperty(LevelObjectProperty.SPAWN_EDITOR_DISABLE);
     }
 
     public int targetGroupID() {

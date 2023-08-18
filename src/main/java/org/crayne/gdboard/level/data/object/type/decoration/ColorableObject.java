@@ -4,10 +4,11 @@ import org.crayne.gdboard.level.data.color.ColorHSBModifier;
 import org.crayne.gdboard.level.data.object.ObjectID;
 import org.crayne.gdboard.level.data.object.type.LevelObject;
 import org.crayne.gdboard.savefile.property.Properties;
-import org.crayne.gdboard.savefile.property.data.LevelObjectData;
+import org.crayne.gdboard.savefile.property.data.LevelObjectProperty;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
+import java.util.Objects;
 import java.util.Optional;
 
 @SuppressWarnings("unused")
@@ -67,13 +68,13 @@ public class ColorableObject extends LevelObject {
         this.mainColorMutable = ObjectID.isBaseColorObject(objectID()) || bothMutable;
         this.secondColorMutable = ObjectID.isDetailColorObject(objectID()) || bothMutable;
 
-        this.mainColorChannelIndex   = mainColorMutable   ? objectProperties.integerProperty(LevelObjectData.MAIN_COLOR_ID)   : 0;
-        this.secondColorChannelIndex = secondColorMutable ? objectProperties.integerProperty(LevelObjectData.SECOND_COLOR_ID) : 0;
+        this.mainColorChannelIndex   = objectProperties.integerProperty(LevelObjectProperty.MAIN_COLOR_ID);
+        this.secondColorChannelIndex = objectProperties.integerProperty(LevelObjectProperty.SECOND_COLOR_ID);
 
-        this.mainColorHSBEnabled     = mainColorMutable   && objectProperties.booleanProperty(LevelObjectData.MAIN_COLOR_HSB_CHECKED);
-        this.secondColorHSBEnabled   = secondColorMutable && objectProperties.booleanProperty(LevelObjectData.SECOND_COLOR_HSB_CHECKED);
-        this.mainColorHSB            = mainColorMutable   ? objectProperties.hsbModifierProperty(LevelObjectData.MAIN_COLOR_HSB)   : ColorHSBModifier.none();
-        this.secondColorHSB          = secondColorMutable ? objectProperties.hsbModifierProperty(LevelObjectData.SECOND_COLOR_HSB) : ColorHSBModifier.none();
+        this.mainColorHSBEnabled     = objectProperties.booleanProperty(LevelObjectProperty.MAIN_COLOR_HSB_CHECKED);
+        this.secondColorHSBEnabled   = objectProperties.booleanProperty(LevelObjectProperty.SECOND_COLOR_HSB_CHECKED);
+        this.mainColorHSB            = objectProperties.hsbModifierProperty(LevelObjectProperty.MAIN_COLOR_HSB);
+        this.secondColorHSB          = objectProperties.hsbModifierProperty(LevelObjectProperty.SECOND_COLOR_HSB);
     }
 
     public int mainColorChannelIndex() {
@@ -132,4 +133,47 @@ public class ColorableObject extends LevelObject {
         this.secondColorHSB = secondColorHSB;
     }
 
+    @NotNull
+    public String toString() {
+        return "ColorableObject{" +
+                "mainColorChannelIndex=" + mainColorChannelIndex +
+                ", secondColorChannelIndex=" + secondColorChannelIndex +
+                ", mainColorHSBEnabled=" + mainColorHSBEnabled +
+                ", secondColorHSBEnabled=" + secondColorHSBEnabled +
+                ", mainColorHSB=" + mainColorHSB +
+                ", secondColorHSB=" + secondColorHSB +
+                ", mainColorMutable=" + mainColorMutable +
+                ", secondColorMutable=" + secondColorMutable +
+                "} " + super.toString();
+    }
+
+    public boolean equals(final Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        if (!super.equals(o)) return false;
+
+        final ColorableObject that = (ColorableObject) o;
+
+        if (mainColorChannelIndex != that.mainColorChannelIndex) return false;
+        if (secondColorChannelIndex != that.secondColorChannelIndex) return false;
+        if (mainColorHSBEnabled != that.mainColorHSBEnabled) return false;
+        if (secondColorHSBEnabled != that.secondColorHSBEnabled) return false;
+        if (mainColorMutable != that.mainColorMutable) return false;
+        if (secondColorMutable != that.secondColorMutable) return false;
+        if (!Objects.equals(mainColorHSB, that.mainColorHSB)) return false;
+        return Objects.equals(secondColorHSB, that.secondColorHSB);
+    }
+
+    public int hashCode() {
+        int result = super.hashCode();
+        result = 31 * result + mainColorChannelIndex;
+        result = 31 * result + secondColorChannelIndex;
+        result = 31 * result + (mainColorHSBEnabled ? 1 : 0);
+        result = 31 * result + (secondColorHSBEnabled ? 1 : 0);
+        result = 31 * result + (mainColorHSB != null ? mainColorHSB.hashCode() : 0);
+        result = 31 * result + (secondColorHSB != null ? secondColorHSB.hashCode() : 0);
+        result = 31 * result + (mainColorMutable ? 1 : 0);
+        result = 31 * result + (secondColorMutable ? 1 : 0);
+        return result;
+    }
 }

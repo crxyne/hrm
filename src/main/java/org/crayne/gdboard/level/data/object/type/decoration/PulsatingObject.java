@@ -2,7 +2,7 @@ package org.crayne.gdboard.level.data.object.type.decoration;
 
 import org.crayne.gdboard.level.data.object.type.LevelObject;
 import org.crayne.gdboard.savefile.property.Properties;
-import org.crayne.gdboard.savefile.property.data.LevelObjectData;
+import org.crayne.gdboard.savefile.property.data.LevelObjectProperty;
 import org.jetbrains.annotations.NotNull;
 
 @SuppressWarnings("unused")
@@ -33,8 +33,8 @@ public class PulsatingObject extends ColorableObject {
 
     public PulsatingObject(@NotNull final Properties objectProperties) {
         super(objectProperties);
-        this.randomizeStart = objectProperties.booleanProperty(LevelObjectData.ANIMATION_RANDOMIZE_START);
-        this.animationSpeed = objectProperties.floatProperty(LevelObjectData.ANIMATION_SPEED);
+        this.randomizeStart = objectProperties.booleanProperty(LevelObjectProperty.ANIMATION_RANDOMIZE_START);
+        this.animationSpeed = objectProperties.floatProperty(LevelObjectProperty.ANIMATION_SPEED);
     }
 
     public boolean randomizeStart() {
@@ -53,4 +53,29 @@ public class PulsatingObject extends ColorableObject {
         this.animationSpeed = animationSpeed;
     }
 
+    @NotNull
+    public String toString() {
+        return "PulsatingObject{" +
+                "randomizeStart=" + randomizeStart +
+                ", animationSpeed=" + animationSpeed +
+                "} " + super.toString();
+    }
+
+    public boolean equals(final Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        if (!super.equals(o)) return false;
+
+        final PulsatingObject that = (PulsatingObject) o;
+
+        if (randomizeStart != that.randomizeStart) return false;
+        return Float.compare(that.animationSpeed, animationSpeed) == 0;
+    }
+
+    public int hashCode() {
+        int result = super.hashCode();
+        result = 31 * result + (randomizeStart ? 1 : 0);
+        result = 31 * result + (animationSpeed != +0.0f ? Float.floatToIntBits(animationSpeed) : 0);
+        return result;
+    }
 }
