@@ -13,6 +13,12 @@ public class LevelEditorCamera {
         this.zoom = zoom;
     }
 
+    public LevelEditorCamera(@NotNull final LevelEditorCamera camera) {
+        this.positionX = camera.positionX;
+        this.positionY = camera.positionY;
+        this.zoom = camera.zoom;
+    }
+
     @NotNull
     public static LevelEditorCamera defaultCamera() {
         return new LevelEditorCamera(0, 0, 1);

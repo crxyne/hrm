@@ -1,19 +1,23 @@
 package org.crayne.hrm.api.level;
 
+import org.crayne.hrm.api.level.data.color.ColorProperty;
 import org.crayne.hrm.api.level.data.object.type.LevelObject;
+import org.crayne.hrm.api.level.data.settings.LevelSettings;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.Collection;
+import java.util.HashSet;
+import java.util.Set;
 import java.util.function.Predicate;
 
 @SuppressWarnings("unused")
 public class LocalLevel {
 
     @NotNull
-    private final LocalLevelProperties properties;
+    private LocalLevelProperties properties;
 
     @NotNull
-    private final LevelData data;
+    private LevelData data;
 
     public LocalLevel(@NotNull final LocalLevel localLevel) {
         this.properties = localLevel.properties;
@@ -33,10 +37,35 @@ public class LocalLevel {
         this(localLevel.properties, localLevel.data, copyObjects);
     }
 
+    // copies all settings of one level into a new, empty level without colors and without objects (everything else is copied)
+    @NotNull
+    public LocalLevel createSettingsOnlyLevel() {
+        final LocalLevelProperties newProperties = new LocalLevelProperties(properties);
+        newProperties.innerLevelString(null);
+
+        final LevelData newData = new LevelData(data.levelSettings().copyWithoutColors(), new HashSet<>());
+        return new LocalLevel(newProperties, newData);
+    }
+
+    public void copySettings(@NotNull final LocalLevel settingsLevel) {
+        final String innerLevelString = properties.innerLevelString();
+        this.properties = new LocalLevelProperties(settingsLevel.properties);
+        properties.innerLevelString(innerLevelString);
+
+        final Collection<LevelObject> levelObjects = data.levelObjects();
+        final Set<ColorProperty> levelColorProperties = data.levelSettings().levelColorProperties();
+        final LevelSettings settings = settingsLevel.data.levelSettings().copyWithoutColors();
+        settings.addAllColorProperties(levelColorProperties);
+
+        this.data = new LevelData(settings, levelObjects);
+    }
+
+    @NotNull
     public LocalLevelProperties properties() {
         return properties;
     }
 
+    @NotNull
     public LevelData data() {
         return data;
     }

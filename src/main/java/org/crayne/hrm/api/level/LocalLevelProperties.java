@@ -42,6 +42,22 @@ public class LocalLevelProperties {
         this.binaryVersion = 0;
     }
 
+    public LocalLevelProperties(@NotNull final LocalLevelProperties properties) {
+        this.levelName = properties.levelName;
+        this.levelDescription = properties.levelDescription;
+        this.creatorName = properties.creatorName;
+        this.officialSongID = properties.officialSongID;
+        this.customSongID = properties.customSongID;
+        this.attempts = properties.attempts;
+        this.levelType = properties.levelType;
+        this.levelVersion = properties.levelVersion;
+        this.binaryVersion = properties.binaryVersion;
+        this.secondsSpentEditing = properties.secondsSpentEditing;
+        this.objectCount = properties.objectCount;
+        this.camera = new LevelEditorCamera(properties.camera);
+        this.innerLevelString = properties.innerLevelString;
+    }
+
     public void putProperty(@NotNull final String key, @Nullable final String data) {
         if (!key.startsWith("k")) return;
 

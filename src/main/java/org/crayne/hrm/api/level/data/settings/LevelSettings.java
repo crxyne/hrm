@@ -60,6 +60,11 @@ public class LevelSettings {
     }
 
     @NotNull
+    public LevelSettings copyWithoutColors() {
+        return new LevelSettings(startObject, twoPlayerMode, musicSettings, levelCosmetics, new HashSet<>());
+    }
+
+    @NotNull
     public Properties createProperties() {
         final Properties properties = new Properties(new HashMap<>());
 
@@ -108,6 +113,10 @@ public class LevelSettings {
     public void addColorProperty(@NotNull final ColorProperty colorProperty) {
         if (colorProperty.channelIndex() != 0) levelColorProperties.removeIf(c -> c.channelIndex() == colorProperty.channelIndex());
         levelColorProperties.add(colorProperty);
+    }
+
+    public void addAllColorProperties(@NotNull final Collection<ColorProperty> colorProperties) {
+        colorProperties.forEach(this::addColorProperty);
     }
 
     public void removeColorProperty(final int channelIndex) {

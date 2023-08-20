@@ -32,26 +32,26 @@ public class HRMCommit {
     private final int additions;
     private final int deletions;
 
-    public HRMCommit(@NotNull final LocalLevel currentLevel, @NotNull final LocalLevel commitProgress) {
-        this(currentLevel.data().levelObjects(),
-                commitProgress.data().levelObjects(),
-                currentLevel.data().levelSettings().levelColorProperties(),
-                commitProgress.data().levelSettings().levelColorProperties());
+    public HRMCommit(@NotNull final LocalLevel commitProgress, @NotNull final LocalLevel currentLevel) {
+        this(commitProgress.data().levelObjects(),
+                currentLevel.data().levelObjects(),
+                commitProgress.data().levelSettings().levelColorProperties(),
+                currentLevel.data().levelSettings().levelColorProperties());
     }
 
-    private HRMCommit(@NotNull final Collection<LevelObject> currentLevelObjects, @NotNull final Collection<LevelObject> commitLevelObjects,
-                      @NotNull final Set<ColorProperty> currentColorProperties, @NotNull final Set<ColorProperty> commitColorProperties) {
-        this.removedObjects = new ArrayList<>(currentLevelObjects);
-        removedObjects.removeAll(commitLevelObjects);
+    private HRMCommit(@NotNull final Collection<LevelObject> commitLevelObjects, @NotNull final Collection<LevelObject> currentLevelObjects,
+                      @NotNull final Set<ColorProperty> commitColorProperties, @NotNull final Set<ColorProperty> currentColorPropeties) {
+        this.removedObjects = new ArrayList<>(commitLevelObjects);
+        removedObjects.removeAll(currentLevelObjects);
 
-        this.removedColorProperties = new HashSet<>(currentColorProperties);
-        removedColorProperties.removeAll(commitColorProperties);
+        this.removedColorProperties = new HashSet<>(commitColorProperties);
+        removedColorProperties.removeAll(currentColorPropeties);
 
-        this.addedObjects = new ArrayList<>(currentLevelObjects);
-        addedObjects.removeAll(commitLevelObjects);
+        this.addedObjects = new ArrayList<>(commitLevelObjects);
+        addedObjects.removeAll(currentLevelObjects);
 
-        this.addedColorProperties = new HashSet<>(currentColorProperties);
-        addedColorProperties.removeAll(commitColorProperties);
+        this.addedColorProperties = new HashSet<>(commitColorProperties);
+        addedColorProperties.removeAll(currentColorPropeties);
 
         final Map<ColorProperty, ColorProperty> modifiedColorPropertiesMap = new HashMap<>();
 
