@@ -125,6 +125,24 @@ public class HRMCommit {
         );
     }
 
+    @NotNull
+    public static HRMCommit mergeCommits(@NotNull final Collection<HRMCommit> commits, @NotNull final LocalLevel currentProgress) {
+        final LocalLevel initialProgressNoCommits = currentProgress.createSettingsOnlyLevel();
+        final HRMCommit initialProgressCommit = new HRMCommit(initialProgressNoCommits, currentProgress);
+        initialProgressCommit.applyChanges(initialProgressNoCommits);
+
+        commits.forEach(commit -> commit.applyChanges(initialProgressNoCommits));
+        return new HRMCommit(initialProgressNoCommits, currentProgress);
+    }
+
+    public void applyChanges(@NotNull final LocalLevel level) {
+        level.removeAllLevelObjects(removedObjects);
+        level.data().levelSettings().removeAllColorProperties(removedColorProperties);
+        level.addLevelObjects(addedObjects);
+        level.data().levelSettings().addAllColorProperties(addedColorProperties);
+        level.data().levelSettings().addAllColorProperties(modifiedColorProperties);
+    }
+
     public int changes() {
         return changes;
     }

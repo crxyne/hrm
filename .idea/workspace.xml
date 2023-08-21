@@ -8,18 +8,25 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="512d0192-0645-48b4-9477-7606c9a8de05" name="Changes" comment="actually finished api, level encryption seems to be working fine; started work on HRMRepository and HRMCommit + gave the project a name (hrm) + cleaned up code a bit">
-      <change afterPath="$PROJECT_DIR$/src/main/java/org/crayne/hrm/repository/commit/HRMCommitHistory.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/org/crayne/hrm/repository/commit/HRMCommitInfo.java" afterDir="false" />
+    <list default="true" id="512d0192-0645-48b4-9477-7606c9a8de05" name="Changes" comment="finished committing locally (for now, add author name and contact info later)">
+      <change afterPath="$PROJECT_DIR$/src/main/java/org/crayne/hrm/console/ansi/AnsiColor.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/org/crayne/hrm/console/ansi/AnsiColorBuilder.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/org/crayne/hrm/console/ansi/ComponentBuilder.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/org/crayne/hrm/console/ansi/ComponentPart.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/org/crayne/hrm/console/ansi/TextComponent.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/org/crayne/hrm/console/log/HRMLogLevel.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/org/crayne/hrm/console/log/HRMLogger.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/crayne/hrm/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/crayne/hrm/Main.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/CCLocalLevels.dat" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/CCLocalLevels1.dat" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/CCLocalLevels2.dat" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/crayne/hrm/Main.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/crayne/hrm/api/level/LevelData.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/crayne/hrm/api/level/LevelData.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/org/crayne/hrm/api/level/LocalLevel.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/crayne/hrm/api/level/LocalLevel.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/crayne/hrm/api/level/LocalLevelProperties.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/crayne/hrm/api/level/LocalLevelProperties.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/crayne/hrm/api/level/data/LevelEditorCamera.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/crayne/hrm/api/level/data/LevelEditorCamera.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/org/crayne/hrm/api/level/data/settings/LevelSettings.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/crayne/hrm/api/level/data/settings/LevelSettings.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/org/crayne/hrm/repository/HRMRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/crayne/hrm/repository/HRMRepository.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/org/crayne/hrm/repository/commit/HRMCommit.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/crayne/hrm/repository/commit/HRMCommit.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/crayne/hrm/repository/commit/HRMCommitInfo.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/crayne/hrm/repository/commit/HRMCommitInfo.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -33,10 +40,10 @@
     <option name="RECENT_TEMPLATES">
       <list>
         <option value="Record" />
-        <option value="Enum" />
         <option value="Interface" />
         <option value="AnnotationType" />
         <option value="Class" />
+        <option value="Enum" />
       </list>
     </option>
   </component>
@@ -55,18 +62,19 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
-    &quot;last_opened_file_path&quot;: &quot;/home/crayne/gdboard&quot;,
-    &quot;run.code.analysis.last.selected.profile&quot;: &quot;aDefault&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;Errors&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
+    "last_opened_file_path": "/home/crayne/gdboard/src/main/java/org/crayne/hrm/console",
+    "run.code.analysis.last.selected.profile": "aDefault",
+    "settings.editor.selected.configurable": "Errors"
   }
-}</component>
+}]]></component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/src/main/java/org/crayne/hrm/console" />
       <recent name="$PROJECT_DIR$" />
       <recent name="$PROJECT_DIR$/src/main/java/org/crayne/gdboard/savefile/serialize" />
     </key>
@@ -133,7 +141,14 @@
       <option name="project" value="LOCAL" />
       <updated>1692544879297</updated>
     </task>
-    <option name="localTasksCounter" value="4" />
+    <task id="LOCAL-00004" summary="finished committing locally (for now, add author name and contact info later)">
+      <created>1692561417873</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1692561417873</updated>
+    </task>
+    <option name="localTasksCounter" value="5" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -152,6 +167,7 @@
     <MESSAGE value="optimized alot performance wise, refactoring and started work on the actual project since the api is done" />
     <MESSAGE value="actually finished api, level encryption seems to be working fine; started work on HRMRepository and HRMCommit + gave the project a name (hrm)" />
     <MESSAGE value="actually finished api, level encryption seems to be working fine; started work on HRMRepository and HRMCommit + gave the project a name (hrm) + cleaned up code a bit" />
-    <option name="LAST_COMMIT_MESSAGE" value="actually finished api, level encryption seems to be working fine; started work on HRMRepository and HRMCommit + gave the project a name (hrm) + cleaned up code a bit" />
+    <MESSAGE value="finished committing locally (for now, add author name and contact info later)" />
+    <option name="LAST_COMMIT_MESSAGE" value="finished committing locally (for now, add author name and contact info later)" />
   </component>
 </project>

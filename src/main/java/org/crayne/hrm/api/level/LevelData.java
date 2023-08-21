@@ -52,6 +52,10 @@ public class LevelData {
         this.levelObjects.removeIf(predicate);
     }
 
+    protected void removeAllLevelObjects(@NotNull final Collection<LevelObject> levelObjects) {
+        this.levelObjects.removeAll(levelObjects);
+    }
+
     protected void addLevelObjects(@NotNull final Collection<? extends LevelObject> levelObjects) {
         this.levelObjects.addAll(levelObjects);
     }

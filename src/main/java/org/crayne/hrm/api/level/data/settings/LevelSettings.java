@@ -119,6 +119,10 @@ public class LevelSettings {
         colorProperties.forEach(this::addColorProperty);
     }
 
+    public void removeAllColorProperties(@NotNull final Collection<ColorProperty> colorProperties) {
+        levelColorProperties.removeAll(colorProperties);
+    }
+
     public void removeColorProperty(final int channelIndex) {
         levelColorProperties.removeIf(c -> c.channelIndex() == channelIndex);
     }

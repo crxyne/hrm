@@ -17,8 +17,6 @@ import org.jetbrains.annotations.Nullable;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -151,12 +149,11 @@ public class HRMRepository {
         return createCommit(currentLevelProgressIngame());
     }
 
-    public void commit(@NotNull final HRMCommit commit, @NotNull final String message) {
-        final String currentTimeFormatted = new SimpleDateFormat("yyyy-MM-dd-HH-mm-ss").format(new Date());
+    public void commit(@NotNull final HRMCommit commit, @NotNull final HRMCommitInfo commitInfo) {
         try {
-            Files.writeString(new File(commitDirectory, currentTimeFormatted + ".hrmc").toPath(), commit.encodeCommit());
+            Files.writeString(new File(commitDirectory, commitInfo.timestampFormatted() + ".hrmc").toPath(), commit.encodeCommit());
             final HRMCommitHistory commitHistory = HRMCommitHistory.readJson(commitHistoryFile);
-            commitHistory.commitInfos().add(new HRMCommitInfo(message, currentTimeFormatted));
+            commitHistory.commitInfos().add(commitInfo);
             commitHistory.writeJson(commitHistoryFile);
         } catch (final IOException e) {
             throw new HRMRepositoryException(e);

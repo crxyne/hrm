@@ -70,14 +70,23 @@ public class LocalLevel {
         return data;
     }
 
+    private void updateObjectCount() {
+        properties.objectCount(data.levelObjects().size());
+    }
+
     public void levelObjects(@NotNull final Collection<LevelObject> levelObjects) {
-        properties.objectCount(levelObjects.size());
         data.levelObjects(levelObjects);
+        updateObjectCount();
     }
 
     public void removeLevelObjects(@NotNull final Predicate<LevelObject> predicate) {
-        properties.objectCount(properties().objectCount() - data.levelObjects().stream().filter(predicate).toList().size());
         data.removeLevelObjects(predicate);
+        updateObjectCount();
+    }
+
+    public void removeAllLevelObjects(@NotNull final Collection<LevelObject> levelObjects) {
+        data.removeAllLevelObjects(levelObjects);
+        updateObjectCount();
     }
 
     public void addLevelObjects(@NotNull final Collection<? extends LevelObject> levelObjects) {
