@@ -151,11 +151,11 @@ public class PickupItemObject extends ColorableObject {
         this.pickupMode = pickupMode;
     }
 
-    public int itemBlockID() {
+    public int itemID() {
         return itemID;
     }
 
-    public void itemBlockID(final int itemBlockID) {
+    public void itemID(final int itemBlockID) {
         this.itemID = itemBlockID;
     }
 

@@ -1,5 +1,6 @@
 package org.crayne.hrm.api.level.data.object.type;
 
+import org.crayne.hrm.api.level.data.object.LevelObjectType;
 import org.crayne.hrm.api.level.data.object.ObjectID;
 import org.crayne.hrm.api.level.data.object.ZLayer;
 import org.crayne.hrm.api.savefile.property.Properties;
@@ -13,6 +14,9 @@ import java.util.List;
 
 @SuppressWarnings("unused")
 public class LevelObject {
+
+    @NotNull
+    private final LevelObjectType type;
 
     private int objectID;
     private float positionX, positionY;
@@ -52,6 +56,8 @@ public class LevelObject {
         this.disableGlow         = objectProperties.booleanProperty(LevelObjectProperty.DISABLE_GLOW);
         this.highDetailObject    = objectProperties.booleanProperty(LevelObjectProperty.HIGH_DETAIL);
         this.linkedGroupID       = objectProperties.integerProperty(LevelObjectProperty.LINKED_GROUP_ID);
+
+        this.type = ObjectID.findType(this.objectID);
     }
 
     @NotNull
@@ -85,6 +91,8 @@ public class LevelObject {
         this.positionX = positionX;
         this.positionY = positionY;
         this.groupIDs = new ArrayList<>();
+
+        this.type = ObjectID.findType(this.objectID);
     }
 
     public LevelObject(@NotNull final LevelObject levelObject) {
@@ -106,6 +114,13 @@ public class LevelObject {
         this.disableGlow = levelObject.disableGlow;
         this.highDetailObject = levelObject.highDetailObject;
         this.linkedGroupID = levelObject.linkedGroupID;
+
+        this.type = ObjectID.findType(this.objectID);
+    }
+
+    @NotNull
+    public LevelObjectType type() {
+        return type;
     }
 
     public int objectID() {

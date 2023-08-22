@@ -8,7 +8,16 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="512d0192-0645-48b4-9477-7606c9a8de05" name="Changes" comment="added author name to commits, added logging api" />
+    <list default="true" id="512d0192-0645-48b4-9477-7606c9a8de05" name="Changes" comment="rename project">
+      <change afterPath="$PROJECT_DIR$/src/main/java/org/crayne/hrm/api/level/data/object/LevelObjectType.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/crayne/hrm/api/level/data/object/ObjectID.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/crayne/hrm/api/level/data/object/ObjectID.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/crayne/hrm/api/level/data/object/type/LevelObject.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/crayne/hrm/api/level/data/object/type/LevelObject.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/crayne/hrm/api/level/data/object/type/trigger/general/StopTrigger.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/crayne/hrm/api/level/data/object/type/trigger/general/StopTrigger.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/crayne/hrm/api/level/data/object/type/trigger/item/pickup/PickupItemObject.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/crayne/hrm/api/level/data/object/type/trigger/item/pickup/PickupItemObject.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/crayne/hrm/api/savefile/decrypt/LevelDataDecryption.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/crayne/hrm/api/savefile/decrypt/LevelDataDecryption.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/crayne/hrm/repository/HRMRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/crayne/hrm/repository/HRMRepository.java" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -43,16 +52,16 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "RunOnceActivity.OpenProjectViewOnStart": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
-    "last_opened_file_path": "/home/crayne/gdboard/src/main/java/org/crayne/hrm/console",
-    "run.code.analysis.last.selected.profile": "aDefault",
-    "settings.editor.selected.configurable": "Errors"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
+    &quot;last_opened_file_path&quot;: &quot;/home/crayne/hrm&quot;,
+    &quot;run.code.analysis.last.selected.profile&quot;: &quot;aDefault&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;Errors&quot;
   }
-}]]></component>
+}</component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="$PROJECT_DIR$/src/main/java/org/crayne/hrm/console" />
@@ -136,7 +145,14 @@
       <option name="project" value="LOCAL" />
       <updated>1692632072780</updated>
     </task>
-    <option name="localTasksCounter" value="6" />
+    <task id="LOCAL-00006" summary="rename project">
+      <created>1692662119084</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1692662119084</updated>
+    </task>
+    <option name="localTasksCounter" value="7" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -157,6 +173,7 @@
     <MESSAGE value="actually finished api, level encryption seems to be working fine; started work on HRMRepository and HRMCommit + gave the project a name (hrm) + cleaned up code a bit" />
     <MESSAGE value="finished committing locally (for now, add author name and contact info later)" />
     <MESSAGE value="added author name to commits, added logging api" />
-    <option name="LAST_COMMIT_MESSAGE" value="added author name to commits, added logging api" />
+    <MESSAGE value="rename project" />
+    <option name="LAST_COMMIT_MESSAGE" value="rename project" />
   </component>
 </project>

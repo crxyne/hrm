@@ -33,6 +33,14 @@ public class StopTrigger extends Trigger {
         this.targetGroupID = objectProperties.integerProperty(LevelObjectProperty.TARGET_GROUP_ID);
     }
 
+    public int targetGroupID() {
+        return targetGroupID;
+    }
+
+    public void targetGroupID(final int targetGroupID) {
+        this.targetGroupID = targetGroupID;
+    }
+
     @NotNull
     public Properties createProperties() {
         final Properties properties = super.createProperties();
