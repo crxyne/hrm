@@ -2,11 +2,12 @@ package org.crayne.hrm.api.level.data.object.type.trigger.movement;
 
 import org.crayne.hrm.api.level.data.object.type.LevelObject;
 import org.crayne.hrm.api.level.data.object.type.trigger.Trigger;
+import org.crayne.hrm.api.level.data.object.type.trigger.type.TargetTrigger;
 import org.crayne.hrm.api.savefile.property.Properties;
 import org.crayne.hrm.api.savefile.property.data.LevelObjectProperty;
 import org.jetbrains.annotations.NotNull;
 @SuppressWarnings("unused")
-public class FollowPlayerYTrigger extends Trigger {
+public class FollowPlayerYTrigger extends Trigger implements TargetTrigger {
 
     private float followSpeed; // 90
     private float followDelay; // 91

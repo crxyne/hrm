@@ -2,12 +2,13 @@ package org.crayne.hrm.api.level.data.object.type.trigger.movement;
 
 import org.crayne.hrm.api.level.data.object.type.LevelObject;
 import org.crayne.hrm.api.level.data.object.type.trigger.Trigger;
+import org.crayne.hrm.api.level.data.object.type.trigger.type.BiTargetTrigger;
 import org.crayne.hrm.api.savefile.property.Properties;
 import org.crayne.hrm.api.savefile.property.PropertyDataType;
 import org.crayne.hrm.api.savefile.property.data.LevelObjectProperty;
 import org.jetbrains.annotations.NotNull;
 @SuppressWarnings("unused")
-public class MoveTrigger extends Trigger {
+public class MoveTrigger extends Trigger implements BiTargetTrigger {
 
     private int moveOffsetX, moveOffsetY;
 
@@ -238,6 +239,14 @@ public class MoveTrigger extends Trigger {
     }
 
     public void targetPositionGroupID(final int targetPositionGroupID) {
+        this.targetPositionGroupID = targetPositionGroupID;
+    }
+
+    public int secondGroupID() {
+        return targetPositionGroupID;
+    }
+
+    public void secondGroupID(final int targetPositionGroupID) {
         this.targetPositionGroupID = targetPositionGroupID;
     }
 

@@ -3,27 +3,12 @@ package org.crayne.hrm.repository;
 import com.google.gson.FieldNamingPolicy;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.jcabi.aspects.Cacheable;
 import org.apache.commons.lang3.tuple.Pair;
 import org.crayne.hrm.api.level.LocalLevel;
 import org.crayne.hrm.api.level.data.color.ColorProperty;
 import org.crayne.hrm.api.level.data.object.type.LevelObject;
-import org.crayne.hrm.api.level.data.object.type.trigger.collision.CollisionBlockObject;
-import org.crayne.hrm.api.level.data.object.type.trigger.collision.CollisionTrigger;
-import org.crayne.hrm.api.level.data.object.type.trigger.general.SpawnTrigger;
-import org.crayne.hrm.api.level.data.object.type.trigger.general.StopTrigger;
-import org.crayne.hrm.api.level.data.object.type.trigger.general.TouchTrigger;
-import org.crayne.hrm.api.level.data.object.type.trigger.item.count.CountTrigger;
-import org.crayne.hrm.api.level.data.object.type.trigger.item.count.InstantCountTrigger;
-import org.crayne.hrm.api.level.data.object.type.trigger.item.count.ItemCounter;
-import org.crayne.hrm.api.level.data.object.type.trigger.item.pickup.PickupItemObject;
-import org.crayne.hrm.api.level.data.object.type.trigger.item.pickup.PickupTrigger;
-import org.crayne.hrm.api.level.data.object.type.trigger.movement.FollowPlayerYTrigger;
-import org.crayne.hrm.api.level.data.object.type.trigger.movement.FollowTrigger;
-import org.crayne.hrm.api.level.data.object.type.trigger.movement.MoveTrigger;
-import org.crayne.hrm.api.level.data.object.type.trigger.movement.RotateTrigger;
-import org.crayne.hrm.api.level.data.object.type.trigger.toggle.ToggleTrigger;
-import org.crayne.hrm.api.level.data.object.type.trigger.visual.AlphaTrigger;
-import org.crayne.hrm.api.level.data.object.type.trigger.visual.AnimateTrigger;
+import org.crayne.hrm.api.level.data.object.type.trigger.type.*;
 import org.crayne.hrm.api.savefile.decrypt.LevelDataDecryption;
 import org.crayne.hrm.api.savefile.encrypt.LevelDataEncryption;
 import org.crayne.hrm.repository.commit.HRMCommit;
@@ -39,6 +24,8 @@ import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.util.*;
+import java.util.function.Consumer;
+import java.util.function.Supplier;
 
 @SuppressWarnings("unused")
 public class HRMRepository {
@@ -106,8 +93,12 @@ public class HRMRepository {
     @NotNull
     public Pair<Boolean, Optional<LevelIDCollection>> clone(@NotNull final Map<HRMCommitInfo, HRMCommit> commits, @NotNull final DefaultElement clonedLevel, final boolean pull) {
         if (!pull && initDirectories()) return Pair.of(false, Optional.empty());
+        final LocalLevel decryptedClonedLevel = LevelDataDecryption.decryptLevel(clonedLevel);
         if (pull) {
-            final LevelIDCollection collisions = findCollisions(clonedLevel);
+            final LocalLevel settingsOnly = decryptedClonedLevel.createSettingsOnlyLevel();
+            HRMCommit.mergeCommits(commits.values(), settingsOnly).applyChanges(settingsOnly);
+
+            final LevelIDCollection collisions = findCollisions(settingsOnly);
             if (collisions.anyPresent()) return Pair.of(false, Optional.of(collisions));
         }
 
@@ -125,15 +116,20 @@ public class HRMRepository {
             throw new HRMRepositoryException(e);
         }
         syncRepositoryLevelData(clonedLevel);
-        updateIngameProgress(clonedLevel);
+        updateIngameProgress(decryptedClonedLevel);
         return Pair.of(true, Optional.empty());
     }
 
     @NotNull
-    private LevelIDCollection findCollisions(@NotNull final DefaultElement otherLevel) {
-        final LocalLevel clonedLevel = LevelDataDecryption.decryptLevel(otherLevel);
+    @Cacheable
+    private LevelIDCollection findCollisions(@NotNull final LocalLevel clonedLevel) {
         final LocalLevel currentLevel = currentLevelProgress().orElseThrow(HRMRepositoryException::new);
         return findCollisions(clonedLevel, currentLevel);
+    }
+
+    private void fixCollisions(@NotNull final LocalLevel clonedLevel) {
+        final LocalLevel currentLevel = currentLevelProgress().orElseThrow(HRMRepositoryException::new);
+        fixLevelIDCollisions(clonedLevel, currentLevel);
     }
 
     @NotNull
@@ -142,10 +138,49 @@ public class HRMRepository {
     }
 
     @NotNull
+    @Cacheable
     private static LevelIDCollection findLevelIDCollisions(@NotNull final LocalLevel clonedLevel, @NotNull final LocalLevel currentLevel) {
         final LevelIDCollection clonedLevelIDs  = extractAllLevelIDs(clonedLevel);
         final LevelIDCollection currentLevelIDs = extractAllLevelIDs(currentLevel);
+        return findLevelIDCollisions(clonedLevelIDs, currentLevelIDs);
+    }
 
+    private static void fixLevelIDCollisions(@NotNull final LocalLevel clonedLevel, @NotNull final LocalLevel currentLevel) {
+        final LevelIDCollection clonedLevelIDs  = extractAllLevelIDs(clonedLevel);
+        final LevelIDCollection currentLevelIDs = extractAllLevelIDs(currentLevel);
+        final LevelIDCollection collisions = findLevelIDCollisions(clonedLevelIDs, currentLevelIDs);
+
+        changeLevelIDs(currentLevel,
+                fixIDCollisions(collisions.itemIDs(), clonedLevelIDs.itemIDs(), currentLevelIDs.itemIDs()),
+                fixIDCollisions(collisions.blockIDs(), clonedLevelIDs.blockIDs(), currentLevelIDs.blockIDs()),
+                fixIDCollisions(collisions.groupIDs(), clonedLevelIDs.groupIDs(), currentLevelIDs.groupIDs()),
+                fixIDCollisions(collisions.linkIDs(), clonedLevelIDs.linkIDs(), currentLevelIDs.linkIDs()),
+                fixIDCollisions(collisions.colorIDs(), clonedLevelIDs.colorIDs(), currentLevelIDs.colorIDs())
+        );
+    }
+
+    @NotNull
+    private static Map<Integer, Integer> fixIDCollisions(@NotNull final Set<Integer> collidedIDs,
+                                                         @NotNull final Set<Integer> clonedLevelIDs,
+                                                         @NotNull final Set<Integer> currentLevelIDs) {
+        final Map<Integer, Integer> idFixes = new HashMap<>();
+        for (final int collidedID : collidedIDs) {
+            final int nextFreeID = nextFree(clonedLevelIDs, currentLevelIDs);
+            idFixes.put(collidedID, nextFreeID);
+        }
+        return idFixes;
+    }
+
+    private static int nextFree(@NotNull final Set<Integer> clonedLevelIDs, @NotNull final Set<Integer> currentLevelIDs) {
+        for (int id = 1; id < Short.MAX_VALUE; id++) {
+            if (!clonedLevelIDs.contains(id) && !currentLevelIDs.contains(id)) return id;
+        }
+        return 0;
+    }
+
+    @NotNull
+    @Cacheable
+    private static LevelIDCollection findLevelIDCollisions(@NotNull final LevelIDCollection clonedLevelIDs, @NotNull final LevelIDCollection currentLevelIDs) {
         return new LevelIDCollection(
                 findIDCollisions(clonedLevelIDs.itemIDs, currentLevelIDs.itemIDs),
                 findIDCollisions(clonedLevelIDs.blockIDs, currentLevelIDs.blockIDs),
@@ -174,74 +209,117 @@ public class HRMRepository {
     }
 
     @NotNull
+    @Cacheable
     private static LevelIDCollection extractAllLevelIDs(@NotNull final LocalLevel level) {
-        final Set<Integer> itemIDs = new HashSet<>();
+        final Set<Integer> itemIDs  = new HashSet<>();
         final Set<Integer> blockIDs = new HashSet<>();
         final Set<Integer> groupIDs = new HashSet<>();
-        final Set<Integer> linkIDs = new HashSet<>();
+        final Set<Integer> linkIDs  = new HashSet<>();
         final Set<Integer> colorIDs = new HashSet<>();
 
         for (@NotNull final LevelObject object : level.data().levelObjects()) {
-            switch (object.type()) {
-                case PICKUP_TRIGGER         -> itemIDs .add(((PickupTrigger)        object).itemID());
-                case ITEM_COUNTER           -> itemIDs .add(((ItemCounter)          object).itemID());
-                case COLLISION_BLOCK        -> blockIDs.add(((CollisionBlockObject) object).blockID());
-                case TOGGLE_TRIGGER         -> groupIDs.add(((ToggleTrigger)        object).targetGroupID());
-                case TOUCH_TRIGGER          -> groupIDs.add(((TouchTrigger)         object).targetGroupID());
-                case SPAWN_TRIGGER          -> groupIDs.add(((SpawnTrigger)         object).targetGroupID());
-                case STOP_TRIGGER           -> groupIDs.add(((StopTrigger)          object).targetGroupID());
-                case ALPHA_TRIGGER          -> groupIDs.add(((AlphaTrigger)         object).targetGroupID());
-                case ANIMATE_TRIGGER        -> groupIDs.add(((AnimateTrigger)       object).targetGroupID());
-                case FOLLOW_PLAYERY_TRIGGER -> groupIDs.add(((FollowPlayerYTrigger) object).targetGroupID());
-                case PICKUP_ITEM -> {
-                    final PickupItemObject pickupItem = (PickupItemObject) object;
-                    itemIDs.add(pickupItem.itemID());
-                    groupIDs.add(pickupItem.targetGroupID());
-                }
-                case COUNT_TRIGGER -> {
-                    final CountTrigger countTrigger = (CountTrigger) object;
-                    itemIDs.add(countTrigger.itemID());
-                    groupIDs.add(countTrigger.targetGroupID());
-                }
-                case INSTANT_COUNT_TRIGGER -> {
-                    final InstantCountTrigger countTrigger = (InstantCountTrigger) object;
-                    itemIDs.add(countTrigger.itemID());
-                    groupIDs.add(countTrigger.targetGroupID());
-                }
-                case COLLISION_TRIGGER -> {
-                    final CollisionTrigger collisionTrigger = (CollisionTrigger) object;
-                    blockIDs.add(collisionTrigger.firstBlockID());
-                    blockIDs.add(collisionTrigger.secondBlockID());
-                    groupIDs.add(collisionTrigger.targetGroupID());
-                }
-                case FOLLOW_TRIGGER -> {
-                    final FollowTrigger followTrigger = (FollowTrigger) object;
-                    groupIDs.add(followTrigger.targetGroupID());
-                    groupIDs.add(followTrigger.secondaryGroupID());
-                }
-                case MOVE_TRIGGER -> {
-                    final MoveTrigger moveTrigger = (MoveTrigger) object;
-                    groupIDs.add(moveTrigger.targetGroupID());
-                    groupIDs.add(moveTrigger.targetPositionGroupID());
-                }
-                case ROTATE_TRIGGER -> {
-                    final RotateTrigger rotateTrigger = (RotateTrigger) object;
-                    groupIDs.add(rotateTrigger.targetGroupID());
-                    groupIDs.add(rotateTrigger.centerGroupID());
-                }
-            }
+            if (object instanceof final ItemTrigger itemTrigger)       addItemID(itemTrigger, itemIDs);
+            if (object instanceof final BlockTrigger blockTrigger)     addBlockID(blockTrigger, blockIDs);
+            if (object instanceof final BiBlockTrigger blockTrigger)   addSecondBlockID(blockTrigger, blockIDs);
+            if (object instanceof final TargetTrigger targetTrigger)   addTargetGroupID(targetTrigger, groupIDs);
+            if (object instanceof final BiTargetTrigger targetTrigger) addSecondGroupID(targetTrigger, groupIDs);
+
             groupIDs.addAll(object.groupIDs());
-            linkIDs.add(object.linkedGroupID());
+            addLinkedID(object, linkIDs);
         }
-        for (@NotNull final ColorProperty colorProperty : level.data().levelSettings().levelColorProperties()) {
-            colorIDs.add(colorProperty.channelIndex());
-        }
-        removeZeroes(itemIDs);
-        removeZeroes(blockIDs);
-        removeZeroes(groupIDs);
-        removeZeroes(linkIDs);
-        removeZeroes(colorIDs);
+        level.data().levelSettings().levelColorProperties().forEach(color -> addColorChannelID(color, colorIDs));
         return new LevelIDCollection(itemIDs, blockIDs, groupIDs, linkIDs, colorIDs);
+    }
+
+    private static void changeLevelIDs(@NotNull final LocalLevel level,
+                                       @NotNull final Map<Integer, Integer> itemIDMap,
+                                       @NotNull final Map<Integer, Integer> blockIDMap,
+                                       @NotNull final Map<Integer, Integer> groupIDMap,
+                                       @NotNull final Map<Integer, Integer> linkIDMap,
+                                       @NotNull final Map<Integer, Integer> colorIDMap) {
+
+        for (@NotNull final LevelObject object : level.data().levelObjects()) {
+            if (object instanceof final ItemTrigger itemTrigger)       changeItemID(itemTrigger, itemIDMap);
+            if (object instanceof final BlockTrigger blockTrigger)     changeBlockID(blockTrigger, blockIDMap);
+            if (object instanceof final BiBlockTrigger blockTrigger)   changeSecondBlockID(blockTrigger, blockIDMap);
+            if (object instanceof final TargetTrigger targetTrigger)   changeGroupID(targetTrigger, groupIDMap);
+            if (object instanceof final BiTargetTrigger targetTrigger) changeSecondGroupID(targetTrigger, groupIDMap);
+
+            for (final int groupID : object.groupIDs()) {
+                if (!groupIDMap.containsKey(groupID)) continue;
+
+                object.groupIDs().remove((Integer) groupID);
+                object.groupIDs().add(groupIDMap.get(groupID));
+            }
+            changeLinkedID(object, linkIDMap);
+        }
+        level.data().levelSettings().levelColorProperties().forEach(color -> changeColorChannelID(color, colorIDMap));
+    }
+
+    private static void changeID(@NotNull final Consumer<Integer> idConsumer, @NotNull final Supplier<Integer> idGetter,
+                                 @NotNull final Map<Integer, Integer> itemIDMap) {
+        if (itemIDMap.containsKey(idGetter.get())) idConsumer.accept(itemIDMap.get(idGetter.get()));
+    }
+
+    private static void addID(@NotNull final Supplier<Integer> idGetter, @NotNull final Collection<Integer> addTo) {
+        final int id = idGetter.get();
+        if (id != 0) addTo.add(id);
+    }
+
+    private static void changeItemID(@NotNull final ItemTrigger itemTrigger, @NotNull final Map<Integer, Integer> itemIDMap) {
+        changeID(itemTrigger::itemID, itemTrigger::itemID, itemIDMap);
+    }
+
+    private static void addItemID(@NotNull final ItemTrigger itemTrigger, @NotNull final Collection<Integer> itemIDs) {
+        addID(itemTrigger::itemID, itemIDs);
+    }
+
+    private static void changeBlockID(@NotNull final BlockTrigger blockTrigger, @NotNull final Map<Integer, Integer> blockIDMap) {
+        changeID(blockTrigger::blockID, blockTrigger::blockID, blockIDMap);
+    }
+
+    private static void addBlockID(@NotNull final BlockTrigger blockTrigger, @NotNull final Collection<Integer> blockIDs) {
+        addID(blockTrigger::blockID, blockIDs);
+    }
+
+    private static void changeSecondBlockID(@NotNull final BiBlockTrigger blockTrigger, @NotNull final Map<Integer, Integer> blockIDMap) {
+        changeID(blockTrigger::secondBlockID, blockTrigger::secondBlockID, blockIDMap);
+    }
+
+    private static void addSecondBlockID(@NotNull final BiBlockTrigger blockTrigger, @NotNull final Collection<Integer> blockIDs) {
+        addID(blockTrigger::secondBlockID, blockIDs);
+    }
+
+    private static void changeGroupID(@NotNull final TargetTrigger targetTrigger, @NotNull final Map<Integer, Integer> groupIDMap) {
+        changeID(targetTrigger::targetGroupID, targetTrigger::targetGroupID, groupIDMap);
+    }
+
+    private static void addTargetGroupID(@NotNull final TargetTrigger targetTrigger, @NotNull final Collection<Integer> groupIDs) {
+        addID(targetTrigger::targetGroupID, groupIDs);
+    }
+
+    private static void changeSecondGroupID(@NotNull final BiTargetTrigger targetTrigger, @NotNull final Map<Integer, Integer> groupIDMap) {
+        changeID(targetTrigger::secondGroupID, targetTrigger::secondGroupID, groupIDMap);
+    }
+
+    private static void addSecondGroupID(@NotNull final BiTargetTrigger targetTrigger, @NotNull final Collection<Integer> groupIDs) {
+        addID(targetTrigger::secondGroupID, groupIDs);
+    }
+
+    private static void changeLinkedID(@NotNull final LevelObject object, @NotNull final Map<Integer, Integer> linkedIDMap) {
+        changeID(object::linkedGroupID, object::linkedGroupID, linkedIDMap);
+    }
+
+    private static void addLinkedID(@NotNull final LevelObject object, @NotNull final Collection<Integer> linkedIDs) {
+        addID(object::linkedGroupID, linkedIDs);
+    }
+
+    private static void changeColorChannelID(@NotNull final ColorProperty colorProperty, @NotNull final Map<Integer, Integer> linkedIDMap) {
+        changeID(colorProperty::channelIndex, colorProperty::channelIndex, linkedIDMap);
+    }
+
+    private static void addColorChannelID(@NotNull final ColorProperty colorProperty, @NotNull final Collection<Integer> linkedIDs) {
+        addID(colorProperty::channelIndex, linkedIDs);
     }
 
     private static void removeZeroes(@NotNull final Set<Integer> integers) {
@@ -280,11 +358,11 @@ public class HRMRepository {
         return ccLocalLevelsDatFile;
     }
 
-    public void updateIngameProgress(@NotNull final DefaultElement newLevel) {
+    public void updateIngameProgress(@NotNull final LocalLevel clonedLevel) {
         final File ccLocalLevelsDatFile = ccLocalLevelsDat();
         final File ccLocalLevelsDatFile2 = ccLocalLevelsDat(2);
 
-        LevelDataEncryption.encryptLevel(ccLocalLevelsDatFile, LevelDataDecryption.decryptLevel(newLevel));
+        LevelDataEncryption.encryptLevel(ccLocalLevelsDatFile, clonedLevel);
         final boolean deletedBackupCCLocalLevels = ccLocalLevelsDatFile2.delete();
 
         if (!deletedBackupCCLocalLevels)

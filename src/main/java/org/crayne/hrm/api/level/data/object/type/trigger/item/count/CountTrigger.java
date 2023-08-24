@@ -1,12 +1,13 @@
 package org.crayne.hrm.api.level.data.object.type.trigger.item.count;
 
 import org.crayne.hrm.api.level.data.object.type.LevelObject;
+import org.crayne.hrm.api.level.data.object.type.trigger.type.ItemTrigger;
 import org.crayne.hrm.api.savefile.property.Properties;
 import org.crayne.hrm.api.savefile.property.data.LevelObjectProperty;
 import org.crayne.hrm.api.level.data.object.type.trigger.toggle.ToggleTrigger;
 import org.jetbrains.annotations.NotNull;
 @SuppressWarnings("unused")
-public class CountTrigger extends ToggleTrigger {
+public class CountTrigger extends ToggleTrigger implements ItemTrigger {
 
     private int itemID; // 80
     private int count; // 77

@@ -1,12 +1,13 @@
 package org.crayne.hrm.api.level.data.object.type.trigger.collision;
 
 import org.crayne.hrm.api.level.data.object.type.LevelObject;
+import org.crayne.hrm.api.level.data.object.type.trigger.type.BiBlockTrigger;
 import org.crayne.hrm.api.savefile.property.Properties;
 import org.crayne.hrm.api.savefile.property.data.LevelObjectProperty;
 import org.crayne.hrm.api.level.data.object.type.trigger.toggle.ToggleTrigger;
 import org.jetbrains.annotations.NotNull;
 @SuppressWarnings("unused")
-public class CollisionTrigger extends ToggleTrigger {
+public class CollisionTrigger extends ToggleTrigger implements BiBlockTrigger {
 
     private boolean triggerOnExit;
     private int firstBlockID;
@@ -77,6 +78,14 @@ public class CollisionTrigger extends ToggleTrigger {
     }
 
     public void firstBlockID(final int firstBlockID) {
+        this.firstBlockID = firstBlockID;
+    }
+
+    public int blockID() {
+        return firstBlockID;
+    }
+
+    public void blockID(final int firstBlockID) {
         this.firstBlockID = firstBlockID;
     }
 

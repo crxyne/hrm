@@ -1,12 +1,13 @@
 package org.crayne.hrm.api.level.data.object.type.trigger.collision;
 
 import org.crayne.hrm.api.level.data.object.type.LevelObject;
+import org.crayne.hrm.api.level.data.object.type.trigger.type.BlockTrigger;
 import org.crayne.hrm.api.savefile.property.Properties;
 import org.crayne.hrm.api.savefile.property.data.LevelObjectProperty;
 import org.jetbrains.annotations.NotNull;
 
 @SuppressWarnings("unused")
-public class CollisionBlockObject extends LevelObject {
+public class CollisionBlockObject extends LevelObject implements BlockTrigger {
 
     private boolean dynamicBlock;
     private int blockID;

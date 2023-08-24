@@ -2,12 +2,13 @@ package org.crayne.hrm.api.level.data.object.type.trigger.item.count;
 
 import org.crayne.hrm.api.level.data.object.type.LevelObject;
 import org.crayne.hrm.api.level.data.object.type.decoration.ColorableObject;
+import org.crayne.hrm.api.level.data.object.type.trigger.type.ItemTrigger;
 import org.crayne.hrm.api.savefile.property.Properties;
 import org.crayne.hrm.api.savefile.property.data.LevelObjectProperty;
 import org.jetbrains.annotations.NotNull;
 
 @SuppressWarnings("unused")
-public class ItemCounter extends ColorableObject {
+public class ItemCounter extends ColorableObject implements ItemTrigger {
 
     private int itemID;
 

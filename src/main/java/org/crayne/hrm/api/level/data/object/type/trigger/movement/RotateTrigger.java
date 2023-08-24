@@ -2,11 +2,12 @@ package org.crayne.hrm.api.level.data.object.type.trigger.movement;
 
 import org.crayne.hrm.api.level.data.object.type.LevelObject;
 import org.crayne.hrm.api.level.data.object.type.trigger.Trigger;
+import org.crayne.hrm.api.level.data.object.type.trigger.type.BiTargetTrigger;
 import org.crayne.hrm.api.savefile.property.Properties;
 import org.crayne.hrm.api.savefile.property.data.LevelObjectProperty;
 import org.jetbrains.annotations.NotNull;
 @SuppressWarnings("unused")
-public class RotateTrigger extends Trigger {
+public class RotateTrigger extends Trigger implements BiTargetTrigger {
 
     private int degrees;
     private int times360;
@@ -138,6 +139,14 @@ public class RotateTrigger extends Trigger {
     }
 
     public void centerGroupID(final int secondaryGroupID) {
+        this.centerGroupID = secondaryGroupID;
+    }
+
+    public int secondGroupID() {
+        return centerGroupID;
+    }
+
+    public void secondGroupID(final int secondaryGroupID) {
         this.centerGroupID = secondaryGroupID;
     }
 

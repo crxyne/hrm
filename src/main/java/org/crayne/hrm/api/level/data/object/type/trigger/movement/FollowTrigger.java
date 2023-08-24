@@ -2,35 +2,36 @@ package org.crayne.hrm.api.level.data.object.type.trigger.movement;
 
 import org.crayne.hrm.api.level.data.object.type.LevelObject;
 import org.crayne.hrm.api.level.data.object.type.trigger.Trigger;
+import org.crayne.hrm.api.level.data.object.type.trigger.type.BiTargetTrigger;
 import org.crayne.hrm.api.savefile.property.Properties;
 import org.crayne.hrm.api.savefile.property.data.LevelObjectProperty;
 import org.jetbrains.annotations.NotNull;
 @SuppressWarnings("unused")
-public class FollowTrigger extends Trigger {
+public class FollowTrigger extends Trigger implements BiTargetTrigger {
 
     private float modifierX, modifierY; // 72, 73
     private float triggerDuration; // 10
     private int targetGroupID; // 51
-    private int secondaryGroupID; // 71
+    private int secondGroupID; // 71
 
     public FollowTrigger(final int objectID, final float positionX, final float positionY, final float modifierX,
-                         final float modifierY, final float triggerDuration, final int targetGroupID, final int secondaryGroupID) {
+                         final float modifierY, final float triggerDuration, final int targetGroupID, final int secondGroupID) {
         super(objectID, positionX, positionY);
         this.modifierX = modifierX;
         this.modifierY = modifierY;
         this.triggerDuration = triggerDuration;
         this.targetGroupID = targetGroupID;
-        this.secondaryGroupID = secondaryGroupID;
+        this.secondGroupID = secondGroupID;
     }
 
     public FollowTrigger(@NotNull final LevelObject levelObject, final float modifierX, final float modifierY,
-                         final float triggerDuration, final int targetGroupID, final int secondaryGroupID) {
+                         final float triggerDuration, final int targetGroupID, final int secondGroupID) {
         super(levelObject);
         this.modifierX = modifierX;
         this.modifierY = modifierY;
         this.triggerDuration = triggerDuration;
         this.targetGroupID = targetGroupID;
-        this.secondaryGroupID = secondaryGroupID;
+        this.secondGroupID = secondGroupID;
     }
 
     public FollowTrigger(final int objectID, final float positionX, final float positionY) {
@@ -53,7 +54,7 @@ public class FollowTrigger extends Trigger {
         this.modifierY = objectProperties.floatProperty(LevelObjectProperty.FOLLOW_Y_MOD);
         this.triggerDuration = objectProperties.floatProperty(LevelObjectProperty.DURATION);
         this.targetGroupID = objectProperties.integerProperty(LevelObjectProperty.TARGET_GROUP_ID);
-        this.secondaryGroupID = objectProperties.integerProperty(LevelObjectProperty.SECOND_TARGET_GROUP_ID);
+        this.secondGroupID = objectProperties.integerProperty(LevelObjectProperty.SECOND_TARGET_GROUP_ID);
     }
 
     @NotNull
@@ -63,7 +64,7 @@ public class FollowTrigger extends Trigger {
         properties.putFloatProperty(LevelObjectProperty.FOLLOW_Y_MOD, modifierY);
         properties.putFloatProperty(LevelObjectProperty.DURATION, triggerDuration);
         properties.putIntProperty(LevelObjectProperty.TARGET_GROUP_ID, targetGroupID);
-        properties.putIntProperty(LevelObjectProperty.SECOND_TARGET_GROUP_ID, secondaryGroupID);
+        properties.putIntProperty(LevelObjectProperty.SECOND_TARGET_GROUP_ID, secondGroupID);
 
         return properties;
     }
@@ -100,12 +101,12 @@ public class FollowTrigger extends Trigger {
         this.targetGroupID = targetGroupID;
     }
 
-    public int secondaryGroupID() {
-        return secondaryGroupID;
+    public int secondGroupID() {
+        return secondGroupID;
     }
 
-    public void secondaryGroupID(final int secondaryGroupID) {
-        this.secondaryGroupID = secondaryGroupID;
+    public void secondGroupID(final int secondaryGroupID) {
+        this.secondGroupID = secondaryGroupID;
     }
 
     @NotNull
@@ -115,7 +116,7 @@ public class FollowTrigger extends Trigger {
                 ", modifierY=" + modifierY +
                 ", triggerDuration=" + triggerDuration +
                 ", targetGroupID=" + targetGroupID +
-                ", secondaryGroupID=" + secondaryGroupID +
+                ", secondaryGroupID=" + secondGroupID +
                 "} " + super.toString();
     }
 
@@ -130,7 +131,7 @@ public class FollowTrigger extends Trigger {
         if (Float.compare(that.modifierY, modifierY) != 0) return false;
         if (Float.compare(that.triggerDuration, triggerDuration) != 0) return false;
         if (targetGroupID != that.targetGroupID) return false;
-        return secondaryGroupID == that.secondaryGroupID;
+        return secondGroupID == that.secondGroupID;
     }
 
     public int hashCode() {
@@ -139,7 +140,7 @@ public class FollowTrigger extends Trigger {
         result = 31 * result + (modifierY != 0.0f ? Float.floatToIntBits(modifierY) : 0);
         result = 31 * result + (triggerDuration != 0.0f ? Float.floatToIntBits(triggerDuration) : 0);
         result = 31 * result + targetGroupID;
-        result = 31 * result + secondaryGroupID;
+        result = 31 * result + secondGroupID;
         return result;
     }
 }

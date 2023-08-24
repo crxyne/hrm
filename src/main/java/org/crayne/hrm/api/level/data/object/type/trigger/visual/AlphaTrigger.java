@@ -2,11 +2,12 @@ package org.crayne.hrm.api.level.data.object.type.trigger.visual;
 
 import org.crayne.hrm.api.level.data.object.type.LevelObject;
 import org.crayne.hrm.api.level.data.object.type.trigger.Trigger;
+import org.crayne.hrm.api.level.data.object.type.trigger.type.TargetTrigger;
 import org.crayne.hrm.api.savefile.property.Properties;
 import org.crayne.hrm.api.savefile.property.data.LevelObjectProperty;
 import org.jetbrains.annotations.NotNull;
 @SuppressWarnings("unused")
-public class AlphaTrigger extends Trigger {
+public class AlphaTrigger extends Trigger implements TargetTrigger {
 
     private float opacity; // 35
     private int targetGroupID; // 51
