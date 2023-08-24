@@ -8,30 +8,8 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="512d0192-0645-48b4-9477-7606c9a8de05" name="Changes" comment="a bit of refactoring + added collision checking when pulling">
-      <change afterPath="$PROJECT_DIR$/src/main/java/org/crayne/hrm/api/level/data/object/type/trigger/type/BiBlockTrigger.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/org/crayne/hrm/api/level/data/object/type/trigger/type/BiTargetTrigger.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/org/crayne/hrm/api/level/data/object/type/trigger/type/BlockTrigger.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/org/crayne/hrm/api/level/data/object/type/trigger/type/ItemTrigger.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/org/crayne/hrm/api/level/data/object/type/trigger/type/TargetTrigger.java" afterDir="false" />
+    <list default="true" id="512d0192-0645-48b4-9477-7606c9a8de05" name="Changes" comment="a bit of refactoring + added collision fixing when pulling (as well as changing collision fixing to only fix new progress, ignoring already existing progress)">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/crayne/hrm/api/level/data/object/type/trigger/collision/CollisionBlockObject.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/crayne/hrm/api/level/data/object/type/trigger/collision/CollisionBlockObject.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/crayne/hrm/api/level/data/object/type/trigger/collision/CollisionTrigger.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/crayne/hrm/api/level/data/object/type/trigger/collision/CollisionTrigger.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/crayne/hrm/api/level/data/object/type/trigger/general/SpawnTrigger.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/crayne/hrm/api/level/data/object/type/trigger/general/SpawnTrigger.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/crayne/hrm/api/level/data/object/type/trigger/general/StopTrigger.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/crayne/hrm/api/level/data/object/type/trigger/general/StopTrigger.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/crayne/hrm/api/level/data/object/type/trigger/general/TouchTrigger.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/crayne/hrm/api/level/data/object/type/trigger/general/TouchTrigger.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/crayne/hrm/api/level/data/object/type/trigger/item/count/CountTrigger.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/crayne/hrm/api/level/data/object/type/trigger/item/count/CountTrigger.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/crayne/hrm/api/level/data/object/type/trigger/item/count/InstantCountTrigger.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/crayne/hrm/api/level/data/object/type/trigger/item/count/InstantCountTrigger.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/crayne/hrm/api/level/data/object/type/trigger/item/count/ItemCounter.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/crayne/hrm/api/level/data/object/type/trigger/item/count/ItemCounter.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/crayne/hrm/api/level/data/object/type/trigger/item/pickup/PickupItemObject.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/crayne/hrm/api/level/data/object/type/trigger/item/pickup/PickupItemObject.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/crayne/hrm/api/level/data/object/type/trigger/item/pickup/PickupTrigger.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/crayne/hrm/api/level/data/object/type/trigger/item/pickup/PickupTrigger.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/crayne/hrm/api/level/data/object/type/trigger/movement/FollowPlayerYTrigger.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/crayne/hrm/api/level/data/object/type/trigger/movement/FollowPlayerYTrigger.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/crayne/hrm/api/level/data/object/type/trigger/movement/FollowTrigger.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/crayne/hrm/api/level/data/object/type/trigger/movement/FollowTrigger.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/crayne/hrm/api/level/data/object/type/trigger/movement/MoveTrigger.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/crayne/hrm/api/level/data/object/type/trigger/movement/MoveTrigger.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/crayne/hrm/api/level/data/object/type/trigger/movement/RotateTrigger.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/crayne/hrm/api/level/data/object/type/trigger/movement/RotateTrigger.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/crayne/hrm/api/level/data/object/type/trigger/toggle/ToggleTrigger.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/crayne/hrm/api/level/data/object/type/trigger/toggle/ToggleTrigger.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/crayne/hrm/api/level/data/object/type/trigger/visual/AlphaTrigger.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/crayne/hrm/api/level/data/object/type/trigger/visual/AlphaTrigger.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/crayne/hrm/api/level/data/object/type/trigger/visual/AnimateTrigger.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/crayne/hrm/api/level/data/object/type/trigger/visual/AnimateTrigger.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/org/crayne/hrm/repository/HRMRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/crayne/hrm/repository/HRMRepository.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -175,7 +153,14 @@
       <option name="project" value="LOCAL" />
       <updated>1692734646011</updated>
     </task>
-    <option name="localTasksCounter" value="8" />
+    <task id="LOCAL-00008" summary="a bit of refactoring + added collision fixing when pulling (as well as changing collision fixing to only fix new progress, ignoring already existing progress)">
+      <created>1692883630733</created>
+      <option name="number" value="00008" />
+      <option name="presentableId" value="LOCAL-00008" />
+      <option name="project" value="LOCAL" />
+      <updated>1692883630733</updated>
+    </task>
+    <option name="localTasksCounter" value="9" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -198,6 +183,7 @@
     <MESSAGE value="added author name to commits, added logging api" />
     <MESSAGE value="rename project" />
     <MESSAGE value="a bit of refactoring + added collision checking when pulling" />
-    <option name="LAST_COMMIT_MESSAGE" value="a bit of refactoring + added collision checking when pulling" />
+    <MESSAGE value="a bit of refactoring + added collision fixing when pulling (as well as changing collision fixing to only fix new progress, ignoring already existing progress)" />
+    <option name="LAST_COMMIT_MESSAGE" value="a bit of refactoring + added collision fixing when pulling (as well as changing collision fixing to only fix new progress, ignoring already existing progress)" />
   </component>
 </project>

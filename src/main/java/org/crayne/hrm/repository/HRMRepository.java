@@ -4,7 +4,6 @@ import com.google.gson.FieldNamingPolicy;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.jcabi.aspects.Cacheable;
-import org.apache.commons.lang3.tuple.Pair;
 import org.crayne.hrm.api.level.LocalLevel;
 import org.crayne.hrm.api.level.data.color.ColorProperty;
 import org.crayne.hrm.api.level.data.object.type.LevelObject;
@@ -91,17 +90,21 @@ public class HRMRepository {
     }
 
     @NotNull
-    public Pair<Boolean, Optional<LevelIDCollection>> clone(@NotNull final Map<HRMCommitInfo, HRMCommit> commits, @NotNull final DefaultElement clonedLevel, final boolean pull) {
-        if (!pull && initDirectories()) return Pair.of(false, Optional.empty());
+    public Optional<LevelIDCollection> pull(@NotNull final Map<HRMCommitInfo, HRMCommit> commits, @NotNull final DefaultElement clonedLevel) {
         final LocalLevel decryptedClonedLevel = LevelDataDecryption.decryptLevel(clonedLevel);
-        if (pull) {
-            final LocalLevel settingsOnly = decryptedClonedLevel.createSettingsOnlyLevel();
-            HRMCommit.mergeCommits(commits.values(), settingsOnly).applyChanges(settingsOnly);
 
-            final LevelIDCollection collisions = findCollisions(settingsOnly);
-            if (collisions.anyPresent()) return Pair.of(false, Optional.of(collisions));
-        }
+        final LocalLevel settingsOnly = decryptedClonedLevel.createSettingsOnlyLevel();
+        HRMCommit.mergeCommits(commits.values(), settingsOnly).applyChanges(settingsOnly);
 
+        final LevelIDCollection collisions = findCollisions(settingsOnly);
+        if (collisions.anyPresent()) return Optional.of(collisions);
+
+        assert clone(commits, decryptedClonedLevel, clonedLevel, true);
+        return Optional.empty();
+    }
+
+    private boolean clone(@NotNull final Map<HRMCommitInfo, HRMCommit> commits, @NotNull final LocalLevel decryptedClonedLevel, @NotNull final DefaultElement clonedLevel, final boolean pull) {
+        if (!pull && initDirectories()) return false;
         try {
             final HRMCommitHistory history = pull ? HRMCommitHistory.readJson(commitHistoryFile) : new HRMCommitHistory();
 
@@ -117,7 +120,11 @@ public class HRMRepository {
         }
         syncRepositoryLevelData(clonedLevel);
         updateIngameProgress(decryptedClonedLevel);
-        return Pair.of(true, Optional.empty());
+        return true;
+    }
+
+    public boolean clone(@NotNull final Map<HRMCommitInfo, HRMCommit> commits, @NotNull final DefaultElement clonedLevel) {
+        return clone(commits, LevelDataDecryption.decryptLevel(clonedLevel), clonedLevel, false);
     }
 
     @NotNull
