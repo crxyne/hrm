@@ -8,10 +8,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="512d0192-0645-48b4-9477-7606c9a8de05" name="Changes" comment="a bit of refactoring + added collision fixing when pulling (as well as changing collision fixing to only fix new progress, ignoring already existing progress)">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/crayne/hrm/repository/HRMRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/crayne/hrm/repository/HRMRepository.java" afterDir="false" />
-    </list>
+    <list default="true" id="512d0192-0645-48b4-9477-7606c9a8de05" name="Changes" comment="removed LevelObjectType and cleaned code up" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -46,16 +43,17 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
-    &quot;last_opened_file_path&quot;: &quot;/home/crayne/hrm&quot;,
-    &quot;run.code.analysis.last.selected.profile&quot;: &quot;aDefault&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;Errors&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
+    "jdk.selected.JAVA_MODULE": "openjdk-17",
+    "last_opened_file_path": "/home/crayne/hrm",
+    "run.code.analysis.last.selected.profile": "aDefault",
+    "settings.editor.selected.configurable": "Errors"
   }
-}</component>
+}]]></component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="$PROJECT_DIR$/src/main/java/org/crayne/hrm/console" />
@@ -160,7 +158,14 @@
       <option name="project" value="LOCAL" />
       <updated>1692883630733</updated>
     </task>
-    <option name="localTasksCounter" value="9" />
+    <task id="LOCAL-00009" summary="removed LevelObjectType and cleaned code up">
+      <created>1692902285564</created>
+      <option name="number" value="00009" />
+      <option name="presentableId" value="LOCAL-00009" />
+      <option name="project" value="LOCAL" />
+      <updated>1692902285564</updated>
+    </task>
+    <option name="localTasksCounter" value="10" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -184,6 +189,7 @@
     <MESSAGE value="rename project" />
     <MESSAGE value="a bit of refactoring + added collision checking when pulling" />
     <MESSAGE value="a bit of refactoring + added collision fixing when pulling (as well as changing collision fixing to only fix new progress, ignoring already existing progress)" />
-    <option name="LAST_COMMIT_MESSAGE" value="a bit of refactoring + added collision fixing when pulling (as well as changing collision fixing to only fix new progress, ignoring already existing progress)" />
+    <MESSAGE value="removed LevelObjectType and cleaned code up" />
+    <option name="LAST_COMMIT_MESSAGE" value="removed LevelObjectType and cleaned code up" />
   </component>
 </project>
