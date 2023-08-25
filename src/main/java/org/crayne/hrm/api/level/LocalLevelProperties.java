@@ -163,8 +163,16 @@ public class LocalLevelProperties {
         return binaryVersion;
     }
 
-    public LocalLevelProperties() {
+    public LocalLevelProperties(@NotNull final String levelName) {
+        this.levelName = levelName;
+        this.creatorName = "Player";
+        this.levelDescription = "";
+        this.levelType = 2;
         this.camera = LevelEditorCamera.defaultCamera();
+    }
+
+    public LocalLevelProperties() {
+        this("");
     }
 
     @Nullable

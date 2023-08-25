@@ -5,6 +5,7 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.jcabi.aspects.Cacheable;
 import org.crayne.hrm.api.level.LocalLevel;
+import org.crayne.hrm.api.level.LocalLevelProperties;
 import org.crayne.hrm.api.level.data.color.ColorProperty;
 import org.crayne.hrm.api.level.data.object.type.LazyLevelObject;
 import org.crayne.hrm.api.level.data.object.type.LevelObject;
@@ -85,7 +86,6 @@ public class HRMRepository {
         } catch (final IOException e) {
             throw new HRMRepositoryException(e);
         }
-
         if (!appdataDirectory.isDirectory()) throw new HRMRepositoryException("Appdata directory was not found, check if the file path is correct");
         return false;
     }
@@ -340,6 +340,7 @@ public class HRMRepository {
         if (initDirectories()) return false;
 
         syncRepositoryLevelData();
+        updateIngameProgress(currentLevelProgressIngame()); // creates default level if it wasnt there before
         return true;
     }
 
@@ -351,8 +352,7 @@ public class HRMRepository {
         return levelDocuments.stream()
                 .filter(ld -> levelName.equals(LevelDataDecryption.decryptLevelProperties(ld).levelName()))
                 .findAny()
-                .orElseThrow(() -> new HRMRepositoryException("Level '" + levelName + "' was not found in the savefile" +
-                        " of the specified appdata folder (" + ccLocalLevelsDatFile.getAbsolutePath() + ")"));
+                .orElse(new LocalLevelProperties(levelName).encryptLevelProperties());
     }
 
     @NotNull
@@ -363,7 +363,8 @@ public class HRMRepository {
     @NotNull
     private File ccLocalLevelsDat(final int index) {
         final File ccLocalLevelsDatFile = new File(appdataDirectory, "CCLocalLevels" + (index == 0 ? "" : "" + index) + ".dat");
-        if (!ccLocalLevelsDatFile.isFile()) throw new HRMRepositoryException("CCLocalLevels.dat was not found in appdata directory, check if the file path is correct");
+
+        if (!ccLocalLevelsDatFile.isFile() && index == 0) throw new HRMRepositoryException("CCLocalLevels.dat was not found in appdata directory, check if the file path is correct");
 
         return ccLocalLevelsDatFile;
     }
@@ -375,7 +376,7 @@ public class HRMRepository {
         LevelDataEncryption.encryptLevel(ccLocalLevelsDatFile, clonedLevel);
         final boolean deletedBackupCCLocalLevels = ccLocalLevelsDatFile2.delete();
 
-        if (!deletedBackupCCLocalLevels)
+        if (!deletedBackupCCLocalLevels && ccLocalLevelsDatFile2.isFile())
             throw new HRMRepositoryException("Could not delete CCLocalLevels2.dat, expect the game to not " +
                     "be able to start back up (manually delete the file or try again)");
     }

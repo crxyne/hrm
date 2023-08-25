@@ -29,7 +29,6 @@ public class LevelDataEncryption {
     public static String createInnerLevelString(@NotNull final LevelData levelData) {
         final String[] objectPropertyStrings = encryptLevelObjects(new ArrayList<>(levelData.levelObjects()), true);
         objectPropertyStrings[0] = levelData.levelSettings().createLevelSettingsString();
-        System.out.println(objectPropertyStrings[0]);
         return String.join(";", objectPropertyStrings) + ";";
     }
 
