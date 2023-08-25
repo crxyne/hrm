@@ -1,7 +1,8 @@
 package org.crayne.hrmcli;
 
-import org.crayne.hrm.api.level.LocalLevel;
 import org.crayne.hrm.api.savefile.decrypt.LevelDataDecryption;
+import org.crayne.hrmcli.util.benchmark.Benchmark;
+import org.crayne.hrmcli.util.benchmark.BenchmarkResults;
 import org.dom4j.tree.DefaultElement;
 import org.jetbrains.annotations.NotNull;
 
@@ -33,27 +34,9 @@ public class Main {
 
     public static void main(@NotNull final String... args) {
         final List<DefaultElement> levels = LevelDataDecryption.decryptAllLevelDocuments(new File("CCLocalLevels.dat"));
-        final long start = System.currentTimeMillis();
-        final LocalLevel woodkid = LevelDataDecryption.decryptLevel(levels.get(0));
-        final long end = System.currentTimeMillis();
-        System.out.println((end - start));
-
-        final long start2 = System.currentTimeMillis();
-        final LocalLevel woodkid2 = LevelDataDecryption.decryptLevel(levels.get(0));
-        final long end2 = System.currentTimeMillis();
-        System.out.println((end2 - start2));
-
-        final long start3 = System.currentTimeMillis();
-        final LocalLevel woodkid3 = LevelDataDecryption.decryptLevel(levels.get(0));
-        final long end3 = System.currentTimeMillis();
-        System.out.println((end3 - start3));
-
-        final long start4 = System.currentTimeMillis();
-        final LocalLevel woodkid4 = LevelDataDecryption.decryptLevel(levels.get(0));
-        final long end4 = System.currentTimeMillis();
-        System.out.println((end4 - start4));
-
-
+        final Benchmark benchmark = new Benchmark(() -> LevelDataDecryption.decryptLevel(levels.get(0)));
+        final BenchmarkResults results = benchmark.runBenchmark(20);
+        System.out.println(results);
     }
 
 }
