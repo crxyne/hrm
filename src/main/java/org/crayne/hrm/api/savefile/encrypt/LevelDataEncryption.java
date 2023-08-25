@@ -6,9 +6,8 @@ import org.apache.commons.codec.binary.Base64;
 import org.crayne.hrm.api.level.LevelData;
 import org.crayne.hrm.api.level.LocalLevel;
 import org.crayne.hrm.api.level.LocalLevelProperties;
-import org.crayne.hrm.api.level.data.object.type.LevelObject;
+import org.crayne.hrm.api.level.data.object.type.LazyLevelObject;
 import org.crayne.hrm.api.savefile.decrypt.LevelDataDecryption;
-import org.crayne.hrm.api.savefile.property.PropertyUtil;
 import org.dom4j.*;
 import org.dom4j.tree.DefaultElement;
 import org.jetbrains.annotations.NotNull;
@@ -75,12 +74,12 @@ public class LevelDataEncryption {
     }
 
     @NotNull
-    public static String @NotNull [] encryptLevelObjects(@NotNull final List<LevelObject> levelObjects, final boolean shiftIndices) {
+    public static String @NotNull [] encryptLevelObjects(@NotNull final List<LazyLevelObject> levelObjects, final boolean shiftIndices) {
         final int offset = shiftIndices ? 1 : 0;
         final String[] objectPropertyStrings = new String[levelObjects.size() + offset];
 
         for (int i = offset; i < levelObjects.size() + offset; i++) {
-            objectPropertyStrings[i] = PropertyUtil.encodeProperties(levelObjects.get(i - offset).createProperties().propertiesMap(), ",");
+            objectPropertyStrings[i] = levelObjects.get(i - offset).propertiesString();
         }
         return objectPropertyStrings;
     }

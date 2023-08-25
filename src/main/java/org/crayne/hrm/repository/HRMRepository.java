@@ -6,6 +6,7 @@ import com.google.gson.GsonBuilder;
 import com.jcabi.aspects.Cacheable;
 import org.crayne.hrm.api.level.LocalLevel;
 import org.crayne.hrm.api.level.data.color.ColorProperty;
+import org.crayne.hrm.api.level.data.object.type.LazyLevelObject;
 import org.crayne.hrm.api.level.data.object.type.LevelObject;
 import org.crayne.hrm.api.level.data.object.type.trigger.type.*;
 import org.crayne.hrm.api.savefile.decrypt.LevelDataDecryption;
@@ -224,7 +225,8 @@ public class HRMRepository {
         final Set<Integer> linkIDs  = new HashSet<>();
         final Set<Integer> colorIDs = new HashSet<>();
 
-        for (@NotNull final LevelObject object : level.data().levelObjects()) {
+        for (@NotNull final LazyLevelObject lazyLevelObject : level.data().levelObjects()) {
+            final LevelObject object = lazyLevelObject.levelObject();
             if (object instanceof final ItemTrigger itemTrigger)       addItemID(itemTrigger, itemIDs);
             if (object instanceof final BlockTrigger blockTrigger)     addBlockID(blockTrigger, blockIDs);
             if (object instanceof final BiBlockTrigger blockTrigger)   addSecondBlockID(blockTrigger, blockIDs);
@@ -245,7 +247,8 @@ public class HRMRepository {
                                        @NotNull final Map<Integer, Integer> linkIDMap,
                                        @NotNull final Map<Integer, Integer> colorIDMap) {
 
-        for (@NotNull final LevelObject object : level.data().levelObjects()) {
+        for (@NotNull final LazyLevelObject lazyLevelObject : level.data().levelObjects()) {
+            final LevelObject object = lazyLevelObject.levelObject();
             if (object instanceof final ItemTrigger itemTrigger)       changeItemID(itemTrigger, itemIDMap);
             if (object instanceof final BlockTrigger blockTrigger)     changeBlockID(blockTrigger, blockIDMap);
             if (object instanceof final BiBlockTrigger blockTrigger)   changeSecondBlockID(blockTrigger, blockIDMap);

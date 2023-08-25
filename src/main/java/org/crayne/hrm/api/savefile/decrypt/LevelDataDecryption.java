@@ -7,11 +7,8 @@ import org.apache.commons.lang3.StringUtils;
 import org.crayne.hrm.api.level.LevelData;
 import org.crayne.hrm.api.level.LocalLevel;
 import org.crayne.hrm.api.level.LocalLevelProperties;
-import org.crayne.hrm.api.level.data.object.ObjectID;
-import org.crayne.hrm.api.level.data.object.type.LevelObject;
+import org.crayne.hrm.api.level.data.object.type.LazyLevelObject;
 import org.crayne.hrm.api.level.data.settings.LevelSettings;
-import org.crayne.hrm.api.savefile.property.Properties;
-import org.crayne.hrm.api.savefile.property.PropertyUtil;
 import org.dom4j.Document;
 import org.dom4j.DocumentException;
 import org.dom4j.DocumentHelper;
@@ -151,19 +148,16 @@ public class LevelDataDecryption {
     }
 
     @NotNull
-    public static List<LevelObject> decryptLevelObjects(@NotNull final String @NotNull [] objectPropertyStrings, final boolean removeFirst) {
+    public static List<LazyLevelObject> decryptLevelObjects(@NotNull final String @NotNull [] objectPropertyStrings, final boolean removeFirst) {
         final int offset = removeFirst ? 1 : 0;
         // start at index 1 to skip level settings string
 
         if (objectPropertyStrings.length == offset) return new ArrayList<>();
 
-        final List<LevelObject> levelObjects = new ArrayList<>(objectPropertyStrings.length - offset);
+        final List<LazyLevelObject> levelObjects = new ArrayList<>(objectPropertyStrings.length - offset);
 
         for (int i = offset; i < objectPropertyStrings.length; i++) {
-            final Properties properties = new Properties(PropertyUtil.decodeProperties(objectPropertyStrings[i], ","));
-            final LevelObject levelobj = ObjectID.parse(properties);
-            if (levelobj.objectID() == 0) continue; // skip invalid objects
-            levelObjects.add(levelobj);
+            levelObjects.add(new LazyLevelObject(objectPropertyStrings[i]));
         }
 
         /*final Set<LevelObject> levelObjects = Arrays.stream(objectPropertyStrings)
@@ -220,7 +214,7 @@ public class LevelDataDecryption {
     public static LevelData decryptInnerLevelString(@NotNull final String innerLevelString) {
         final String[] objectPropertyStrings = innerLevelString.split(";");
         final String levelSettingsString = objectPropertyStrings[0];
-        final List<LevelObject> levelObjects = decryptLevelObjects(objectPropertyStrings, true);
+        final List<LazyLevelObject> levelObjects = decryptLevelObjects(objectPropertyStrings, true);
 
         final LevelSettings settings = new LevelSettings(levelSettingsString);
         return new LevelData(settings, levelObjects);

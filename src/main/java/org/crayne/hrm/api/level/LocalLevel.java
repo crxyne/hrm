@@ -1,7 +1,7 @@
 package org.crayne.hrm.api.level;
 
 import org.crayne.hrm.api.level.data.color.ColorProperty;
-import org.crayne.hrm.api.level.data.object.type.LevelObject;
+import org.crayne.hrm.api.level.data.object.type.LazyLevelObject;
 import org.crayne.hrm.api.level.data.settings.LevelSettings;
 import org.jetbrains.annotations.NotNull;
 
@@ -52,7 +52,7 @@ public class LocalLevel {
         this.properties = new LocalLevelProperties(settingsLevel.properties);
         properties.innerLevelString(innerLevelString);
 
-        final Collection<LevelObject> levelObjects = data.levelObjects();
+        final Collection<LazyLevelObject> levelObjects = data.levelObjects();
         final Set<ColorProperty> levelColorProperties = data.levelSettings().levelColorProperties();
         final LevelSettings settings = settingsLevel.data.levelSettings().copyWithoutColors();
         settings.addAllColorProperties(levelColorProperties);
@@ -74,22 +74,22 @@ public class LocalLevel {
         properties.objectCount(data.levelObjects().size());
     }
 
-    public void levelObjects(@NotNull final Collection<LevelObject> levelObjects) {
+    public void levelObjects(@NotNull final Collection<LazyLevelObject> levelObjects) {
         data.levelObjects(levelObjects);
         updateObjectCount();
     }
 
-    public void removeLevelObjects(@NotNull final Predicate<LevelObject> predicate) {
+    public void removeLevelObjects(@NotNull final Predicate<LazyLevelObject> predicate) {
         data.removeLevelObjects(predicate);
         updateObjectCount();
     }
 
-    public void removeAllLevelObjects(@NotNull final Collection<LevelObject> levelObjects) {
+    public void removeAllLevelObjects(@NotNull final Collection<LazyLevelObject> levelObjects) {
         data.removeAllLevelObjects(levelObjects);
         updateObjectCount();
     }
 
-    public void addLevelObjects(@NotNull final Collection<? extends LevelObject> levelObjects) {
+    public void addLevelObjects(@NotNull final Collection<? extends LazyLevelObject> levelObjects) {
         properties.objectCount(properties().objectCount() + levelObjects.size());
         data.addLevelObjects(levelObjects);
     }

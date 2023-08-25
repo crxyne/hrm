@@ -2,7 +2,7 @@ package org.crayne.hrm.repository.commit;
 
 import org.crayne.hrm.api.level.LocalLevel;
 import org.crayne.hrm.api.level.data.color.ColorProperty;
-import org.crayne.hrm.api.level.data.object.type.LevelObject;
+import org.crayne.hrm.api.level.data.object.type.LazyLevelObject;
 import org.crayne.hrm.api.level.data.settings.LevelSettings;
 import org.crayne.hrm.api.savefile.decrypt.LevelDataDecryption;
 import org.crayne.hrm.api.savefile.encrypt.LevelDataEncryption;
@@ -14,10 +14,10 @@ import java.util.*;
 public class HRMCommit {
 
     @NotNull
-    private final List<LevelObject> addedObjects;
+    private final List<LazyLevelObject> addedObjects;
 
     @NotNull
-    private final List<LevelObject> removedObjects;
+    private final List<LazyLevelObject> removedObjects;
 
     @NotNull
     private final Set<ColorProperty> addedColorProperties;
@@ -39,7 +39,7 @@ public class HRMCommit {
                 currentLevel.data().levelSettings().levelColorProperties());
     }
 
-    private HRMCommit(@NotNull final Collection<LevelObject> commitLevelObjects, @NotNull final Collection<LevelObject> currentLevelObjects,
+    private HRMCommit(@NotNull final Collection<LazyLevelObject> commitLevelObjects, @NotNull final Collection<LazyLevelObject> currentLevelObjects,
                       @NotNull final Set<ColorProperty> commitColorProperties, @NotNull final Set<ColorProperty> currentColorPropeties) {
         this.removedObjects = new ArrayList<>(commitLevelObjects);
         removedObjects.removeAll(currentLevelObjects);
@@ -73,8 +73,8 @@ public class HRMCommit {
         deletions = removedObjects.size() + removedColorProperties.size();
     }
 
-    private HRMCommit(@NotNull final List<LevelObject> removedObjects, @NotNull final Set<ColorProperty> removedColorProperties,
-                      @NotNull final List<LevelObject> addedObjects, @NotNull final Set<ColorProperty> addedColorProperties,
+    private HRMCommit(@NotNull final List<LazyLevelObject> removedObjects, @NotNull final Set<ColorProperty> removedColorProperties,
+                      @NotNull final List<LazyLevelObject> addedObjects, @NotNull final Set<ColorProperty> addedColorProperties,
                       @NotNull final Set<ColorProperty> modifiedColorProperties) {
         this.removedObjects = removedObjects;
         this.removedColorProperties = removedColorProperties;
@@ -171,12 +171,12 @@ public class HRMCommit {
     }
 
     @NotNull
-    public List<LevelObject> addedObjects() {
+    public List<LazyLevelObject> addedObjects() {
         return Collections.unmodifiableList(addedObjects);
     }
 
     @NotNull
-    public List<LevelObject> removedObjects() {
+    public List<LazyLevelObject> removedObjects() {
         return Collections.unmodifiableList(removedObjects);
     }
 

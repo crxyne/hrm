@@ -1,6 +1,6 @@
 package org.crayne.hrm.api.level;
 
-import org.crayne.hrm.api.level.data.object.type.LevelObject;
+import org.crayne.hrm.api.level.data.object.type.LazyLevelObject;
 import org.crayne.hrm.api.level.data.settings.LevelSettings;
 import org.jetbrains.annotations.NotNull;
 
@@ -13,9 +13,9 @@ public class LevelData {
     @NotNull
     private final LevelSettings levelSettings;
 
-    private Set<LevelObject> levelObjects;
+    private Set<LazyLevelObject> levelObjects;
 
-    public LevelData(@NotNull final LevelSettings settings, final Collection<LevelObject> levelObjects) {
+    public LevelData(@NotNull final LevelSettings settings, final Collection<LazyLevelObject> levelObjects) {
         this.levelSettings = settings;
         this.levelObjects = new HashSet<>(levelObjects);
     }
@@ -40,23 +40,23 @@ public class LevelData {
     }
 
     @NotNull
-    public Collection<LevelObject> levelObjects() {
+    public Collection<LazyLevelObject> levelObjects() {
         return Collections.unmodifiableCollection(levelObjects);
     }
 
-    protected void levelObjects(@NotNull final Collection<LevelObject> levelObjects) {
+    protected void levelObjects(@NotNull final Collection<LazyLevelObject> levelObjects) {
         this.levelObjects = new HashSet<>(levelObjects);
     }
 
-    protected void removeLevelObjects(@NotNull final Predicate<LevelObject> predicate) {
+    protected void removeLevelObjects(@NotNull final Predicate<LazyLevelObject> predicate) {
         this.levelObjects.removeIf(predicate);
     }
 
-    protected void removeAllLevelObjects(@NotNull final Collection<LevelObject> levelObjects) {
+    protected void removeAllLevelObjects(@NotNull final Collection<LazyLevelObject> levelObjects) {
         this.levelObjects.removeAll(levelObjects);
     }
 
-    protected void addLevelObjects(@NotNull final Collection<? extends LevelObject> levelObjects) {
+    protected void addLevelObjects(@NotNull final Collection<? extends LazyLevelObject> levelObjects) {
         this.levelObjects.addAll(levelObjects);
     }
 
