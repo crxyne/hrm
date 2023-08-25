@@ -66,7 +66,7 @@ public class ComponentPart {
         final String resultText = text;
         if (!colorFound) return resultText;
 
-        return (color.toString(resultText));
+        return color.toString(resultText);
     }
 
 }

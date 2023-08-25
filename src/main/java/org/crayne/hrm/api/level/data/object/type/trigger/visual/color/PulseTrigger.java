@@ -8,21 +8,23 @@ import org.crayne.hrm.api.savefile.property.PropertyDataType;
 import org.crayne.hrm.api.savefile.property.data.LevelObjectProperty;
 import org.jetbrains.annotations.NotNull;
 
+import java.util.Set;
+
 @SuppressWarnings("unused")
 public class PulseTrigger extends Trigger {
 
-    private float pulseFadeIn, pulseHold, pulseFadeOut; // 45, 46, 47
+    private float pulseFadeIn, pulseHold, pulseFadeOut;
 
     @NotNull
-    private Mode pulseMode; // 48
+    private Mode pulseMode;
 
     @NotNull
-    private Target pulseTargetType; // 52
+    private Target pulseTargetType;
 
-    private boolean mainOnly, detailOnly; // 65, 66
-    private boolean exclusive; // 86
+    private boolean mainOnly, detailOnly;
+    private boolean exclusive;
 
-    private int targetID; // 51
+    private int targetID;
 
     @NotNull
     private ColorProperty colorProperty;
@@ -57,6 +59,14 @@ public class PulseTrigger extends Trigger {
         this.detailOnly      = objectProperties.booleanProperty(LevelObjectProperty.PULSE_DETAIL_ONLY);
         this.exclusive       = objectProperties.booleanProperty(LevelObjectProperty.PULSE_EXCLUSIVE);
         this.targetID        = objectProperties.integerProperty(LevelObjectProperty.TARGET_GROUP_ID);
+    }
+
+    @NotNull
+    private static final Set<Integer> OBJECT_IDS = Set.of(1006);
+
+    @NotNull
+    public static Set<Integer> objectIDs() {
+        return OBJECT_IDS;
     }
 
     @NotNull

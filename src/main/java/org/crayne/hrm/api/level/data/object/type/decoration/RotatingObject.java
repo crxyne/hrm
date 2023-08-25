@@ -5,6 +5,8 @@ import org.crayne.hrm.api.savefile.property.Properties;
 import org.crayne.hrm.api.savefile.property.data.LevelObjectProperty;
 import org.jetbrains.annotations.NotNull;
 
+import java.util.Set;
+
 @SuppressWarnings("unused")
 public class RotatingObject extends ColorableObject {
 
@@ -43,6 +45,22 @@ public class RotatingObject extends ColorableObject {
         super(objectProperties);
         this.customRotationSpeed = objectProperties.floatProperty(LevelObjectProperty.ROTATABLE_SPEED);
         this.disableRotation = objectProperties.booleanProperty(LevelObjectProperty.ROTATABLE_DISABLE);
+    }
+
+    @NotNull
+    private static final Set<Integer> OBJECT_IDS = Set.of(85, 86, 87, 97, 137, 138, 139, 154, 155, 156,
+            180, 181, 182, 183, 184, 185, 186, 187, 188,
+            222, 223, 224, 375, 376, 377, 378, 394, 395,
+            396, 678, 679, 680, 740, 741, 742, 997, 998,
+            999, 1000, 1019, 1020, 1021, 1055, 1056, 1057,
+            1058, 1059, 1060, 1061, 1521, 1522, 1523, 1524,
+            1525, 1526, 1527, 1528, 1582, 1619, 1620, 1705,
+            1706, 1707, 1708, 1709, 1710, 1734, 1735, 1736,
+            1752, 1831, 1832, 1833, 1834);
+
+    @NotNull
+    public static Set<Integer> objectIDs() {
+        return OBJECT_IDS;
     }
 
     @NotNull

@@ -2,7 +2,6 @@ package org.crayne.hrm.api.savefile.property;
 
 import com.jcabi.aspects.Cacheable;
 import org.crayne.hrm.api.level.data.color.ColorHSBModifier;
-import org.crayne.hrm.api.level.data.object.ObjectID;
 import org.crayne.hrm.api.level.data.object.ZLayer;
 import org.crayne.hrm.api.level.data.object.type.trigger.general.TouchTrigger;
 import org.crayne.hrm.api.level.data.object.type.trigger.item.count.InstantCountTrigger;
@@ -368,7 +367,7 @@ public record Properties(@NotNull Map<String, String> propertiesMap) {
     @NotNull
     @Cacheable
     public ZLayer zLayerProperty(final int objectID) {
-        return property(LevelObjectProperty.Z_LAYER, ZLayer::datatype, ZLayer::of, ZLayer.class, ObjectID.defaultZLayerOfObjectID(objectID));
+        return property(LevelObjectProperty.Z_LAYER, ZLayer::datatype, ZLayer::of, ZLayer.class, (ZLayer) LevelObjectProperty.Z_LAYER.defaultValue());
     }
 
     public void putZLayerProperty(final int objectID, @NotNull final ZLayer zLayer) {
@@ -376,13 +375,13 @@ public record Properties(@NotNull Map<String, String> propertiesMap) {
     }
 
     public void putZLayerProperty(final int objectID, @NotNull final ZLayer zLayer, final boolean alwaysPut) {
-        if (!alwaysPut && ObjectID.defaultZLayerOfObjectID(objectID) == zLayer) return;
+        if (!alwaysPut && LevelObjectProperty.Z_LAYER.defaultValue().equals(zLayer)) return;
         putIntegerProperty(LevelObjectProperty.Z_LAYER, zLayer.id(), false);
     }
 
     @Cacheable
     public int zOrderProperty(final int objectID) {
-        return PropertyUtil.parseIntValue(propertiesMap.get(LevelObjectProperty.Z_ORDER.idString()), ObjectID.defaultZOrderOfObjectID(objectID));
+        return PropertyUtil.parseIntValue(propertiesMap.get(LevelObjectProperty.Z_ORDER.idString()), (int) LevelObjectProperty.Z_ORDER.defaultValue());
     }
 
     public void putZOrderProperty(final int objectID, final int zOrder) {
@@ -390,7 +389,7 @@ public record Properties(@NotNull Map<String, String> propertiesMap) {
     }
 
     public void putZOrderProperty(final int objectID, final int zOrder, final boolean alwaysPut) {
-        if (!alwaysPut && ObjectID.defaultZOrderOfObjectID(objectID) == zOrder) return;
+        if (!alwaysPut && LevelObjectProperty.Z_ORDER.defaultValue().equals(zOrder)) return;
         putIntegerProperty(LevelObjectProperty.Z_ORDER, zOrder, false);
     }
 

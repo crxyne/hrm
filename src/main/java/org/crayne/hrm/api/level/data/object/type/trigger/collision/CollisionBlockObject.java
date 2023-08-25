@@ -6,6 +6,8 @@ import org.crayne.hrm.api.savefile.property.Properties;
 import org.crayne.hrm.api.savefile.property.data.LevelObjectProperty;
 import org.jetbrains.annotations.NotNull;
 
+import java.util.Set;
+
 @SuppressWarnings("unused")
 public class CollisionBlockObject extends LevelObject implements BlockTrigger {
 
@@ -28,6 +30,14 @@ public class CollisionBlockObject extends LevelObject implements BlockTrigger {
         super(objectProperties);
         this.dynamicBlock = objectProperties.booleanProperty(LevelObjectProperty.COLLISION_DYNAMIC_BLOCK);
         this.blockID = objectProperties.integerProperty(LevelObjectProperty.ITEM_OR_BLOCK_ID);
+    }
+
+    @NotNull
+    private static final Set<Integer> OBJECT_IDS = Set.of(1816);
+
+    @NotNull
+    public static Set<Integer> objectIDs() {
+        return OBJECT_IDS;
     }
 
     @NotNull

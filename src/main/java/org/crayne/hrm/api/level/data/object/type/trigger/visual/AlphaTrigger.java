@@ -6,12 +6,15 @@ import org.crayne.hrm.api.level.data.object.type.trigger.type.TargetTrigger;
 import org.crayne.hrm.api.savefile.property.Properties;
 import org.crayne.hrm.api.savefile.property.data.LevelObjectProperty;
 import org.jetbrains.annotations.NotNull;
+
+import java.util.Set;
+
 @SuppressWarnings("unused")
 public class AlphaTrigger extends Trigger implements TargetTrigger {
 
-    private float opacity; // 35
-    private int targetGroupID; // 51
-    private float triggerDuration; // 10
+    private float opacity;
+    private int targetGroupID;
+    private float triggerDuration;
 
     public AlphaTrigger(final int objectID, final float positionX, final float positionY, final boolean touchTriggered,
                         final float opacity, final int targetGroupID, final float triggerDuration) {
@@ -78,6 +81,14 @@ public class AlphaTrigger extends Trigger implements TargetTrigger {
         this.opacity = objectProperties.floatProperty(LevelObjectProperty.OPACITY);
         this.targetGroupID = objectProperties.integerProperty(LevelObjectProperty.TARGET_GROUP_ID);
         this.triggerDuration = objectProperties.floatProperty(LevelObjectProperty.DURATION);
+    }
+
+    @NotNull
+    private static final Set<Integer> OBJECT_IDS = Set.of(1007);
+
+    @NotNull
+    public static Set<Integer> objectIDs() {
+        return OBJECT_IDS;
     }
 
     @NotNull

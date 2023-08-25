@@ -6,6 +6,9 @@ import org.crayne.hrm.api.level.data.settings.start.GameSpeed;
 import org.crayne.hrm.api.savefile.property.Properties;
 import org.crayne.hrm.api.savefile.property.data.LevelObjectProperty;
 import org.jetbrains.annotations.NotNull;
+
+import java.util.Set;
+
 @SuppressWarnings("unused")
 public class StartPositionTrigger extends LevelObject {
 
@@ -51,6 +54,15 @@ public class StartPositionTrigger extends LevelObject {
         this.dualGameMode = objectProperties.booleanProperty(LevelObjectProperty.START_POS_DUAL_MODE);
         this.startObject  = objectProperties.booleanProperty(LevelObjectProperty.START_POS_IS_OBJECT);
         this.flipGravity  = objectProperties.booleanProperty(LevelObjectProperty.START_POS_FLIP_GRAVITY);
+    }
+
+
+    @NotNull
+    private static final Set<Integer> OBJECT_IDS = Set.of(31);
+
+    @NotNull
+    public static Set<Integer> objectIDs() {
+        return OBJECT_IDS;
     }
 
     @NotNull

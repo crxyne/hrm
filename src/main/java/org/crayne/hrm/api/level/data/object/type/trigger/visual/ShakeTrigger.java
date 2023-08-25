@@ -5,12 +5,15 @@ import org.crayne.hrm.api.savefile.property.Properties;
 import org.crayne.hrm.api.savefile.property.data.LevelObjectProperty;
 import org.crayne.hrm.api.level.data.object.type.trigger.Trigger;
 import org.jetbrains.annotations.NotNull;
+
+import java.util.Set;
+
 @SuppressWarnings("unused")
 public class ShakeTrigger extends Trigger {
 
-    private float shakeStrength; // 75
-    private float interval; // 84
-    private float triggerDuration; // 10
+    private float shakeStrength;
+    private float interval;
+    private float triggerDuration;
 
     public ShakeTrigger(final int objectID, final float positionX, final float positionY, final boolean touchTriggered,
                         final float shakeStrength, final float interval, final float triggerDuration) {
@@ -75,6 +78,14 @@ public class ShakeTrigger extends Trigger {
         this.shakeStrength = objectProperties.floatProperty(LevelObjectProperty.SHAKE_STRENGTH);
         this.interval = objectProperties.floatProperty(LevelObjectProperty.SHAKE_INTERVAL);
         this.triggerDuration = objectProperties.floatProperty(LevelObjectProperty.DURATION);
+    }
+
+    @NotNull
+    private static final Set<Integer> OBJECT_IDS = Set.of(1520);
+
+    @NotNull
+    public static Set<Integer> objectIDs() {
+        return OBJECT_IDS;
     }
 
     @NotNull

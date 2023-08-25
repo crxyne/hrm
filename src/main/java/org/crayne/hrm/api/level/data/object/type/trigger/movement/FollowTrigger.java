@@ -6,13 +6,16 @@ import org.crayne.hrm.api.level.data.object.type.trigger.type.BiTargetTrigger;
 import org.crayne.hrm.api.savefile.property.Properties;
 import org.crayne.hrm.api.savefile.property.data.LevelObjectProperty;
 import org.jetbrains.annotations.NotNull;
+
+import java.util.Set;
+
 @SuppressWarnings("unused")
 public class FollowTrigger extends Trigger implements BiTargetTrigger {
 
-    private float modifierX, modifierY; // 72, 73
-    private float triggerDuration; // 10
-    private int targetGroupID; // 51
-    private int secondGroupID; // 71
+    private float modifierX, modifierY;
+    private float triggerDuration;
+    private int targetGroupID;
+    private int secondGroupID;
 
     public FollowTrigger(final int objectID, final float positionX, final float positionY, final float modifierX,
                          final float modifierY, final float triggerDuration, final int targetGroupID, final int secondGroupID) {
@@ -55,6 +58,14 @@ public class FollowTrigger extends Trigger implements BiTargetTrigger {
         this.triggerDuration = objectProperties.floatProperty(LevelObjectProperty.DURATION);
         this.targetGroupID = objectProperties.integerProperty(LevelObjectProperty.TARGET_GROUP_ID);
         this.secondGroupID = objectProperties.integerProperty(LevelObjectProperty.SECOND_TARGET_GROUP_ID);
+    }
+
+    @NotNull
+    private static final Set<Integer> OBJECT_IDS = Set.of(1347);
+
+    @NotNull
+    public static Set<Integer> objectIDs() {
+        return OBJECT_IDS;
     }
 
     @NotNull

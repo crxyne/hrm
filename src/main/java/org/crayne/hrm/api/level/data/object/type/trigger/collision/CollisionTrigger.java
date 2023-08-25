@@ -6,6 +6,9 @@ import org.crayne.hrm.api.savefile.property.Properties;
 import org.crayne.hrm.api.savefile.property.data.LevelObjectProperty;
 import org.crayne.hrm.api.level.data.object.type.trigger.toggle.ToggleTrigger;
 import org.jetbrains.annotations.NotNull;
+
+import java.util.Set;
+
 @SuppressWarnings("unused")
 public class CollisionTrigger extends ToggleTrigger implements BiBlockTrigger {
 
@@ -53,6 +56,14 @@ public class CollisionTrigger extends ToggleTrigger implements BiBlockTrigger {
         this.triggerOnExit = objectProperties.booleanProperty(LevelObjectProperty.COLLISION_TRIGGER_ON_EXIT);
         this.firstBlockID = objectProperties.integerProperty(LevelObjectProperty.ITEM_OR_BLOCK_ID);
         this.secondBlockID = objectProperties.integerProperty(LevelObjectProperty.COLLISION_SECOND_BLOCK_ID);
+    }
+
+    @NotNull
+    private static final Set<Integer> OBJECT_IDS = Set.of(1815);
+
+    @NotNull
+    public static Set<Integer> objectIDs() {
+        return OBJECT_IDS;
     }
 
     @NotNull

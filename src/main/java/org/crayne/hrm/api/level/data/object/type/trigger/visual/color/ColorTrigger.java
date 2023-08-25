@@ -7,13 +7,14 @@ import org.crayne.hrm.api.savefile.property.Properties;
 import org.crayne.hrm.api.savefile.property.data.LevelObjectProperty;
 import org.jetbrains.annotations.NotNull;
 
+import java.util.Set;
+
 @SuppressWarnings("unused")
 public class ColorTrigger extends Trigger {
 
-    // TODO after finishing up parsing from savefile, convert all of these properties into one single ColorProperty object, same for pulse
-    private boolean playerColor1, playerColor2; // 15, 16
+    private boolean playerColor1, playerColor2;
 
-    private float triggerDuration; // 10
+    private float triggerDuration;
 
     @NotNull
     private ColorProperty colorProperty;
@@ -37,6 +38,14 @@ public class ColorTrigger extends Trigger {
         this.playerColor1    = objectProperties.booleanProperty(LevelObjectProperty.PLAYER_COLOR_1);
         this.playerColor2    = objectProperties.booleanProperty(LevelObjectProperty.PLAYER_COLOR_2);
         this.triggerDuration = objectProperties.floatProperty(LevelObjectProperty.DURATION);
+    }
+
+    @NotNull
+    private static final Set<Integer> OBJECT_IDS = Set.of(899);
+
+    @NotNull
+    public static Set<Integer> objectIDs() {
+        return OBJECT_IDS;
     }
 
     @NotNull

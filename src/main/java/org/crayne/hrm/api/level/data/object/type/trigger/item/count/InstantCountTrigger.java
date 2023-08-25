@@ -7,14 +7,17 @@ import org.crayne.hrm.api.savefile.property.PropertyDataType;
 import org.crayne.hrm.api.savefile.property.data.LevelObjectProperty;
 import org.crayne.hrm.api.level.data.object.type.trigger.toggle.ToggleTrigger;
 import org.jetbrains.annotations.NotNull;
+
+import java.util.Set;
+
 @SuppressWarnings("unused")
 public class InstantCountTrigger extends ToggleTrigger implements ItemTrigger {
 
-    private int itemID; // 80
-    private int count; // 77
+    private int itemID;
+    private int count;
 
     @NotNull
-    private Comparison instantCountComparison; // 88
+    private Comparison instantCountComparison;
 
     public InstantCountTrigger(final int objectID, final float positionX, final float positionY,
                                final int targetGroupID, final boolean activateGroup, final int itemID,
@@ -48,6 +51,14 @@ public class InstantCountTrigger extends ToggleTrigger implements ItemTrigger {
         this.itemID = objectProperties.integerProperty(LevelObjectProperty.ITEM_OR_BLOCK_ID);
         this.count = objectProperties.integerProperty(LevelObjectProperty.COUNT);
         this.instantCountComparison = objectProperties.instantCountComparisonProperty(LevelObjectProperty.INSTANT_COUNT_COMPARISON);
+    }
+
+    @NotNull
+    private static final Set<Integer> OBJECT_IDS = Set.of(1811);
+
+    @NotNull
+    public static Set<Integer> objectIDs() {
+        return OBJECT_IDS;
     }
 
     @NotNull

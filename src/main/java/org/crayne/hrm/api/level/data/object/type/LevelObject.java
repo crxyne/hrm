@@ -1,6 +1,5 @@
 package org.crayne.hrm.api.level.data.object.type;
 
-import org.crayne.hrm.api.level.data.object.ObjectID;
 import org.crayne.hrm.api.level.data.object.ZLayer;
 import org.crayne.hrm.api.savefile.property.Properties;
 import org.crayne.hrm.api.savefile.property.data.LevelObjectProperty;
@@ -81,7 +80,7 @@ public class LevelObject {
 
     public LevelObject(final int objectID, final float positionX, final float positionY) {
         this.objectID = objectID;
-        this.zLayer = ObjectID.defaultZLayerOfObjectID(objectID);
+        this.zLayer = ZLayer.UNKNOWN;
         this.positionX = positionX;
         this.positionY = positionY;
         this.groupIDs = new ArrayList<>();

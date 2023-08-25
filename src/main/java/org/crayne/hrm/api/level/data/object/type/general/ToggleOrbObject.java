@@ -6,6 +6,8 @@ import org.crayne.hrm.api.savefile.property.Properties;
 import org.crayne.hrm.api.savefile.property.data.LevelObjectProperty;
 import org.jetbrains.annotations.NotNull;
 
+import java.util.Set;
+
 @SuppressWarnings("unused")
 public class ToggleOrbObject extends ColorableObject {
 
@@ -40,6 +42,14 @@ public class ToggleOrbObject extends ColorableObject {
         this.multiActivateEnabled = objectProperties.booleanProperty(LevelObjectProperty.ORB_MULTI_ACTIVATE);
         this.targetGroupID = objectProperties.integerProperty(LevelObjectProperty.TARGET_GROUP_ID);
         this.activateGroup = objectProperties.booleanProperty(LevelObjectProperty.ACTIVATE_GROUP);
+    }
+
+    @NotNull
+    private static final Set<Integer> OBJECT_IDS = Set.of(1594);
+
+    @NotNull
+    public static Set<Integer> objectIDs() {
+        return OBJECT_IDS;
     }
 
     @NotNull

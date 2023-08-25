@@ -6,7 +6,11 @@
 
     <groupId>org.crayne</groupId>
     <artifactId>hrm-api</artifactId>
+    <packaging>pom</packaging>
     <version>1.0</version>
+    <modules>
+        <module>hrm-client</module>
+    </modules>
 
     <properties>
         <maven.compiler.source>17</maven.compiler.source>

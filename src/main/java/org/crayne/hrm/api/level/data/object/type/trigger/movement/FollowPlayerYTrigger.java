@@ -6,15 +6,18 @@ import org.crayne.hrm.api.level.data.object.type.trigger.type.TargetTrigger;
 import org.crayne.hrm.api.savefile.property.Properties;
 import org.crayne.hrm.api.savefile.property.data.LevelObjectProperty;
 import org.jetbrains.annotations.NotNull;
+
+import java.util.Set;
+
 @SuppressWarnings("unused")
 public class FollowPlayerYTrigger extends Trigger implements TargetTrigger {
 
-    private float followSpeed; // 90
-    private float followDelay; // 91
-    private float followYOffset; // 92
-    private float maxFollowSpeed; // 105
-    private float triggerDuration; // 10
-    private int targetGroupID; // 51
+    private float followSpeed;
+    private float followDelay;
+    private float followYOffset;
+    private float maxFollowSpeed;
+    private float triggerDuration;
+    private int targetGroupID;
 
     public FollowPlayerYTrigger(final int objectID, final float positionX, final float positionY,
                                 final float followSpeed, final float followDelay, final float followYOffset,
@@ -57,6 +60,14 @@ public class FollowPlayerYTrigger extends Trigger implements TargetTrigger {
         this.maxFollowSpeed = objectProperties.floatProperty(LevelObjectProperty.FOLLOW_PLAYER_Y_MAX_SPEED);
         this.triggerDuration = objectProperties.floatProperty(LevelObjectProperty.DURATION);
         this.targetGroupID = objectProperties.integerProperty(LevelObjectProperty.TARGET_GROUP_ID);
+    }
+
+    @NotNull
+    private static final Set<Integer> OBJECT_IDS = Set.of(1814);
+
+    @NotNull
+    public static Set<Integer> objectIDs() {
+        return OBJECT_IDS;
     }
 
     @NotNull

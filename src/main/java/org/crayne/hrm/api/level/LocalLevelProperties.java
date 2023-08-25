@@ -1,6 +1,6 @@
 package org.crayne.hrm.api.level;
 
-import org.crayne.hrm.api.level.data.LevelEditorCamera;
+import org.crayne.hrm.api.level.data.settings.LevelEditorCamera;
 import org.crayne.hrm.api.savefile.decrypt.LevelDataDecryption;
 import org.crayne.hrm.api.savefile.encrypt.LevelDataEncryption;
 import org.crayne.hrm.api.savefile.property.PropertyUtil;

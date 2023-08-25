@@ -5,6 +5,8 @@ import org.crayne.hrm.api.savefile.property.Properties;
 import org.crayne.hrm.api.savefile.property.data.LevelObjectProperty;
 import org.jetbrains.annotations.NotNull;
 
+import java.util.Set;
+
 @SuppressWarnings("unused")
 public class SpecialPortalObject extends LevelObject {
 
@@ -31,6 +33,14 @@ public class SpecialPortalObject extends LevelObject {
     public SpecialPortalObject(@NotNull final Properties objectProperties) {
         super(objectProperties);
         this.specialPropertyChecked = objectProperties.booleanProperty(LevelObjectProperty.PORTAL_SPECIAL_PROPERTY);
+    }
+
+    @NotNull
+    private static final Set<Integer> OBJECT_IDS = Set.of(13, 47, 111, 200, 201, 202, 203, 660, 1331, 1334);
+
+    @NotNull
+    public static Set<Integer> objectIDs() {
+        return OBJECT_IDS;
     }
 
     @NotNull

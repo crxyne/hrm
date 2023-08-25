@@ -7,6 +7,8 @@ import org.crayne.hrm.api.savefile.property.Properties;
 import org.crayne.hrm.api.savefile.property.data.LevelObjectProperty;
 import org.jetbrains.annotations.NotNull;
 
+import java.util.Set;
+
 @SuppressWarnings("unused")
 public class PickupTrigger extends Trigger implements ItemTrigger {
 
@@ -30,6 +32,14 @@ public class PickupTrigger extends Trigger implements ItemTrigger {
         super(objectProperties);
         this.count = objectProperties.integerProperty(LevelObjectProperty.COUNT);
         this.itemID = objectProperties.integerProperty(LevelObjectProperty.ITEM_OR_BLOCK_ID);
+    }
+
+    @NotNull
+    private static final Set<Integer> OBJECT_IDS = Set.of(1817);
+
+    @NotNull
+    public static Set<Integer> objectIDs() {
+        return OBJECT_IDS;
     }
 
     @NotNull

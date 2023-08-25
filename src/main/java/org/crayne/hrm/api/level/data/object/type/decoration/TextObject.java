@@ -8,6 +8,7 @@ import org.crayne.hrm.api.savefile.property.data.LevelObjectProperty;
 import org.jetbrains.annotations.NotNull;
 
 import java.nio.charset.StandardCharsets;
+import java.util.Set;
 
 @SuppressWarnings("unused")
 public class TextObject extends ColorableObject {
@@ -65,6 +66,15 @@ public class TextObject extends ColorableObject {
         super(objectProperties);
         this.base64EncodedText = objectProperties.stringBase64Property(LevelObjectProperty.TEXT_BASE64);
         this.clearText = new String(LevelDataDecryption.decodeBase64(base64EncodedText), StandardCharsets.UTF_8);
+    }
+
+
+    @NotNull
+    private static final Set<Integer> OBJECT_IDS = Set.of(914);
+
+    @NotNull
+    public static Set<Integer> objectIDs() {
+        return OBJECT_IDS;
     }
 
     @NotNull

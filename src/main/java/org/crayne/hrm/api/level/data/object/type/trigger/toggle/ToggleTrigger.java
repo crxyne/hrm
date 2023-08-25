@@ -6,6 +6,9 @@ import org.crayne.hrm.api.level.data.object.type.trigger.type.TargetTrigger;
 import org.crayne.hrm.api.savefile.property.Properties;
 import org.crayne.hrm.api.savefile.property.data.LevelObjectProperty;
 import org.jetbrains.annotations.NotNull;
+
+import java.util.Set;
+
 @SuppressWarnings("unused")
 public class ToggleTrigger extends Trigger implements TargetTrigger {
 
@@ -36,6 +39,14 @@ public class ToggleTrigger extends Trigger implements TargetTrigger {
         super(objectProperties);
         this.targetGroupID = objectProperties.integerProperty(LevelObjectProperty.TARGET_GROUP_ID);
         this.activateGroup = objectProperties.booleanProperty(LevelObjectProperty.ACTIVATE_GROUP);
+    }
+
+    @NotNull
+    private static final Set<Integer> OBJECT_IDS = Set.of(1049, 1812);
+
+    @NotNull
+    public static Set<Integer> objectIDs() {
+        return OBJECT_IDS;
     }
 
     @NotNull

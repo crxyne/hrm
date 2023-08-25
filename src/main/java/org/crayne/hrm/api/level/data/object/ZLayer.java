@@ -13,7 +13,8 @@ public enum ZLayer {
     B1(3),
     T1(5),
     T2(7),
-    T3(9);
+    T3(9),
+    UNKNOWN(0);
 
     private final int id;
 

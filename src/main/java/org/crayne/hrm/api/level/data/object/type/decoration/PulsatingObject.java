@@ -5,6 +5,8 @@ import org.crayne.hrm.api.savefile.property.Properties;
 import org.crayne.hrm.api.savefile.property.data.LevelObjectProperty;
 import org.jetbrains.annotations.NotNull;
 
+import java.util.Set;
+
 @SuppressWarnings("unused")
 public class PulsatingObject extends ColorableObject {
 
@@ -35,6 +37,14 @@ public class PulsatingObject extends ColorableObject {
         super(objectProperties);
         this.randomizeStart = objectProperties.booleanProperty(LevelObjectProperty.ANIMATION_RANDOMIZE_START);
         this.animationSpeed = objectProperties.floatProperty(LevelObjectProperty.ANIMATION_SPEED);
+    }
+
+    @NotNull
+    private static final Set<Integer> OBJECT_IDS = Set.of(1839, 1840, 1841, 1842);
+
+    @NotNull
+    public static Set<Integer> objectIDs() {
+        return OBJECT_IDS;
     }
 
     @NotNull

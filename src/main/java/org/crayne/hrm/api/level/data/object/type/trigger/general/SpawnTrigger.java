@@ -6,12 +6,15 @@ import org.crayne.hrm.api.level.data.object.type.trigger.type.TargetTrigger;
 import org.crayne.hrm.api.savefile.property.Properties;
 import org.crayne.hrm.api.savefile.property.data.LevelObjectProperty;
 import org.jetbrains.annotations.NotNull;
+
+import java.util.Set;
+
 @SuppressWarnings("unused")
 public class SpawnTrigger extends Trigger implements TargetTrigger {
 
-    private int targetGroupID; // 51
-    private float spawnDelay; // 63
-    private boolean editorDisable; // 102
+    private int targetGroupID;
+    private float spawnDelay;
+    private boolean editorDisable;
 
     public SpawnTrigger(final int objectID, final float positionX, final float positionY, final boolean touchTriggered,
                         final int targetGroupID, final float spawnDelay, final boolean editorDisable) {
@@ -66,6 +69,14 @@ public class SpawnTrigger extends Trigger implements TargetTrigger {
         this.targetGroupID = objectProperties.integerProperty(LevelObjectProperty.TARGET_GROUP_ID);
         this.spawnDelay = objectProperties.floatProperty(LevelObjectProperty.SPAWN_DELAY);
         this.editorDisable = objectProperties.booleanProperty(LevelObjectProperty.SPAWN_EDITOR_DISABLE);
+    }
+
+    @NotNull
+    private static final Set<Integer> OBJECT_IDS = Set.of(1268);
+
+    @NotNull
+    public static Set<Integer> objectIDs() {
+        return OBJECT_IDS;
     }
 
     @NotNull

@@ -7,6 +7,8 @@ import org.crayne.hrm.api.savefile.property.Properties;
 import org.crayne.hrm.api.savefile.property.data.LevelObjectProperty;
 import org.jetbrains.annotations.NotNull;
 
+import java.util.Set;
+
 @SuppressWarnings("unused")
 public class ItemCounter extends ColorableObject implements ItemTrigger {
 
@@ -25,6 +27,14 @@ public class ItemCounter extends ColorableObject implements ItemTrigger {
     public ItemCounter(@NotNull final Properties objectProperties) {
         super(objectProperties);
         this.itemID = objectProperties.integerProperty(LevelObjectProperty.ITEM_OR_BLOCK_ID);
+    }
+
+    @NotNull
+    private static final Set<Integer> OBJECT_IDS = Set.of(1615);
+
+    @NotNull
+    public static Set<Integer> objectIDs() {
+        return OBJECT_IDS;
     }
 
     @NotNull

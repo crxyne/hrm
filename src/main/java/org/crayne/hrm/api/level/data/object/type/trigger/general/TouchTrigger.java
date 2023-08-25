@@ -7,6 +7,9 @@ import org.crayne.hrm.api.savefile.property.Properties;
 import org.crayne.hrm.api.savefile.property.PropertyDataType;
 import org.crayne.hrm.api.savefile.property.data.LevelObjectProperty;
 import org.jetbrains.annotations.NotNull;
+
+import java.util.Set;
+
 @SuppressWarnings("unused")
 public class TouchTrigger extends Trigger implements TargetTrigger {
 
@@ -52,6 +55,14 @@ public class TouchTrigger extends Trigger implements TargetTrigger {
         this.touchToggleMode = objectProperties.touchToggleModeProperty(LevelObjectProperty.TOUCH_TOGGLE_MODE);
         this.touchDualMode   = objectProperties.booleanProperty(LevelObjectProperty.TOUCH_DUAL_MODE);
         this.targetGroupID   = objectProperties.integerProperty(LevelObjectProperty.TARGET_GROUP_ID);
+    }
+
+    @NotNull
+    private static final Set<Integer> OBJECT_IDS = Set.of(1595);
+
+    @NotNull
+    public static Set<Integer> objectIDs() {
+        return OBJECT_IDS;
     }
 
     @NotNull

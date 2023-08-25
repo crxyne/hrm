@@ -6,6 +6,9 @@ import org.crayne.hrm.api.level.data.object.type.trigger.type.TargetTrigger;
 import org.crayne.hrm.api.savefile.property.Properties;
 import org.crayne.hrm.api.savefile.property.data.LevelObjectProperty;
 import org.jetbrains.annotations.NotNull;
+
+import java.util.Set;
+
 @SuppressWarnings("unused")
 public class StopTrigger extends Trigger implements TargetTrigger {
 
@@ -32,6 +35,14 @@ public class StopTrigger extends Trigger implements TargetTrigger {
     public StopTrigger(@NotNull final Properties objectProperties) {
         super(objectProperties);
         this.targetGroupID = objectProperties.integerProperty(LevelObjectProperty.TARGET_GROUP_ID);
+    }
+
+    @NotNull
+    private static final Set<Integer> OBJECT_IDS = Set.of(1616);
+
+    @NotNull
+    public static Set<Integer> objectIDs() {
+        return OBJECT_IDS;
     }
 
     public int targetGroupID() {

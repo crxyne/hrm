@@ -5,6 +5,8 @@ import org.crayne.hrm.api.savefile.property.Properties;
 import org.crayne.hrm.api.savefile.property.data.LevelObjectProperty;
 import org.jetbrains.annotations.NotNull;
 
+import java.util.Set;
+
 @SuppressWarnings("unused")
 public class OrbObject extends LevelObject {
 
@@ -31,6 +33,14 @@ public class OrbObject extends LevelObject {
     public OrbObject(@NotNull final Properties objectProperties) {
         super(objectProperties);
         this.multiActivateEnabled = objectProperties.booleanProperty(LevelObjectProperty.ORB_MULTI_ACTIVATE);
+    }
+
+    @NotNull
+    private static final Set<Integer> OBJECT_IDS = Set.of(36, 84, 141, 1022, 1330, 1333, 1704, 1751);
+
+    @NotNull
+    public static Set<Integer> objectIDs() {
+        return OBJECT_IDS;
     }
 
     @NotNull

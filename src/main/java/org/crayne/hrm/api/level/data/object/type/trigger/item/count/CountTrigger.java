@@ -6,12 +6,15 @@ import org.crayne.hrm.api.savefile.property.Properties;
 import org.crayne.hrm.api.savefile.property.data.LevelObjectProperty;
 import org.crayne.hrm.api.level.data.object.type.trigger.toggle.ToggleTrigger;
 import org.jetbrains.annotations.NotNull;
+
+import java.util.Set;
+
 @SuppressWarnings("unused")
 public class CountTrigger extends ToggleTrigger implements ItemTrigger {
 
-    private int itemID; // 80
-    private int count; // 77
-    private boolean multiActivate; // 104
+    private int itemID;
+    private int count;
+    private boolean multiActivate;
 
     public CountTrigger(final int objectID, final float positionX, final float positionY,
                         final int targetGroupID, final boolean activateGroup, final int itemID,
@@ -43,6 +46,14 @@ public class CountTrigger extends ToggleTrigger implements ItemTrigger {
         this.itemID = objectProperties.integerProperty(LevelObjectProperty.ITEM_OR_BLOCK_ID);
         this.count = objectProperties.integerProperty(LevelObjectProperty.COUNT);
         this.multiActivate = objectProperties.booleanProperty(LevelObjectProperty.COUNT_MULTI_ACTIVATE);
+    }
+
+    @NotNull
+    private static final Set<Integer> OBJECT_IDS = Set.of(1611);
+
+    @NotNull
+    public static Set<Integer> objectIDs() {
+        return OBJECT_IDS;
     }
 
     @NotNull

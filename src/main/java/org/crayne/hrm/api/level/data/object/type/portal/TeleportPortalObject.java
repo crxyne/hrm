@@ -5,6 +5,8 @@ import org.crayne.hrm.api.savefile.property.Properties;
 import org.crayne.hrm.api.savefile.property.data.LevelObjectProperty;
 import org.jetbrains.annotations.NotNull;
 
+import java.util.Set;
+
 @SuppressWarnings("unused")
 public class TeleportPortalObject extends LevelObject {
 
@@ -33,6 +35,14 @@ public class TeleportPortalObject extends LevelObject {
         super(objectProperties);
         this.teleportYOffset = objectProperties.floatProperty(LevelObjectProperty.TELEPORT_Y_OFFSET);
         this.teleportEase = objectProperties.booleanProperty(LevelObjectProperty.TELEPORT_EASE);
+    }
+
+    @NotNull
+    private static final Set<Integer> OBJECT_IDS = Set.of(747);
+
+    @NotNull
+    public static Set<Integer> objectIDs() {
+        return OBJECT_IDS;
     }
 
     @NotNull

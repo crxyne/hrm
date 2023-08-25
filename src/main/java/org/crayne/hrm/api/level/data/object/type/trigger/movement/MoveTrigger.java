@@ -7,6 +7,9 @@ import org.crayne.hrm.api.savefile.property.Properties;
 import org.crayne.hrm.api.savefile.property.PropertyDataType;
 import org.crayne.hrm.api.savefile.property.data.LevelObjectProperty;
 import org.jetbrains.annotations.NotNull;
+
+import java.util.Set;
+
 @SuppressWarnings("unused")
 public class MoveTrigger extends Trigger implements BiTargetTrigger {
 
@@ -110,6 +113,14 @@ public class MoveTrigger extends Trigger implements BiTargetTrigger {
         this.targetGroupID             = objectProperties.integerProperty(LevelObjectProperty.TARGET_GROUP_ID);
         this.targetPositionGroupID     = objectProperties.integerProperty(LevelObjectProperty.SECOND_TARGET_GROUP_ID);
         this.triggerDuration           = objectProperties.floatProperty(LevelObjectProperty.DURATION);
+    }
+
+    @NotNull
+    private static final Set<Integer> OBJECT_IDS = Set.of(901);
+
+    @NotNull
+    public static Set<Integer> objectIDs() {
+        return OBJECT_IDS;
     }
 
     @NotNull

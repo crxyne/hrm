@@ -6,11 +6,14 @@ import org.crayne.hrm.api.level.data.object.type.trigger.type.TargetTrigger;
 import org.crayne.hrm.api.savefile.property.Properties;
 import org.crayne.hrm.api.savefile.property.data.LevelObjectProperty;
 import org.jetbrains.annotations.NotNull;
+
+import java.util.Set;
+
 @SuppressWarnings("unused")
 public class AnimateTrigger extends Trigger implements TargetTrigger {
 
-    private int animationID; // 76
-    private int targetGroupID; // 51
+    private int animationID;
+    private int targetGroupID;
 
     public AnimateTrigger(final int objectID, final float positionX, final float positionY,
                           final boolean touchTriggered, final int animationID, final int targetGroupID) {
@@ -65,6 +68,14 @@ public class AnimateTrigger extends Trigger implements TargetTrigger {
         super(objectProperties);
         this.animationID = objectProperties.integerProperty(LevelObjectProperty.ANIMATION_ID);
         this.targetGroupID = objectProperties.integerProperty(LevelObjectProperty.TARGET_GROUP_ID);
+    }
+
+    @NotNull
+    private static final Set<Integer> OBJECT_IDS = Set.of(1585);
+
+    @NotNull
+    public static Set<Integer> objectIDs() {
+        return OBJECT_IDS;
     }
 
     @NotNull

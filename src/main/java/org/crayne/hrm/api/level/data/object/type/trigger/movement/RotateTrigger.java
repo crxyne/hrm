@@ -6,6 +6,9 @@ import org.crayne.hrm.api.level.data.object.type.trigger.type.BiTargetTrigger;
 import org.crayne.hrm.api.savefile.property.Properties;
 import org.crayne.hrm.api.savefile.property.data.LevelObjectProperty;
 import org.jetbrains.annotations.NotNull;
+
+import java.util.Set;
+
 @SuppressWarnings("unused")
 public class RotateTrigger extends Trigger implements BiTargetTrigger {
 
@@ -60,6 +63,14 @@ public class RotateTrigger extends Trigger implements BiTargetTrigger {
         this.triggerDuration = objectProperties.floatProperty(LevelObjectProperty.DURATION);
         this.targetGroupID = objectProperties.integerProperty(LevelObjectProperty.TARGET_GROUP_ID);
         this.centerGroupID = objectProperties.integerProperty(LevelObjectProperty.SECOND_TARGET_GROUP_ID);
+    }
+
+    @NotNull
+    private static final Set<Integer> OBJECT_IDS = Set.of(1346);
+
+    @NotNull
+    public static Set<Integer> objectIDs() {
+        return OBJECT_IDS;
     }
 
     @NotNull

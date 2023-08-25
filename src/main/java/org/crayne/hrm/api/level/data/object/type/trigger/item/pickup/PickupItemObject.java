@@ -9,6 +9,8 @@ import org.crayne.hrm.api.savefile.property.PropertyDataType;
 import org.crayne.hrm.api.savefile.property.data.LevelObjectProperty;
 import org.jetbrains.annotations.NotNull;
 
+import java.util.Set;
+
 @SuppressWarnings("unused")
 public class PickupItemObject extends ColorableObject implements TargetTrigger, ItemTrigger {
 
@@ -75,6 +77,14 @@ public class PickupItemObject extends ColorableObject implements TargetTrigger, 
         this.itemID = objectProperties.integerProperty(LevelObjectProperty.ITEM_OR_BLOCK_ID);
         this.targetGroupID = objectProperties.integerProperty(LevelObjectProperty.TARGET_GROUP_ID);
         this.activateGroup = objectProperties.booleanProperty(LevelObjectProperty.ACTIVATE_GROUP);
+    }
+
+    @NotNull
+    private static final Set<Integer> OBJECT_IDS = Set.of(1275, 1587, 1589, 1598, 1614);
+
+    @NotNull
+    public static Set<Integer> objectIDs() {
+        return OBJECT_IDS;
     }
 
     @NotNull

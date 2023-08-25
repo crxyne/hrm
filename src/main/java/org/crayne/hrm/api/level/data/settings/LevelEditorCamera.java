@@ -1,4 +1,4 @@
-package org.crayne.hrm.api.level.data;
+package org.crayne.hrm.api.level.data.settings;
 
 import org.jetbrains.annotations.NotNull;
 
