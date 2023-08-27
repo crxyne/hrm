@@ -41,11 +41,11 @@ public class HRMCommit {
 
     private HRMCommit(@NotNull final Collection<LazyLevelObject> commitLevelObjects, @NotNull final Collection<LazyLevelObject> currentLevelObjects,
                       @NotNull final Set<ColorProperty> commitColorProperties, @NotNull final Set<ColorProperty> currentColorPropeties) {
-        this.removedObjects = new ArrayList<>(commitLevelObjects);
-        removedObjects.removeAll(currentLevelObjects);
+        this.removedObjects = new ArrayList<>(currentLevelObjects);
+        removedObjects.removeAll(commitLevelObjects);
 
-        this.removedColorProperties = new HashSet<>(commitColorProperties);
-        removedColorProperties.removeAll(currentColorPropeties);
+        this.removedColorProperties = new HashSet<>(currentColorPropeties);
+        removedColorProperties.removeAll(commitColorProperties);
 
         this.addedObjects = new ArrayList<>(commitLevelObjects);
         addedObjects.removeAll(currentLevelObjects);
@@ -128,11 +128,11 @@ public class HRMCommit {
     @NotNull
     public static HRMCommit mergeCommits(@NotNull final Collection<HRMCommit> commits, @NotNull final LocalLevel currentProgress) {
         final LocalLevel initialProgressNoCommits = currentProgress.createSettingsOnlyLevel();
-        final HRMCommit initialProgressCommit = new HRMCommit(initialProgressNoCommits, currentProgress);
+        final HRMCommit initialProgressCommit = new HRMCommit(currentProgress, initialProgressNoCommits);
         initialProgressCommit.applyChanges(initialProgressNoCommits);
 
         commits.forEach(commit -> commit.applyChanges(initialProgressNoCommits));
-        return new HRMCommit(initialProgressNoCommits, currentProgress);
+        return new HRMCommit(currentProgress, initialProgressNoCommits);
     }
 
     public void applyChanges(@NotNull final LocalLevel level) {

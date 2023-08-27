@@ -133,6 +133,16 @@ public class ColorProperty {
         return none(0);
     }
 
+    public boolean defaultColor() {
+        return switch (channelIndex) {
+            case 1001, 1009 -> red == 0   && green == 102 && blue == 255 && !blending && opacity == 1.0f;
+            case 1002       -> red == 255 && green == 255 && blue == 255 && blending  && opacity == 1.0f;
+            case 1000       -> red == 40  && green == 125 && blue == 255 && !blending && opacity == 1.0f;
+            case 1005, 1006 -> blending;
+            default         -> red == 255 && green == 255 && blue == 255 && !blending && opacity == 1.0f;
+        };
+    }
+
     public int red() {
         return red;
     }

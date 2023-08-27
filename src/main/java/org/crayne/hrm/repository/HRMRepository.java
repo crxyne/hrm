@@ -41,18 +41,22 @@ public class HRMRepository {
     private final File commitHistoryFile;
 
     @NotNull
-    private String name;
-
-    @NotNull
-    private String levelName;
-
-    @NotNull
-    private File appdataDirectory;
+    private final HRMRepositoryInfo repositoryInfo;
 
     @NotNull
     private final File directory;
 
+    @NotNull
     private static final String CURRENT_LEVEL_XML = "hrm-current-level.xml";
+
+    @NotNull
+    private static final String HRM_COMMITS_DIRECTORY = ".hrmc";
+
+    @NotNull
+    private static final String HRM_COMMITS_FILE = "hrm-commits.json";
+
+    @NotNull
+    private static final String HRM_REPO_FILE = "hrm-repo.json";
 
     @NotNull
     public static final Gson HRM_REPOSITORY_GSON = new GsonBuilder()
@@ -60,19 +64,44 @@ public class HRMRepository {
             .setFieldNamingPolicy(FieldNamingPolicy.UPPER_CAMEL_CASE)
             .create();
 
-    public HRMRepository(@NotNull final String name, @NotNull final String levelName, @NotNull final File appdataDirectory, @NotNull final File directory) {
+    public HRMRepository(@NotNull final HRMRepositoryInfo repositoryInfo, @NotNull final File directory) {
         this.directory = directory;
-        this.name = name;
-        this.levelName = levelName;
-        this.appdataDirectory = appdataDirectory;
-        this.commitDirectory = new File(this.directory, ".hrmc");
-        this.commitHistoryFile = new File(this.directory, "hrm-commits.json");
+        this.repositoryInfo = repositoryInfo;
+        this.commitDirectory = new File(this.directory, HRM_COMMITS_DIRECTORY);
+        this.commitHistoryFile = new File(this.directory, HRM_COMMITS_FILE);
         this.currentLevelProgress = null;
     }
 
-    private boolean initDirectories() {
+    public static boolean isHRMRepository(@NotNull final File directory) {
+        final File commitDirectory = new File(directory, HRM_COMMITS_DIRECTORY);
+        final File commitHistoryFile = new File(directory, HRM_COMMITS_FILE);
+
         final File hrmCurrentLevelXML = new File(directory, CURRENT_LEVEL_XML);
-        if (directory.isDirectory() && hrmCurrentLevelXML.isFile() && commitDirectory.isDirectory() && commitHistoryFile.isFile()) return true;
+        return directory.isDirectory() && hrmCurrentLevelXML.isFile() && commitDirectory.isDirectory() && commitHistoryFile.isFile();
+    }
+
+    @NotNull
+    public static HRMRepository readRepository(@NotNull final File directory) {
+        final File repositoryInfoFile = new File(directory, HRM_REPO_FILE);
+        try {
+            final HRMRepositoryInfo repositoryInfo = HRMRepositoryInfo.load(repositoryInfoFile);
+            return new HRMRepository(repositoryInfo, directory);
+        } catch (final IOException e) {
+            throw new HRMRepositoryException(e);
+        }
+    }
+
+    private boolean initFileStructure() {
+        final File hrmCurrentLevelXML = new File(directory, CURRENT_LEVEL_XML);
+        final File repositoryInfoFile = new File(directory, HRM_REPO_FILE);
+        if (directory.isDirectory() && hrmCurrentLevelXML.isFile() && repositoryInfoFile.isFile() && commitDirectory.isDirectory() && commitHistoryFile.isFile()) return true;
+
+        final boolean createdRepoInfo;
+        try {
+            repositoryInfo.save(repositoryInfoFile);
+        } catch (final IOException e) {
+            throw new HRMRepositoryException("Could not create repository info file");
+        }
 
         final boolean createdMainDirectory = directory.isDirectory() || directory.mkdirs();
         if (!createdMainDirectory) throw new HRMRepositoryException("Could not create hrm repository directory");
@@ -86,7 +115,8 @@ public class HRMRepository {
         } catch (final IOException e) {
             throw new HRMRepositoryException(e);
         }
-        if (!appdataDirectory.isDirectory()) throw new HRMRepositoryException("Appdata directory was not found, check if the file path is correct");
+        final File appdataDirectory = repositoryInfo.appdataDirectory();
+        if (appdataDirectory != null && !appdataDirectory.isDirectory()) throw new HRMRepositoryException("Appdata directory was not found, check if the file path is correct");
         return false;
     }
 
@@ -105,7 +135,7 @@ public class HRMRepository {
     }
 
     private boolean clone(@NotNull final Map<HRMCommitInfo, HRMCommit> commits, @NotNull final LocalLevel decryptedClonedLevel, @NotNull final DefaultElement clonedLevel, final boolean pull) {
-        if (!pull && initDirectories()) return false;
+        if (!pull && initFileStructure()) return false;
         try {
             final HRMCommitHistory history = pull ? HRMCommitHistory.readJson(commitHistoryFile) : new HRMCommitHistory();
 
@@ -337,7 +367,7 @@ public class HRMRepository {
     }
 
     public boolean init() {
-        if (initDirectories()) return false;
+        if (initFileStructure()) return false;
 
         syncRepositoryLevelData();
         updateIngameProgress(currentLevelProgressIngame()); // creates default level if it wasnt there before
@@ -347,6 +377,7 @@ public class HRMRepository {
     @NotNull
     public DefaultElement currentLevelProgressIngameXML() {
         final File ccLocalLevelsDatFile = ccLocalLevelsDat();
+        final String levelName = repositoryInfo.levelName();
 
         final List<DefaultElement> levelDocuments = LevelDataDecryption.decryptAllLevelDocuments(ccLocalLevelsDatFile);
         return levelDocuments.stream()
@@ -362,10 +393,11 @@ public class HRMRepository {
 
     @NotNull
     private File ccLocalLevelsDat(final int index) {
+        final File appdataDirectory = repositoryInfo.appdataDirectory();
+        if (appdataDirectory == null) throw new HRMRepositoryException("Cannot use method reliant on local appdata in a remote repository");
+
         final File ccLocalLevelsDatFile = new File(appdataDirectory, "CCLocalLevels" + (index == 0 ? "" : "" + index) + ".dat");
-
         if (!ccLocalLevelsDatFile.isFile() && index == 0) throw new HRMRepositoryException("CCLocalLevels.dat was not found in appdata directory, check if the file path is correct");
-
         return ccLocalLevelsDatFile;
     }
 
@@ -408,6 +440,8 @@ public class HRMRepository {
     }
 
     public void syncLevelSettings() {
+        final File appdataDirectory = repositoryInfo.appdataDirectory();
+        if (appdataDirectory == null) throw new HRMRepositoryException("Cannot use method reliant on local appdata in a remote repository");
         if (!appdataDirectory.isDirectory()) throw new HRMRepositoryException("Cannot sync respository's level settings with level in appdata folder: Directory not found");
 
         final LocalLevel currentProgressIngame = currentLevelProgressIngame();
@@ -416,6 +450,7 @@ public class HRMRepository {
 
     public void syncLevelSettings(@NotNull final LocalLevel localLevelToSyncWith) {
         final LocalLevel settingsOnly = localLevelToSyncWith.createSettingsOnlyLevel();
+        loadCurrentRepositoryProgress();
         if (currentLevelProgress == null) {
             currentLevelProgress = settingsOnly;
             return;
@@ -487,30 +522,8 @@ public class HRMRepository {
     }
 
     @NotNull
-    public String name() {
-        return name;
-    }
-
-    public void name(@NotNull final String name) {
-        this.name = name;
-    }
-
-    @NotNull
-    public String levelName() {
-        return levelName;
-    }
-
-    public void levelName(@NotNull final String levelName) {
-        this.levelName = levelName;
-    }
-
-    @NotNull
-    public File appdataDirectory() {
-        return appdataDirectory;
-    }
-
-    public void appdataDirectory(@NotNull final File appdataDirectory) {
-        this.appdataDirectory = appdataDirectory;
+    public HRMRepositoryInfo repositoryInfo() {
+        return repositoryInfo;
     }
 
     @NotNull

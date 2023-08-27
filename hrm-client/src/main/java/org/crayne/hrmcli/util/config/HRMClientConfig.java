@@ -19,11 +19,18 @@ public class HRMClientConfig {
     private String appdataPath;
 
     @NotNull
-    private static final String UNSET_APPDATA_PATH = ": set your AppData file path here";
+    private String localAuthorName;
+
+    @NotNull
+    private static final String UNSET_APPDATA_PATH = ": set your default AppData/Local/GeometryDash file path here";
+
+    @NotNull
+    private static final String UNSET_AUTHOR_NAME = "unknown";
 
     public HRMClientConfig() {
         this.appdataPath = SystemUtils.IS_OS_WINDOWS ? System.getenv("APPDATA") : UNSET_APPDATA_PATH;
         this.disableAnsi = false;
+        this.localAuthorName = UNSET_AUTHOR_NAME;
     }
 
     @NotNull
@@ -49,6 +56,15 @@ public class HRMClientConfig {
 
     public void disableAnsi(final boolean disableAnsi) {
         this.disableAnsi = disableAnsi;
+    }
+
+    @NotNull
+    public String localAuthorName() {
+        return localAuthorName;
+    }
+
+    public void localAuthorName(@NotNull final String localAuthorName) {
+        this.localAuthorName = localAuthorName;
     }
 
     @NotNull
